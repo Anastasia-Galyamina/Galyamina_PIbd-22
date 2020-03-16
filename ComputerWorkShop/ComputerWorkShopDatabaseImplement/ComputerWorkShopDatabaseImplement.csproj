@@ -5,10 +5,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5981981B-6436-4383-9C15-7AA564CA5752}</ProjectGuid>
+    <ProjectGuid>{BA0904E2-D65B-4AFF-8C7E-8478C13F7F0C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ComputerWorkShopView</RootNamespace>
-    <AssemblyName>ComputerWorkShopView</AssemblyName>
+    <RootNamespace>ComputerWorkShopDatabaseImplement</RootNamespace>
+    <AssemblyName>ComputerWorkShopDatabaseImplement</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -34,10 +34,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -143,79 +139,17 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.Abstractions, Version=5.11.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.11.4\lib\net47\Unity.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Container, Version=5.11.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.11.4\lib\net47\Unity.Container.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormComponent.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormComponent.designer.cs">
-      <DependentUpon>FormComponent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormComponents.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormComponents.designer.cs">
-      <DependentUpon>FormComponents.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormComputer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormComputer.designer.cs">
-      <DependentUpon>FormComputer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormComputerComponent.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormComputerComponent.designer.cs">
-      <DependentUpon>FormComputerComponent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormComputers.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormCreateOrder.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormCreateOrder.designer.cs">
-      <DependentUpon>FormCreateOrder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormMain.designer.cs">
-      <DependentUpon>FormMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormComputers.designer.cs">
-      <DependentUpon>FormComputers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Implements\ComponentLogic.cs" />
+    <Compile Include="Implements\OrderLogic.cs" />
+    <Compile Include="Implements\RepairWorkLogic.cs" />
+    <Compile Include="Models\Component.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\Computer.cs" />
+    <Compile Include="Models\ComputerComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormComponent.resx">
-      <DependentUpon>FormComponent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormComponents.resx">
-      <DependentUpon>FormComponents.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormCreateOrder.resx">
-      <DependentUpon>FormCreateOrder.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
-      <DependentUpon>FormMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormComputer.resx">
-      <DependentUpon>FormComputer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormComputerComponent.resx">
-      <DependentUpon>FormComputerComponent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormComputers.resx">
-      <DependentUpon>FormComputers.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="ComputerWorkShopDatabase.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -240,30 +174,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ComputerWorkShopDatabaseImplement\ComputerWorkShopDatabaseImplement.csproj">
-      <Project>{ba0904e2-d65b-4aff-8c7e-8478c13f7f0c}</Project>
-      <Name>ComputerWorkShopDatabaseImplement</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComputerWorkShopFileImplement\ComputerWorkShopFileImplement.csproj">
-      <Project>{a076771e-68a7-40bd-94e5-c31557d6c53c}</Project>
-      <Name>ComputerWorkShopFileImplement</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ComputerWorkShopListImplement\ComputerWorkShopListImplement.csproj">
-      <Project>{c0390ea2-5f41-4861-b801-9141b8c9db65}</Project>
-      <Name>ComputerWorkShopListImplement</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ComputerWorkShop\ComputerWorkShopBusinessLogic.csproj">
       <Project>{020a9c92-7166-4139-8ab1-9cda59a4bcee}</Project>
       <Name>ComputerWorkShopBusinessLogic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.1.0.19235.1\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.1.0.19235.1\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.EntityFrameworkCore.Design.3.1.2\build\net461\Microsoft.EntityFrameworkCore.Design.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.EntityFrameworkCore.Design.3.1.2\build\net461\Microsoft.EntityFrameworkCore.Design.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Data.SqlClient.SNI.1.0.19235.1\build\net46\Microsoft.Data.SqlClient.SNI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Data.SqlClient.SNI.1.0.19235.1\build\net46\Microsoft.Data.SqlClient.SNI.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.EntityFrameworkCore.Design.3.1.2\build\net461\Microsoft.EntityFrameworkCore.Design.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.EntityFrameworkCore.Design.3.1.2\build\net461\Microsoft.EntityFrameworkCore.Design.props'))" />
   </Target>
-  <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.1.0.19235.1\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.1.0.19235.1\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
 </Project>

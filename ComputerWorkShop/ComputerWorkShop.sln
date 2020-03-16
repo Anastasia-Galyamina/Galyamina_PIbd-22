@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputerWorkShopView", "Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputerWorkShopFileImplement", "ComputerWorkShopFileImplement\ComputerWorkShopFileImplement.csproj", "{A076771E-68A7-40BD-94E5-C31557D6C53C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputerWorkShopDatabaseImplement", "ComputerWorkShopDatabaseImplement\ComputerWorkShopDatabaseImplement.csproj", "{BA0904E2-D65B-4AFF-8C7E-8478C13F7F0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A076771E-68A7-40BD-94E5-C31557D6C53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A076771E-68A7-40BD-94E5-C31557D6C53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A076771E-68A7-40BD-94E5-C31557D6C53C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA0904E2-D65B-4AFF-8C7E-8478C13F7F0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA0904E2-D65B-4AFF-8C7E-8478C13F7F0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA0904E2-D65B-4AFF-8C7E-8478C13F7F0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA0904E2-D65B-4AFF-8C7E-8478C13F7F0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
