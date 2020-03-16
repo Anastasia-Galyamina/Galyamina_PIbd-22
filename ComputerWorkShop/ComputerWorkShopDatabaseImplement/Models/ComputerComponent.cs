@@ -1,4 +1,4 @@
-﻿using ComputerWorkShoprDatabaseImplement.Models;
+﻿using ComputerWorkShopDatabaseImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

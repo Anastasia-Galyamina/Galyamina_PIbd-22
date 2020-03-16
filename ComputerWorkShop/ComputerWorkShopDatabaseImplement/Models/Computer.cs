@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace ComputerWorkShoprDatabaseImplement.Models
+namespace ComputerWorkShopDatabaseImplement.Models
 {
     public class Computer
     {

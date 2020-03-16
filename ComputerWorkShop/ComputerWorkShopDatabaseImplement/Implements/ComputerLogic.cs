@@ -1,18 +1,19 @@
-﻿using RepairBusinessLogic.BindingModels;
-using RepairBusinessLogic.Interfaces;
-using RepairBusinessLogic.ViewModels;
-using RepairDatabaseImplement.Models;
+﻿using ComputerWorkShopBusinessLogic.BindingModels;
+using ComputerWorkShopBusinessLogic.Interfaces;
+using ComputerWorkShopBusinessLogic.ViewModels;
+using ComputerWorkShopDatabaseImplement;
+using ComputerWorkShopDatabaseImplement.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RepairDatabaseImplement.Implements
+namespace ComputerWorkShopImplement.Implements
 {
-    public class RepairWorkLogic : IRepairWorkLogic
+    public class ComputerLogic : IComputerLogic
     {
-        public void CreateOrUpdate(RepairWorkBindingModel model)
+        public void CreateOrUpdate(ComputerBindingModel model)
         {
             using (var context = new ComputerWorkShopDatabase())
             {
@@ -20,15 +21,15 @@ namespace RepairDatabaseImplement.Implements
                 {
                     try
                     {
-                        Computer element = context.RepairWorks.FirstOrDefault(rec =>
-                       rec.RepairWorkName == model.RepairWorkName && rec.Id != model.Id);
+                        Computer element = context.Computers.FirstOrDefault(rec =>
+                       rec.ComputerName == model.ComputerName && rec.Id != model.Id);
                         if (element != null)
                         {
-                            throw new Exception("Уже есть изделие с таким названием");
+                            throw new Exception("Уже есть компьютер с таким названием");
                         }
                         if (model.Id.HasValue)
                         {
-                            element = context.RepairWorks.FirstOrDefault(rec => rec.Id ==
+                            element = context.Computers.FirstOrDefault(rec => rec.Id ==
                            model.Id);
                             if (element == null)
                             {
@@ -38,36 +39,36 @@ namespace RepairDatabaseImplement.Implements
                         else
                         {
                             element = new Computer();
-                            context.RepairWorks.Add(element);
+                            context.Computers.Add(element);
                         }
-                        element.RepairWorkName = model.RepairWorkName;
+                        element.ComputerName = model.ComputerName;
                         element.Price = model.Price;
                         context.SaveChanges();
                         if (model.Id.HasValue)
                         {
-                            var RepairWorkMaterials = context.RepairWorkMaterials.Where(rec
-                           => rec.RepairWorkId == model.Id.Value).ToList();
+                            var ComputerComponents = context.ComputerComponents.Where(rec
+                           => rec.ComputerId == model.Id.Value).ToList();
                             // удалили те, которых нет в модели
-                            context.RepairWorkMaterials.RemoveRange(RepairWorkMaterials.Where(rec =>
-                            !model.RepairWorkMaterials.ContainsKey(rec.MaterialId)).ToList());
+                            context.ComputerComponents.RemoveRange(ComputerComponents.Where(rec =>
+                            !model.ComputerComponents.ContainsKey(rec.ComponentId)).ToList());
                             context.SaveChanges();
                             // обновили количество у существующих записей
-                            foreach (var updateMaterial in RepairWorkMaterials)
+                            foreach (var updateComponent in ComputerComponents)
                             {
-                                updateMaterial.Count =
-                               model.RepairWorkMaterials[updateMaterial.MaterialId].Item2;
+                                updateComponent.Count =
+                               model.ComputerComponents[updateComponent.ComponentId].Item2;
 
-                                model.RepairWorkMaterials.Remove(updateMaterial.MaterialId);
+                                model.ComputerComponents.Remove(updateComponent.ComponentId);
                             }
                             context.SaveChanges();
                         }
                         // добавили новые
-                        foreach (var pc in model.RepairWorkMaterials)
+                        foreach (var pc in model.ComputerComponents)
                         {
-                            context.RepairWorkMaterials.Add(new ComputerComponent
+                            context.ComputerComponents.Add(new ComputerComponent
                             {
-                                RepairWorkId = element.Id,
-                                MaterialId = pc.Key,
+                                ComputerId = element.Id,
+                                ComponentId = pc.Key,
                                 Count = pc.Value.Item2
                             });
                             context.SaveChanges();
@@ -82,7 +83,7 @@ namespace RepairDatabaseImplement.Implements
                 }
             }
         }
-        public void Delete(RepairWorkBindingModel model)
+        public void Delete(ComputerBindingModel model)
         {
             using (var context = new ComputerWorkShopDatabase())
             {
@@ -91,13 +92,13 @@ namespace RepairDatabaseImplement.Implements
                     try
                     {
                         // удаяем записи по продуктам при удалении закуски
-                        context.RepairWorkMaterials.RemoveRange(context.RepairWorkMaterials.Where(rec =>
-                        rec.RepairWorkId == model.Id));
-                        Computer element = context.RepairWorks.FirstOrDefault(rec => rec.Id
+                        context.ComputerComponents.RemoveRange(context.ComputerComponents.Where(rec =>
+                        rec.ComputerId == model.Id));
+                        Computer element = context.Computers.FirstOrDefault(rec => rec.Id
                         == model.Id);
                         if (element != null)
                         {
-                            context.RepairWorks.Remove(element);
+                            context.Computers.Remove(element);
                             context.SaveChanges();
                         }
                         else
@@ -114,23 +115,23 @@ namespace RepairDatabaseImplement.Implements
                 }
             }
         }
-        public List<RepairWorkViewModel> Read(RepairWorkBindingModel model)
+        public List<ComputerViewModel> Read(ComputerBindingModel model)
         {
             using (var context = new ComputerWorkShopDatabase())
             {
-                return context.RepairWorks
+                return context.Computers
                 .Where(rec => model == null || rec.Id == model.Id)
                 .ToList()
-               .Select(rec => new RepairWorkViewModel
+               .Select(rec => new ComputerViewModel
                {
                    Id = rec.Id,
-                   RepairWorkName = rec.RepairWorkName,
+                   ComputerName = rec.ComputerName,
                    Price = rec.Price,
-                   RepairWorkMaterials = context.RepairWorkMaterials
-                .Include(recPC => recPC.Material)
-               .Where(recPC => recPC.RepairWorkId == rec.Id)
-               .ToDictionary(recPC => recPC.MaterialId, recPC =>
-                (recPC.Material?.MaterialName, recPC.Count))
+                   ComputerComponents = context.ComputerComponents
+                .Include(recPC => recPC.Component)
+               .Where(recPC => recPC.ComputerId == rec.Id)
+               .ToDictionary(recPC => recPC.ComponentId, recPC =>
+                (recPC.Component?.ComponentName, recPC.Count))
                })
                .ToList();
             }

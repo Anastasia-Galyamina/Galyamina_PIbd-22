@@ -7,23 +7,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ComputerWorkShopImplement.Implements
+namespace ComputerWorkShopDatabaseImplement.Implements
 {
     public class ComponentLogic : IComponentLogic
     {
         public void CreateOrUpdate(ComponentBindingModel model)
         {
-            using (var context = new RepairDatabase())
+            using (var context = new ComputerWorkShopDatabase())
             {
-                Component element = context.Materials.FirstOrDefault(rec =>
-               rec.MaterialName == model.MaterialName && rec.Id != model.Id);
+                Component element = context.Components.FirstOrDefault(rec =>
+               rec.ComponentName == model.ComponentName && rec.Id != model.Id);
                 if (element != null)
                 {
-                    throw new Exception("Уже есть продукт с таким названием");
+                    throw new Exception("Уже есть компьютер с таким названием");
                 }
                 if (model.Id.HasValue)
                 {
-                    element = context.Materials.FirstOrDefault(rec => rec.Id ==
+                    element = context.Components.FirstOrDefault(rec => rec.Id ==
                    model.Id);
                 if (element == null)
                     {
@@ -33,21 +33,21 @@ namespace ComputerWorkShopImplement.Implements
                 else
                 {
                     element = new Component();
-                    context.Materials.Add(element);
+                    context.Components.Add(element);
                 }
-                element.MaterialName = model.MaterialName;
+                element.ComponentName = model.ComponentName;
                 context.SaveChanges();
             }
         }
-        public void Delete(MaterialBindingModel model)
+        public void Delete(ComponentBindingModel model)
         {
-            using (var context = new RepairDatabase())
+            using (var context = new ComputerWorkShopDatabase())
             {
-                Component element = context.Materials.FirstOrDefault(rec => rec.Id ==
+                Component element = context.Components.FirstOrDefault(rec => rec.Id ==
                model.Id);
                 if (element != null)
                 {
-                    context.Materials.Remove(element);
+                    context.Components.Remove(element);
                     context.SaveChanges();
                 }
                 else
@@ -56,16 +56,16 @@ namespace ComputerWorkShopImplement.Implements
                 }
             }
         }
-        public List<MaterialViewModel> Read(MaterialBindingModel model)
+        public List<ComponentViewModel> Read(ComponentBindingModel model)
         {
-            using (var context = new RepairDatabase())
+            using (var context = new ComputerWorkShopDatabase())
             {
-                return context.Materials
+                return context.Components
                 .Where(rec => model == null || rec.Id == model.Id)
-                .Select(rec => new MaterialViewModel
+                .Select(rec => new ComponentViewModel
                 {
                     Id = rec.Id,
-                    MaterialName = rec.MaterialName
+                    ComponentName = rec.ComponentName
                 })
                 .ToList();
             }

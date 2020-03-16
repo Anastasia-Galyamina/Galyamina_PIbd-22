@@ -1,5 +1,4 @@
 ﻿using ComputerWorkShopDatabaseImplement.Models;
-using ComputerWorkShoprDatabaseImplement.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ComputerWorkShopDatabaseImplement
@@ -10,7 +9,7 @@ namespace ComputerWorkShopDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=WORKGROUP\SQLEXPRESS;Initial Catalog=ComputerWorkShopDatabase;Integrated Security=True;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer(@"Data Source= Yfcnz1572000\SQLEXPRESS;Initial Catalog=ComputerWorkShopDatabase;Integrated Security=True;MultipleActiveResultSets=True;");
             }
             base.OnConfiguring(optionsBuilder);
         }

@@ -1,14 +1,15 @@
-﻿using RepairBusinessLogic.BindingModels;
-using RepairBusinessLogic.Interfaces;
-using RepairBusinessLogic.ViewModels;
-using RepairDatabaseImplement.Models;
+﻿using ComputerWorkShopBusinessLogic.BindingModels;
+using ComputerWorkShopBusinessLogic.Interfaces;
+using ComputerWorkShopBusinessLogic.ViewModels;
+using ComputerWorkShopDatabaseImplement;
+using ComputerWorkShopDatabaseImplement.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RepairDatabaseImplement.Implements
+namespace ComputerWorkShopImplement.Implements
 {
     public class OrderLogic : IOrderLogic
     {
@@ -31,7 +32,7 @@ namespace RepairDatabaseImplement.Implements
                     element = new Order();
                     context.Orders.Add(element);
                 }
-                element.RepairWorkId = model.RepairWorkId == 0 ? element.RepairWorkId : model.RepairWorkId;
+                element.ComputerId = model.ComputerId == 0 ? element.ComputerId : model.ComputerId;
                 element.Count = model.Count;
                 element.Sum = model.Sum;
                 element.Status = model.Status;
@@ -44,8 +45,7 @@ namespace RepairDatabaseImplement.Implements
         {
             using (var context = new ComputerWorkShopDatabase())
             {
-                Order element = context.Orders.FirstOrDefault(rec => rec.Id ==
-model.Id);
+                Order element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element != null)
                 {
                     context.Orders.Remove(element);
@@ -62,12 +62,12 @@ model.Id);
             using (var context = new ComputerWorkShopDatabase())
             {
                 return context.Orders
-            .Include(rec => rec.RepairWork)
+            .Include(rec => rec.Computer)
             .Where(rec => model == null || rec.Id == model.Id)
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
-                RepairWorkName = rec.RepairWork.RepairWorkName,
+                ComputerName = rec.Computer.ComputerName,
                 Count = rec.Count,
                 Sum = rec.Sum,
                 Status = rec.Status,

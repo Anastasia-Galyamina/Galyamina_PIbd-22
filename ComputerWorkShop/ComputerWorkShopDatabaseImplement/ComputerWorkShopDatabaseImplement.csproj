@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BA0904E2-D65B-4AFF-8C7E-8478C13F7F0C}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>ComputerWorkShopDatabaseImplement</RootNamespace>
     <AssemblyName>ComputerWorkShopDatabaseImplement</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -34,6 +34,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -143,7 +146,7 @@
   <ItemGroup>
     <Compile Include="Implements\ComponentLogic.cs" />
     <Compile Include="Implements\OrderLogic.cs" />
-    <Compile Include="Implements\RepairWorkLogic.cs" />
+    <Compile Include="Implements\ComputerLogic.cs" />
     <Compile Include="Models\Component.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Computer.cs" />
