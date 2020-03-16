@@ -8,10 +8,10 @@ namespace ComputerWorkShopBusinessLogic.ViewModels
     {
         public int Id { get; set; }
 
-        public int ProductId { get; set; }
+        public int ComputerId { get; set; }
 
         [DisplayName("Компьютер")]
-        public string ProductName { get; set; }
+        public string ComputerName { get; set; }
 
         [DisplayName("Количество")]
         public int Count { get; set; }

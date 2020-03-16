@@ -32,7 +32,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxCount = new System.Windows.Forms.TextBox();
-            this.comboBoxProduct = new System.Windows.Forms.ComboBox();
+            this.comboBoxComputer = new System.Windows.Forms.ComboBox();
             this.textBoxSum = new System.Windows.Forms.TextBox();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
@@ -45,7 +45,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 20);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Изделие:";
+            this.label1.Text = "компьютер:";
             // 
             // label2
             // 
@@ -73,14 +73,14 @@
             this.textBoxCount.TabIndex = 3;
             this.textBoxCount.TextChanged += new System.EventHandler(this.textBoxCount_TextChanged);
             // 
-            // comboBoxProduct
+            // comboBoxComputer
             // 
-            this.comboBoxProduct.FormattingEnabled = true;
-            this.comboBoxProduct.Location = new System.Drawing.Point(152, 26);
-            this.comboBoxProduct.Name = "comboBoxProduct";
-            this.comboBoxProduct.Size = new System.Drawing.Size(296, 28);
-            this.comboBoxProduct.TabIndex = 4;
-            this.comboBoxProduct.SelectedIndexChanged += new System.EventHandler(this.comboBoxProduct_SelectedIndexChanged);
+            this.comboBoxComputer.FormattingEnabled = true;
+            this.comboBoxComputer.Location = new System.Drawing.Point(152, 26);
+            this.comboBoxComputer.Name = "comboBoxComputer";
+            this.comboBoxComputer.Size = new System.Drawing.Size(296, 28);
+            this.comboBoxComputer.TabIndex = 4;
+            this.comboBoxComputer.SelectedIndexChanged += new System.EventHandler(this.comboBoxComputer_SelectedIndexChanged);
             // 
             // textBoxSum
             // 
@@ -118,7 +118,7 @@
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxSum);
-            this.Controls.Add(this.comboBoxProduct);
+            this.Controls.Add(this.comboBoxComputer);
             this.Controls.Add(this.textBoxCount);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -137,7 +137,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxCount;
-        private System.Windows.Forms.ComboBox comboBoxProduct;
+        private System.Windows.Forms.ComboBox comboBoxComputer;
         private System.Windows.Forms.TextBox textBoxSum;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonCancel;

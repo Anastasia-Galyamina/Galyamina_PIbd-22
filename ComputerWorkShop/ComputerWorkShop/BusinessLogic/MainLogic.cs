@@ -18,7 +18,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
         {
             orderLogic.CreateOrUpdate(new OrderBindingModel
                                             {
-                                                ProductId = model.ProductId,
+                                                ComputerId = model.ComputerId,
                                                 Count = model.Count,
                                                 Sum = model.Sum,
                                                 DateCreate = DateTime.Now,
@@ -43,7 +43,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             orderLogic.CreateOrUpdate(new OrderBindingModel
                                             {
                                                 Id = order.Id,
-                                                ProductId = order.ProductId,
+                                                ComputerId = order.ComputerId,
                                                 Count = order.Count,
                                                 Sum = order.Sum,
                                                 DateCreate = order.DateCreate,
@@ -68,7 +68,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 Id = order.Id,
-                ProductId = order.ProductId,
+                ComputerId = order.ComputerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -94,7 +94,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             orderLogic.CreateOrUpdate(new OrderBindingModel
                                             {
                                                 Id = order.Id,
-                                                ProductId = order.ProductId,
+                                                ComputerId = order.ComputerId,
                                                 Count = order.Count,
                                                 Sum = order.Sum,
                                                 DateCreate = order.DateCreate,

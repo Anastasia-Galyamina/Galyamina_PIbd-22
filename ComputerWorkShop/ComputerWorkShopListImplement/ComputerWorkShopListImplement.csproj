@@ -51,8 +51,8 @@
   <ItemGroup>
     <Compile Include="DataListSingleton.cs" />
     <Compile Include="Implements\ComponentLogic.cs" />
+    <Compile Include="Implements\ComputerLogic.cs" />
     <Compile Include="Implements\OrderLogic.cs" />
-    <Compile Include="Implements\ProductLogic.cs" />
     <Compile Include="Models\Component.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />

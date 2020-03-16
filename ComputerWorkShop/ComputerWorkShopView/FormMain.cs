@@ -57,7 +57,7 @@ namespace ComputerWorkShopView
 
         private void изделияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormProducts>();
+            var form = Container.Resolve<FormComputers>();
             form.ShowDialog();
         }
 

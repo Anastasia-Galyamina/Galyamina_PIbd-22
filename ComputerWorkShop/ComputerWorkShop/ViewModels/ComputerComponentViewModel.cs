@@ -2,11 +2,11 @@
 
 namespace ComputerWorkShopBusinessLogic.ViewModels
 {
-    public class ProductComponentViewModel
+    public class ComputerComponentViewModel
     {
         public int Id { get; set; }
 
-        public int ProductId { get; set; }
+        public int ComputerId { get; set; }
 
         public int ComponentId { get; set; }
 

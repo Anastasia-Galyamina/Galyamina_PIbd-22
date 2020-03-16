@@ -13,10 +13,10 @@ namespace ComputerWorkShopView
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IProductLogic logicP;
+        private readonly IComputerLogic logicP;
         private readonly MainLogic logicM;
 
-        public FormCreateOrder(IProductLogic logicP, MainLogic logicM)
+        public FormCreateOrder(IComputerLogic logicP, MainLogic logicM)
         {
             InitializeComponent();
             this.logicP = logicP;
@@ -31,10 +31,10 @@ namespace ComputerWorkShopView
 
                 if (listP != null)
                 {
-                    comboBoxProduct.DisplayMember = "ProductName";
-                    comboBoxProduct.ValueMember = "Id";
-                    comboBoxProduct.DataSource = listP;
-                    comboBoxProduct.SelectedItem = null;
+                    comboBoxComputer.DisplayMember = "ComputerName";
+                    comboBoxComputer.ValueMember = "Id";
+                    comboBoxComputer.DataSource = listP;
+                    comboBoxComputer.SelectedItem = null;
                 }
             }
             catch (Exception ex)
@@ -46,15 +46,15 @@ namespace ComputerWorkShopView
 
         private void CalcSum()
         {
-            if (comboBoxProduct.SelectedValue != null && !string.IsNullOrEmpty(textBoxCount.Text))
+            if (comboBoxComputer.SelectedValue != null && !string.IsNullOrEmpty(textBoxCount.Text))
             {
                 try
                 {
-                    int id = Convert.ToInt32(comboBoxProduct.SelectedValue);
-                    ProductViewModel product = logicP.GetElement(id);
+                    int id = Convert.ToInt32(comboBoxComputer.SelectedValue);
+                    ComputerViewModel Computer = logicP.GetElement(id);
 
                     int count = Convert.ToInt32(textBoxCount.Text);
-                    textBoxSum.Text = (count * product.Price).ToString();
+                    textBoxSum.Text = (count * Computer.Price).ToString();
                 }
                 catch (Exception ex)
                 {
@@ -69,7 +69,7 @@ namespace ComputerWorkShopView
             CalcSum();
         }
 
-        private void comboBoxProduct_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxComputer_SelectedIndexChanged(object sender, EventArgs e)
         {
             CalcSum();
         }
@@ -83,9 +83,9 @@ namespace ComputerWorkShopView
                 return;
             }
 
-            if (comboBoxProduct.SelectedValue == null)
+            if (comboBoxComputer.SelectedValue == null)
             {
-                MessageBox.Show("Выберите изделие", "Ошибка", MessageBoxButtons.OK,
+                MessageBox.Show("Выберите компьютер", "Ошибка", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
                 return;
             }
@@ -94,7 +94,7 @@ namespace ComputerWorkShopView
             {
                 logicM.CreateOrder(new CreateOrderBindingModel
                 {
-                    ProductId = Convert.ToInt32(comboBoxProduct.SelectedValue),
+                    ComputerId = Convert.ToInt32(comboBoxComputer.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDecimal(textBoxSum.Text)
                 });

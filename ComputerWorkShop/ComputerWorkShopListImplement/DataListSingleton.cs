@@ -11,16 +11,16 @@ namespace ComputerWorkShopListImplement
 
         public List<Order> Orders { get; set; }
 
-        public List<Product> Products { get; set; }
+        public List<Computer> Computers { get; set; }
 
-        public List<ProductComponent> ProductComponents { get; set; }
+        public List<ComputerComponent> ComputerComponents { get; set; }
 
         private DataListSingleton()
         {
             Components = new List<Component>();
             Orders = new List<Order>();
-            Products = new List<Product>();
-            ProductComponents = new List<ProductComponent>();
+            Computers = new List<Computer>();
+            ComputerComponents = new List<ComputerComponent>();
         }
 
         public static DataListSingleton GetInstance()

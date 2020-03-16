@@ -1,10 +1,10 @@
 ﻿namespace ComputerWorkShopListImplement.Models
 {
-    public class ProductComponent
+    public class ComputerComponent
     {
         public int Id { get; set; }
 
-        public int ProductId { get; set; }
+        public int ComputerId { get; set; }
 
         public int ComponentId { get; set; }
 

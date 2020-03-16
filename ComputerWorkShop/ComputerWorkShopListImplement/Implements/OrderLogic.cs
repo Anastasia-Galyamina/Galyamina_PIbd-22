@@ -66,7 +66,7 @@ namespace ComputerWorkShopListImplement.Implements
 
         private Order CreateModel(OrderBindingModel model, Order order)
         {
-            order.ProductId = model.ProductId;
+            order.ComputerId = model.ComputerId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
@@ -101,17 +101,17 @@ namespace ComputerWorkShopListImplement.Implements
 
         private OrderViewModel CreateViewModel(Order order)
         {
-            string productName = null;
+            string ComputerName = null;
 
-            foreach (var product in source.Products)
+            foreach (var Computer in source.Computers)
             {
-                if (product.Id == order.ProductId)
+                if (Computer.Id == order.ComputerId)
                 {
-                    productName = product.ProductName;
+                    ComputerName = Computer.ComputerName;
                 }
             }
 
-            if (productName == null)
+            if (ComputerName == null)
             {
                 throw new Exception("Продукт не найден");
             }
@@ -119,8 +119,8 @@ namespace ComputerWorkShopListImplement.Implements
             return new OrderViewModel
             {
                 Id = order.Id,
-                ProductId = order.ProductId,
-                ProductName = productName,
+                ComputerId = order.ComputerId,
+                ComputerName = ComputerName,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status,

@@ -8,18 +8,18 @@ using Unity;
 
 namespace ComputerWorkShopView
 {
-    public partial class FormProduct : Form
+    public partial class FormComputer : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         public int Id { set { id = value; } }
 
-        private readonly IProductLogic logic;
+        private readonly IComputerLogic logic;
         private int? id;
-        private List<ProductComponentViewModel> productComponents;
+        private List<ComputerComponentViewModel> productComponents;
 
-        public FormProduct(IProductLogic service)
+        public FormComputer(IComputerLogic service)
         {
             InitializeComponent();
             this.logic = service;
@@ -31,13 +31,13 @@ namespace ComputerWorkShopView
             {
                 try
                 {
-                    ProductViewModel view = logic.GetElement(id.Value);
+                    ComputerViewModel view = logic.GetElement(id.Value);
 
                     if (view != null)
                     {
-                        textBoxName.Text = view.ProductName;
+                        textBoxName.Text = view.ComputerName;
                         textBoxPrice.Text = view.Price.ToString();
-                        productComponents = view.ProductComponents;
+                        productComponents = view.ComputerComponents;
                         LoadData();
                     }
                 }
@@ -48,7 +48,7 @@ namespace ComputerWorkShopView
             }
             else
             {
-                productComponents = new List<ProductComponentViewModel>();
+                productComponents = new List<ComputerComponentViewModel>();
             }
         }
 
@@ -74,7 +74,7 @@ namespace ComputerWorkShopView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormProductComponent>();
+            var form = Container.Resolve<FormComputerComponent>();
 
             if (form.ShowDialog() == DialogResult.OK)
             {
@@ -82,7 +82,7 @@ namespace ComputerWorkShopView
                 {
                     if (id.HasValue)
                     {
-                        form.ModelView.ProductId = id.Value;
+                        form.ModelView.ComputerId = id.Value;
                     }
 
                     productComponents.Add(form.ModelView);
@@ -96,7 +96,7 @@ namespace ComputerWorkShopView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormProductComponent>();
+                var form = Container.Resolve<FormComputerComponent>();
                 form.ModelView = productComponents[dataGridView.SelectedRows[0].Cells[0].RowIndex];
 
                 if (form.ShowDialog() == DialogResult.OK)
@@ -154,14 +154,14 @@ namespace ComputerWorkShopView
 
             try
             {
-                List<ProductComponentBindingModel> productComponentBM = new List<ProductComponentBindingModel>();
+                List<ComputerComponentBindingModel> productComponentBM = new List<ComputerComponentBindingModel>();
 
                 for (int i = 0; i < productComponents.Count; ++i)
                 {
-                    productComponentBM.Add(new ProductComponentBindingModel
+                    productComponentBM.Add(new ComputerComponentBindingModel
                     {
                         Id = productComponents[i].Id,
-                        ProductId = productComponents[i].ProductId,
+                        ComputerId = productComponents[i].ComputerId,
                         ComponentId = productComponents[i].ComponentId,
                         Count = productComponents[i].Count
                     });
@@ -169,21 +169,21 @@ namespace ComputerWorkShopView
 
                 if (id.HasValue)
                 {
-                    logic.UpdElement(new ProductBindingModel
+                    logic.UpdElement(new ComputerBindingModel
                     {
                         Id = id.Value,
-                        ProductName = textBoxName.Text,
+                        ComputerName = textBoxName.Text,
                         Price = Convert.ToDecimal(textBoxPrice.Text),
-                        ProductComponents = productComponentBM
+                        ComputerComponents = productComponentBM
                     });
                 }
                 else
                 {
-                    logic.AddElement(new ProductBindingModel
+                    logic.AddElement(new ComputerBindingModel
                     {
-                        ProductName = textBoxName.Text,
+                        ComputerName = textBoxName.Text,
                         Price = Convert.ToDecimal(textBoxPrice.Text),
-                        ProductComponents = productComponentBM
+                        ComputerComponents = productComponentBM
                     });
                 }
 

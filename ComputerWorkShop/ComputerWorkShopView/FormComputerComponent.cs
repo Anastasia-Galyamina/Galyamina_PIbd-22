@@ -7,16 +7,16 @@ using Unity;
 
 namespace ComputerWorkShopView
 {
-    public partial class FormProductComponent : Form
+    public partial class FormComputerComponent : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        public ProductComponentViewModel ModelView { get; set; }
+        public ComputerComponentViewModel ModelView { get; set; }
 
         private readonly IComponentLogic logic;
 
-        public FormProductComponent(IComponentLogic logic)
+        public FormComputerComponent(IComponentLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
@@ -66,7 +66,7 @@ namespace ComputerWorkShopView
             {
                 if (ModelView == null)
                 {
-                    ModelView = new ProductComponentViewModel
+                    ModelView = new ComputerComponentViewModel
                     {
                         ComponentId = Convert.ToInt32(comboBoxComponent.SelectedValue),
                         ComponentName = comboBoxComponent.Text,

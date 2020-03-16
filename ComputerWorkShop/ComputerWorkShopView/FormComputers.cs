@@ -5,14 +5,14 @@ using Unity;
 
 namespace ComputerWorkShopView
 {
-    public partial class FormProducts : Form
+    public partial class FormComputers : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IProductLogic logic;
+        private readonly IComputerLogic logic;
 
-        public FormProducts(IProductLogic logic)
+        public FormComputers(IComputerLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
@@ -43,7 +43,7 @@ namespace ComputerWorkShopView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormProduct>();
+            var form = Container.Resolve<FormComputer>();
 
             if (form.ShowDialog() == DialogResult.OK)
             {
@@ -55,7 +55,7 @@ namespace ComputerWorkShopView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormProduct>();
+                var form = Container.Resolve<FormComputer>();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
 
                 if (form.ShowDialog() == DialogResult.OK)

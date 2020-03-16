@@ -3,16 +3,16 @@ using System.ComponentModel;
 
 namespace ComputerWorkShopBusinessLogic.ViewModels
 {
-    public class ProductViewModel
+    public class ComputerViewModel
     {
         public int Id { get; set; }
 
         [DisplayName("Название компьютера")]
-        public string ProductName { get; set; }
+        public string ComputerName { get; set; }
 
         [DisplayName("Цена")]
         public decimal Price { get; set; }
 
-        public List<ProductComponentViewModel> ProductComponents { get; set; }
+        public List<ComputerComponentViewModel> ComputerComponents { get; set; }
     }
 }
