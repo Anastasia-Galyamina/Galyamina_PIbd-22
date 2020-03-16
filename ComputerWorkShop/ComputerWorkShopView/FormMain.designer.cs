@@ -66,15 +66,15 @@
             // компонентыToolStripMenuItem
             // 
             this.компонентыToolStripMenuItem.Name = "компонентыToolStripMenuItem";
-            this.компонентыToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.компонентыToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.компонентыToolStripMenuItem.Text = "Компоненты";
             this.компонентыToolStripMenuItem.Click += new System.EventHandler(this.компонентыToolStripMenuItem_Click);
             // 
             // изделияToolStripMenuItem
             // 
             this.изделияToolStripMenuItem.Name = "изделияToolStripMenuItem";
-            this.изделияToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
-            this.изделияToolStripMenuItem.Text = "Изделия";
+            this.изделияToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.изделияToolStripMenuItem.Text = "Компьютеры";
             this.изделияToolStripMenuItem.Click += new System.EventHandler(this.изделияToolStripMenuItem_Click);
             // 
             // dataGridView
