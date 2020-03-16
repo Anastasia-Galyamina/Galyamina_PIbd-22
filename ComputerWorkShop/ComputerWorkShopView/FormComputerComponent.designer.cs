@@ -80,7 +80,7 @@
             this.buttonSave.TabIndex = 4;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
             // buttonCancel
             // 
@@ -91,7 +91,7 @@
             this.buttonCancel.TabIndex = 5;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
             // FormComputerComponent
             // 
@@ -107,7 +107,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormComputerComponent";
             this.Text = "Компонент компьютера";
-            this.Load += new System.EventHandler(this.FormProductComponent_Load);
+            //this.Load += new System.EventHandler(this.FormComputerComponent_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

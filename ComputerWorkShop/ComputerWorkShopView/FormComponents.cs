@@ -1,4 +1,5 @@
-﻿using ComputerWorkShopBusinessLogic.Interfaces;
+﻿using ComputerWorkShopBusinessLogic.BindingModels;
+using ComputerWorkShopBusinessLogic.Interfaces;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -27,7 +28,7 @@ namespace ComputerWorkShopView
         {
             try
             {
-                var list = logic.GetList();
+                var list = logic.Read(null);
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -75,7 +76,7 @@ namespace ComputerWorkShopView
 
                     try
                     {
-                        logic.DelElement(id);
+                        logic.Delete(new ComponentBindingModel { Id = id });
                     }
                     catch (Exception ex)
                     {

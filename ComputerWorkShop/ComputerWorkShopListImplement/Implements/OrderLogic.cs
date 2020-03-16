@@ -113,7 +113,7 @@ namespace ComputerWorkShopListImplement.Implements
 
             if (ComputerName == null)
             {
-                throw new Exception("Продукт не найден");
+                throw new Exception("Компьютер не найден");
             }
 
             return new OrderViewModel

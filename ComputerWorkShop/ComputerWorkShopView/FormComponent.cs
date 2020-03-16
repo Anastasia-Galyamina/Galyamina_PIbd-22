@@ -28,11 +28,11 @@ namespace ComputerWorkShopView
             {
                 try
                 {
-                    var view = logic.GetElement(id.Value);
+                    var view = logic.Read(new ComponentBindingModel { Id = id })?[0];
                     if (view != null)
                     {
                         textBoxName.Text = view.ComponentName;
-                    }
+                    }                    
                 }
                 catch (Exception ex)
                 {
@@ -51,18 +51,15 @@ namespace ComputerWorkShopView
 
             try
             {
-                if (id.HasValue)
+                logic.CreateOrUpdate(new ComponentBindingModel
                 {
-                    logic.UpdElement(new ComponentBindingModel { Id = id.Value,ComponentName = textBoxName.Text });
-                }
-                else
-                {
-                    logic.AddElement(new ComponentBindingModel { ComponentName = textBoxName.Text });
-                }
-
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Id = id,
+                    ComponentName = textBoxName.Text
+                });
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
-                Close();
+                Close();   
             }
             catch (Exception ex)
             {

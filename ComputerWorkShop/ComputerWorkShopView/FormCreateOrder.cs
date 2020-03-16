@@ -3,6 +3,7 @@ using ComputerWorkShopBusinessLogic.BusinessLogic;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using ComputerWorkShopBusinessLogic.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
 
@@ -26,14 +27,13 @@ namespace ComputerWorkShopView
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
             try
-            {
-                var listP = logicP.GetList();
-
-                if (listP != null)
+            {                
+                List<ComputerViewModel> list = logicP.Read(null);
+                if (list != null)
                 {
                     comboBoxComputer.DisplayMember = "ComputerName";
                     comboBoxComputer.ValueMember = "Id";
-                    comboBoxComputer.DataSource = listP;
+                    comboBoxComputer.DataSource = list;
                     comboBoxComputer.SelectedItem = null;
                 }
             }
@@ -51,10 +51,9 @@ namespace ComputerWorkShopView
                 try
                 {
                     int id = Convert.ToInt32(comboBoxComputer.SelectedValue);
-                    ComputerViewModel Computer = logicP.GetElement(id);
-
+                    ComputerViewModel computer = logicP.Read(new ComputerBindingModel{Id = id})?[0]; 
                     int count = Convert.ToInt32(textBoxCount.Text);
-                    textBoxSum.Text = (count * Computer.Price).ToString();
+                    textBoxSum.Text = (count * computer?.Price ?? 0).ToString(); 
                 }
                 catch (Exception ex)
                 {
