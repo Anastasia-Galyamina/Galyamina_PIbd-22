@@ -6,14 +6,10 @@ namespace ComputerWorkShopBusinessLogic.Interfaces
 {
     public interface IComputerLogic
     {
-        List<ComputerViewModel> GetList();
+        List<ComputerViewModel> Read(ComputerBindingModel model);
 
-        ComputerViewModel GetElement(int id);
+        void CreateOrUpdate(ComputerBindingModel model);
 
-        void AddElement(ComputerBindingModel model);
-
-        void UpdElement(ComputerBindingModel model);
-
-        void DelElement(int id);
+        void Delete(ComputerBindingModel model);
     }
 }

@@ -148,6 +148,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ComputerWorkShopFileImplement\ComputerWorkShopFileImplement.csproj">
+      <Project>{a076771e-68a7-40bd-94e5-c31557d6c53c}</Project>
+      <Name>ComputerWorkShopFileImplement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ComputerWorkShopListImplement\ComputerWorkShopListImplement.csproj">
       <Project>{c0390ea2-5f41-4861-b801-9141b8c9db65}</Project>
       <Name>ComputerWorkShopListImplement</Name>

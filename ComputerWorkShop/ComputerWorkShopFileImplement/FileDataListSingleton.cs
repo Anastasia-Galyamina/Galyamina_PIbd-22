@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ComputerWorkShopBusinessLogic.Enums;
+using ComputerWorkShopFileImplement.Models;
+using System.IO;
+using System.Xml.Linq;
 
 namespace ComputerWorkShopFileImplement
 {
@@ -40,8 +44,8 @@ namespace ComputerWorkShopFileImplement
         {
             SaveComponents();
             SaveOrders();
-            SaveProducts();
-            SaveProductComponents();
+            SaveComputers();
+            SaveComputerComponents();
         }
 
         private List<Component> LoadComponents()
@@ -80,7 +84,7 @@ namespace ComputerWorkShopFileImplement
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        ProductId = Convert.ToInt32(elem.Element("ProductId").Value),
+                        ComputerId = Convert.ToInt32(elem.Element("ComputerId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = (OrderStatus)Enum.Parse(typeof(OrderStatus),
@@ -95,21 +99,21 @@ namespace ComputerWorkShopFileImplement
             return list;
         }
 
-        private List<Computer> LoadProducts()
+        private List<Computer> LoadComputers()
         {
             var list = new List<Computer>();
 
             if (File.Exists(ComputerFileName))
             {
                 XDocument xDocument = XDocument.Load(ComputerFileName);
-                var xElements = xDocument.Root.Elements("Product").ToList();
+                var xElements = xDocument.Root.Elements("Computer").ToList();
 
                 foreach (var elem in xElements)
                 {
                     list.Add(new Computer
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        ProductName = elem.Element("ComputerName").Value,
+                        ComputerName = elem.Element("ComputerName").Value,
                         Price = Convert.ToDecimal(elem.Element("Price").Value)
                     });
                 }
@@ -118,7 +122,7 @@ namespace ComputerWorkShopFileImplement
             return list;
         }
 
-        private List<ComputerComponent> LoadProductComponents()
+        private List<ComputerComponent> LoadComputerComponents()
         {
             var list = new List<ComputerComponent>();
 
@@ -170,7 +174,7 @@ namespace ComputerWorkShopFileImplement
                 {
                     xElement.Add(new XElement("Order",
                     new XAttribute("Id", order.Id),
-                    new XElement("ProductId", order.ProductId),
+                    new XElement("ComputerId", order.ComputerId),
                     new XElement("Count", order.Count),
                     new XElement("Sum", order.Sum),
                     new XElement("Status", order.Status),
@@ -201,7 +205,7 @@ namespace ComputerWorkShopFileImplement
             }
         }
 
-        private void SaveProductComponents()
+        private void SaveComputerComponents()
         {
             if (ComputerComponents != null)
             {
@@ -211,7 +215,7 @@ namespace ComputerWorkShopFileImplement
                 {
                     xElement.Add(new XElement("ComputerComponent",
                     new XAttribute("Id", computerComponent.Id),
-                    new XElement("ComputerId", computerComponent.ProductId),
+                    new XElement("ComputerId", computerComponent.ComputerId),
                     new XElement("ComponentId", computerComponent.ComponentId),
                     new XElement("Count", computerComponent.Count)));
                 }

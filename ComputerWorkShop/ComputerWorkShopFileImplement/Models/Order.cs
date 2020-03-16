@@ -1,7 +1,7 @@
 ﻿using ComputerWorkShopBusinessLogic.Enums;
 using System;
 
-namespace ReinforcedConcreteFactoryFileImplement.Models
+namespace ComputerWorkShopFileImplement.Models
 {
     public class Order
     {

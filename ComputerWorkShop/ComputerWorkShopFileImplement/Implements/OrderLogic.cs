@@ -39,7 +39,7 @@ namespace ComputerWorkShopFileImplement.Implements
                 source.Orders.Add(element);
             }
 
-            element.ProductId = model.ComputerId == 0 ? element.ProductId : model.ComputerId;
+            element.ComputerId = model.ComputerId == 0 ? element.ComputerId : model.ComputerId;
             element.Count = model.Count;
             element.Sum = model.Sum;
             element.Status = model.Status;
@@ -68,8 +68,8 @@ namespace ComputerWorkShopFileImplement.Implements
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
-                ComputerId = rec.ProductId,
-                ComputerName = GetProductName(rec.ProductId),
+                ComputerId = rec.ComputerId,
+                ComputerName = GetProductName(rec.ComputerId),
                 Count = rec.Count,
                 Sum = rec.Sum,
                 Status = rec.Status,
@@ -84,7 +84,7 @@ namespace ComputerWorkShopFileImplement.Implements
             string name = "";
             var product = source.Computers.FirstOrDefault(x => x.Id == id);
 
-            name = product != null ? product.ProductName : "";
+            name = product != null ? product.ComputerName : "";
 
             return name;
         }

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ComputerWorkShopFileImplement.Implements
 {
-    public class ComputerLogic : IComputertLogic
+    public class ComputerLogic : IComputerLogic
     {
         private readonly FileDataListSingleton source;
 
@@ -20,7 +20,7 @@ namespace ComputerWorkShopFileImplement.Implements
         public void CreateOrUpdate(ComputerBindingModel model)
         {
             Computer element = source.Computers
-                            .FirstOrDefault(rec => rec.ProductName == model.ComputerName && rec.Id != model.Id);
+                            .FirstOrDefault(rec => rec.ComputerName == model.ComputerName && rec.Id != model.Id);
 
             if (element != null)
             {
@@ -44,13 +44,13 @@ namespace ComputerWorkShopFileImplement.Implements
                 source.Computers.Add(element);
             }
 
-            element.ProductName = model.ComputerName;
+            element.ComputerName = model.ComputerName;
             element.Price = model.Price;
 
-            source.ComputerComponents.RemoveAll(rec => rec.ProductId == model.Id && !model.ProductComponents.ContainsKey(rec.ComponentId));
+            source.ComputerComponents.RemoveAll(rec => rec.ComputerId == model.Id && !model.ComputerComponents.ContainsKey(rec.ComponentId));
 
             var updateComponents = 
-                source.ComputerComponents.Where(rec => rec.ProductId == model.Id && model.ProductComponents.ContainsKey(rec.ComponentId));
+                source.ComputerComponents.Where(rec => rec.ComputerId == model.Id && model.ComputerComponents.ContainsKey(rec.ComponentId));
 
             foreach (var updateComponent in updateComponents)
             {
@@ -58,14 +58,14 @@ namespace ComputerWorkShopFileImplement.Implements
                 model.ComputerComponents.Remove(updateComponent.ComponentId);
             }
 
-            int maxPCId = source.Computeromponents.Count > 0 ? source.ComputerComponents.Max(rec => rec.Id) : 0;
+            int maxPCId = source.ComputerComponents.Count > 0 ? source.ComputerComponents.Max(rec => rec.Id) : 0;
 
             foreach (var pc in model.ComputerComponents)
             {
                 source.ComputerComponents.Add(new ComputerComponent
                 {
                     Id = ++maxPCId,
-                    ProductId = element.Id,
+                    ComputerId = element.Id,
                     ComponentId = pc.Key,
                     Count = pc.Value.Item2
                 });
@@ -75,7 +75,7 @@ namespace ComputerWorkShopFileImplement.Implements
         public void Delete(ComputerBindingModel model)
         {
 
-            source.ComputerComponents.RemoveAll(rec => rec.ProductId == model.Id);
+            source.ComputerComponents.RemoveAll(rec => rec.ComputerId == model.Id);
             Computer element = source.Computers.FirstOrDefault(rec => rec.Id == model.Id);
 
             if (element != null)
@@ -98,7 +98,7 @@ namespace ComputerWorkShopFileImplement.Implements
                 ComputerName = rec.ComputerName,
                 Price = rec.Price,
                 ComputerComponents = source.ComputerComponents
-                                    .Where(recPC => recPC.ProductId == rec.Id)
+                                    .Where(recPC => recPC.ComputerId == rec.Id)
                                     .ToDictionary(
                                         recPC => recPC.ComponentId, 
                                         recPC =>(
