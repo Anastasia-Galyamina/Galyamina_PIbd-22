@@ -16,266 +16,145 @@ namespace ComputerWorkShopListImplement.Implements
             source = DataListSingleton.GetInstance();
         }
 
-        public List<ComputerViewModel> GetList()
+        public void CreateOrUpdate(ComputerBindingModel model)
         {
-            List<ComputerViewModel> result = new List<ComputerViewModel>();
-
-            for (int i = 0; i < source.Computers.Count; ++i)
+            Computer tempProduct = model.Id.HasValue ? null : new Computer { Id = 1 };
+            foreach (var computer in source.Computers)
             {
-                List<ComputerComponentViewModel> ComputerComponents = new List<ComputerComponentViewModel>();
-
-                for (int j = 0; j < source.ComputerComponents.Count; ++j)
-                {
-                    if (source.ComputerComponents[j].ComputerId == source.Computers[i].Id)
-                    {
-                        string componentName = string.Empty;
-
-                        for (int k = 0; k < source.Components.Count; ++k)
-                        {
-                            if (source.ComputerComponents[j].ComponentId == source.Components[k].Id)
-                            {
-                                componentName = source.Components[k].ComponentName;
-                                break;
-                            }
-                        }
-
-                        ComputerComponents.Add(new ComputerComponentViewModel
-                        {
-                            Id = source.ComputerComponents[j].Id,
-                            ComputerId = source.ComputerComponents[j].ComputerId,
-                            ComponentId = source.ComputerComponents[j].ComponentId,
-                            ComponentName = componentName,
-                            Count = source.ComputerComponents[j].Count
-                        });
-                    }
-                }
-
-                result.Add(new ComputerViewModel
-                {
-                    Id = source.Computers[i].Id,
-                    ComputerName = source.Computers[i].ComputerName,
-                    Price = source.Computers[i].Price,
-                    ComputerComponents = ComputerComponents
-                });
-            }
-
-            return result;
-        }
-
-        public ComputerViewModel GetElement(int id)
-        {
-            for (int i = 0; i < source.Computers.Count; ++i)
-            {
-                List<ComputerComponentViewModel> ComputerComponents = new List<ComputerComponentViewModel>();
-
-                for (int j = 0; j < source.ComputerComponents.Count; ++j)
-                {
-                    if (source.ComputerComponents[j].ComputerId == source.Computers[i].Id)
-                    {
-                        string componentName = string.Empty;
-
-                        for (int k = 0; k < source.Components.Count; ++k)
-                        {
-                            if (source.ComputerComponents[j].ComponentId == source.Components[k].Id)
-                            {
-                                componentName = source.Components[k].ComponentName;
-                                break;
-                            }
-                        }
-
-                        ComputerComponents.Add(new ComputerComponentViewModel
-                        {
-                            Id = source.ComputerComponents[j].Id,
-                            ComputerId = source.ComputerComponents[j].ComputerId,
-                            ComponentId = source.ComputerComponents[j].ComponentId,
-                            ComponentName = componentName,
-                            Count = source.ComputerComponents[j].Count
-                        });
-                    }
-                }
-
-                if (source.Computers[i].Id == id)
-                {
-                    return new ComputerViewModel
-                    {
-                        Id = source.Computers[i].Id,
-                        ComputerName = source.Computers[i].ComputerName,
-                        Price = source.Computers[i].Price,
-                        ComputerComponents = ComputerComponents
-                    };
-                }
-            }
-
-            throw new Exception("Элемент не найден");
-        }
-
-        public void AddElement(ComputerBindingModel model)
-        {
-            int maxId = 0;
-
-            for (int i = 0; i < source.Computers.Count; ++i)
-            {
-                if (source.Computers[i].Id > maxId)
-                {
-                    maxId = source.Computers[i].Id;
-                }
-
-                if (source.Computers[i].ComputerName == model.ComputerName)
+                if (computer.ComputerName == model.ComputerName && computer.Id != model.Id)
                 {
                     throw new Exception("Уже есть компьютер с таким названием");
                 }
-            }
-
-            source.Computers.Add(new Computer
-            {
-                Id = maxId + 1,
-                ComputerName = model.ComputerName,
-                Price = model.Price
-            });
-
-            int maxPCId = 0;
-
-            for (int i = 0; i < source.ComputerComponents.Count; ++i)
-            {
-                if (source.ComputerComponents[i].Id > maxPCId)
+                if (!model.Id.HasValue && computer.Id >= tempProduct.Id)
                 {
-                    maxPCId = source.ComputerComponents[i].Id;
+                    tempProduct.Id = computer.Id + 1;
+                }
+                else if (model.Id.HasValue && computer.Id == model.Id)
+                {
+                    tempProduct = computer;
                 }
             }
-
-            for (int i = 0; i < model.ComputerComponents.Count; ++i)
+            if (model.Id.HasValue)
             {
-                for (int j = 1; j < model.ComputerComponents.Count; ++j)
+                if (tempComputer == null)
                 {
-                    if (model.ComputerComponents[i].ComponentId == model.ComputerComponents[j].ComponentId)
-                    {
-                        model.ComputerComponents[i].Count += model.ComputerComponents[j].Count;
-                        model.ComputerComponents.RemoveAt(j--);
-                    }
+                    throw new Exception("Элемент не найден");
                 }
+                CreateModel(model, tempComputer);
             }
-
-            for (int i = 0; i < model.ComputerComponents.Count; ++i)
+            else
             {
-                source.ComputerComponents.Add(new ComputerComponent
-                {
-                    Id = ++maxPCId,
-                    ComputerId = maxId + 1,
-                    ComponentId = model.ComputerComponents[i].ComponentId,
-                    Count = model.ComputerComponents[i].Count
-                });
+                source.Computers.Add(CreateModel(model, tempComputer));
             }
         }
-
-        public void UpdElement(ComputerBindingModel model)
+        public void Delete(ComputerBindingModel model)
         {
-            int index = -1;
-
-            for (int i = 0; i < source.Computers.Count; ++i)
-            {
-                if (source.Computers[i].Id == model.Id)
-                {
-                    index = i;
-                }
-
-                if (source.Computers[i].ComputerName == model.ComputerName && source.Computers[i].Id != model.Id)
-                {
-                    throw new Exception("Уже есть компьютер с таким названием");
-                }
-            }
-
-            if (index == -1)
-            {
-                throw new Exception("Элемент не найден");
-            }
-
-            source.Computers[index].ComputerName = model.ComputerName;
-            source.Computers[index].Price = model.Price;
-
-            int maxPCId = 0;
-
-            for (int i = 0; i < source.ComputerComponents.Count; ++i)
-            {
-                if (source.ComputerComponents[i].Id > maxPCId)
-                {
-                    maxPCId = source.ComputerComponents[i].Id;
-                }
-            }
-
+            // удаляем записи по компонентам при удалении изделия
             for (int i = 0; i < source.ComputerComponents.Count; ++i)
             {
                 if (source.ComputerComponents[i].ComputerId == model.Id)
                 {
-                    bool flag = true;
-
-                    for (int j = 0; j < model.ComputerComponents.Count; ++j)
-                    {
-
-                        if (source.ComputerComponents[i].Id == model.ComputerComponents[j].Id)
-                        {
-                            source.ComputerComponents[i].Count =
-                            model.ComputerComponents[j].Count;
-                            flag = false;
-                            break;
-                        }
-                    }
-
-                    if (flag)
-                    {
-                        source.ComputerComponents.RemoveAt(i--);
-                    }
-                }
-            }
-
-            for (int i = 0; i < model.ComputerComponents.Count; ++i)
-            {
-                if (model.ComputerComponents[i].Id == 0)
-                {
-                    for (int j = 0; j < source.ComputerComponents.Count; ++j)
-                    {
-                        if (source.ComputerComponents[j].ComputerId == model.Id &&
-                            source.ComputerComponents[j].ComponentId == model.ComputerComponents[i].ComponentId)
-                        {
-                            source.ComputerComponents[j].Count += model.ComputerComponents[i].Count;
-                            model.ComputerComponents[i].Id = source.ComputerComponents[j].Id;
-                            break;
-                        }
-                    }
-
-                    if (model.ComputerComponents[i].Id == 0)
-                    {
-                        source.ComputerComponents.Add(new ComputerComponent
-                        {
-                            Id = ++maxPCId,
-                            ComputerId = model.Id,
-                            ComponentId = model.ComputerComponents[i].ComponentId,
-                            Count = model.ComputerComponents[i].Count
-                        });
-                    }
-                }
-            }
-        }
-
-        public void DelElement(int id)
-        {
-            for (int i = 0; i < source.ComputerComponents.Count; ++i)
-            {
-                if (source.ComputerComponents[i].ComputerId == id)
-                {
                     source.ComputerComponents.RemoveAt(i--);
                 }
             }
-
             for (int i = 0; i < source.Computers.Count; ++i)
             {
-                if (source.Computers[i].Id == id)
+                if (source.Computers[i].Id == model.Id)
                 {
                     source.Computers.RemoveAt(i);
                     return;
                 }
             }
-
             throw new Exception("Элемент не найден");
+        }
+        private Computer CreateModel(ComputerBindingModel model, Computer computer)
+        {
+            computer.ComputerName = model.ComputerName;
+            computer.Price = model.Price;
+            //обновляем существуюущие компоненты и ищем максимальный идентификатор
+            int maxPCId = 0;
+            for (int i = 0; i < source.ComputerComponents.Count; ++i)
+            {
+                if (source.ComputerComponents[i].Id > maxPCId)
+                {
+                    maxPCId = source.ComputerComponents[i].Id;
+                }
+                if (source.ComputerComponents[i].ComputerId == computer.Id)
+                {
+                    // если в модели пришла запись компонента с таким id
+                    if
+                    (model.ComputerComponents.ContainsKey(source.ComputerComponents[i].ComponentId))
+                    {
+                        // обновляем количество
+                        source.ComputerComponents[i].Count =
+                        model.ComputerComponents[source.ComputerComponents[i].ComponentId].Item2;
+                        // из модели убираем эту запись, чтобы остались только не просмотренные
+                        model.ComputerComponents.Remove(source.ComputerComponents[i].ComponentId);
+                    }
+                    else
+                    {
+                        source.ComputerComponents.RemoveAt(i--);                        
+                    }
+                }
+            }
+            // новые записи
+            foreach (var pc in model.ComputerComponents)
+            {
+                source.ComputerComponents.Add(new ComputerComponent
+                {
+                    Id = ++maxPCId,
+                    ComputerId = computer.Id,
+                    ComponentId = pc.Key,
+                    Count = pc.Value.Item2
+                });
+            }
+            return computer;
+        }
+        public List<ComputerViewModel> Read(ComputerBindingModel model)
+        {
+            List<ComputerViewModel> result = new List<ComputerViewModel>();
+            foreach (var component in source.Computers)
+            {
+                if (model != null)
+                {
+                    if (component.Id == model.Id)
+                    {
+                        result.Add(CreateViewModel(component));
+                        break;
+                    }
+                    continue;
+                }
+                result.Add(CreateViewModel(component));
+            }
+            return result;
+        }
+        private ComputerViewModel CreateViewModel(Computer product)
+        {
+            // требуется дополнительно получить список компонентов для изделия с названиями и их количество
+            Dictionary<int, (string, int)> cmputerComponents = new Dictionary<int, (string, int)>();
+            foreach (var pc in source.ComputerComponents)
+            {
+                if (pc.ComputerId == product.Id)
+                {
+                    string componentName = string.Empty;
+                    foreach (var component in source.Components)
+                    {
+                        if (pc.ComponentId == component.Id)
+                        {
+                            componentName = component.ComponentName;
+                            break;
+                        }
+                    }
+                    computerComponents.Add(pc.ComponentId, (componentName, pc.Count));
+                }
+            }
+            return new ComputerViewModel
+            {
+                Id = product.Id,
+                ComputerName = product.ComputerName,
+                Price = computer.Price,
+                ComputerComponents = computerComponents
+            };
         }
     }
 }

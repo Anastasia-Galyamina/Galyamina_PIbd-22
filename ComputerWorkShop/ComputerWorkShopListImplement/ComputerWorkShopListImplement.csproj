@@ -55,8 +55,8 @@
     <Compile Include="Implements\OrderLogic.cs" />
     <Compile Include="Models\Component.cs" />
     <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\ProductComponent.cs" />
+    <Compile Include="Models\Computer.cs" />
+    <Compile Include="Models\ComputerComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

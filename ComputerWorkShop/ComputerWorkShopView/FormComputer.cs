@@ -17,7 +17,7 @@ namespace ComputerWorkShopView
 
         private readonly IComputerLogic logic;
         private int? id;
-        private List<ComputerComponentViewModel> productComponents;
+        private Dictionary<int, (string, int)> computerComponents;
 
         public FormComputer(IComputerLogic service)
         {
@@ -25,19 +25,17 @@ namespace ComputerWorkShopView
             this.logic = service;
         }
 
-        private void FormProduct_Load(object sender, EventArgs e)
+        private void FormComputer_Load(object sender, EventArgs e)
         {
             if (id.HasValue)
             {
                 try
                 {
-                    ComputerViewModel view = logic.GetElement(id.Value);
-
-                    if (view != null)
+                    ComputerViewModel view = logic.Read(new ComputerBindingModel {Id = id.Value})?[0];                 if (view != null)
                     {
                         textBoxName.Text = view.ComputerName;
                         textBoxPrice.Text = view.Price.ToString();
-                        productComponents = view.ComputerComponents;
+                        computerComponents = view.ComputerComponents;
                         LoadData();
                     }
                 }
@@ -48,7 +46,7 @@ namespace ComputerWorkShopView
             }
             else
             {
-                productComponents = new List<ComputerComponentViewModel>();
+                computerComponents = new Dictionary<int, (string, int)>();
             }
         }
 
@@ -56,14 +54,13 @@ namespace ComputerWorkShopView
         {
             try
             {
-                if (productComponents != null)
+                if (computerComponents != null)
                 {
-                    dataGridView.DataSource = null;
-                    dataGridView.DataSource = productComponents;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Rows.Clear();
+                    foreach (var pc in computerComponents)
+                    {
+                        dataGridView.Rows.Add(new object[] { pc.Key, pc.Value.Item1,pc.Value.Item2 });
+                    }
                 }
             }
             catch (Exception ex)
@@ -78,16 +75,14 @@ namespace ComputerWorkShopView
 
             if (form.ShowDialog() == DialogResult.OK)
             {
-                if (form.ModelView != null)
+                if (computerComponents.ContainsKey(form.Id))
                 {
-                    if (id.HasValue)
-                    {
-                        form.ModelView.ComputerId = id.Value;
-                    }
-
-                    productComponents.Add(form.ModelView);
+                    computerComponents[form.Id] = (form.ComponentName, form.Count);
                 }
-
+                else
+                {
+                    computerComponents.Add(form.Id, (form.ComponentName, form.Count));
+                }
                 LoadData();
             }
         }
@@ -97,11 +92,12 @@ namespace ComputerWorkShopView
             if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormComputerComponent>();
-                form.ModelView = productComponents[dataGridView.SelectedRows[0].Cells[0].RowIndex];
-
+                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                form.Id = id;
+                form.Count = computerComponents[id].Item2;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    productComponents[dataGridView.SelectedRows[0].Cells[0].RowIndex] = form.ModelView;
+                    computerComponents[form.Id] = (form.ComponentName, form.Count);
                     LoadData();
                 }
             }
@@ -115,13 +111,13 @@ namespace ComputerWorkShopView
                 {
                     try
                     {
-                        productComponents.RemoveAt(dataGridView.SelectedRows[0].Cells[0].RowIndex);
+                        computerComponents.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
                     }
-
                     LoadData();
                 }
             }
@@ -146,50 +142,23 @@ namespace ComputerWorkShopView
                 return;
             }
 
-            if (productComponents == null || productComponents.Count == 0)
+            if (computerComponents == null || computerComponents.Count == 0)
             {
                 MessageBox.Show("Заполните компоненты", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
             try
             {
-                List<ComputerComponentBindingModel> productComponentBM = new List<ComputerComponentBindingModel>();
-
-                for (int i = 0; i < productComponents.Count; ++i)
+                logic.CreateOrUpdate(new ComputerBindingModel
                 {
-                    productComponentBM.Add(new ComputerComponentBindingModel
-                    {
-                        Id = productComponents[i].Id,
-                        ComputerId = productComponents[i].ComputerId,
-                        ComponentId = productComponents[i].ComponentId,
-                        Count = productComponents[i].Count
-                    });
-                }
-
-                if (id.HasValue)
-                {
-                    logic.UpdElement(new ComputerBindingModel
-                    {
-                        Id = id.Value,
-                        ComputerName = textBoxName.Text,
-                        Price = Convert.ToDecimal(textBoxPrice.Text),
-                        ComputerComponents = productComponentBM
-                    });
-                }
-                else
-                {
-                    logic.AddElement(new ComputerBindingModel
-                    {
-                        ComputerName = textBoxName.Text,
-                        Price = Convert.ToDecimal(textBoxPrice.Text),
-                        ComputerComponents = productComponentBM
-                    });
-                }
-
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Id = id,
+                    ComputerName = textBoxName.Text,
+                    Price = Convert.ToDecimal(textBoxPrice.Text),
+                    ComputerComponents = computerComponents
+                });
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
-
                 Close();
             }
             catch (Exception ex)

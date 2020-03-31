@@ -13,29 +13,22 @@ namespace ComputerWorkShopView
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IComputerLogic logicP;
+        private readonly IComputerLogic logicC;
         private readonly MainLogic logicM;
 
-        public FormCreateOrder(IComputerLogic logicP, MainLogic logicM)
+        public FormCreateOrder(IComputerLogic logicC, MainLogic logicM)
         {
             InitializeComponent();
-            this.logicP = logicP;
+            this.logicC = logicC;
             this.logicM = logicM;
         }
 
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
             try
-            {
-                var listP = logicP.GetList();
-
-                if (listP != null)
-                {
-                    comboBoxComputer.DisplayMember = "ComputerName";
-                    comboBoxComputer.ValueMember = "Id";
-                    comboBoxComputer.DataSource = listP;
-                    comboBoxComputer.SelectedItem = null;
-                }
+            {    
+                    //Логика загрузки списка компонент в выпадающий список
+                
             }
             catch (Exception ex)
             {
@@ -51,10 +44,9 @@ namespace ComputerWorkShopView
                 try
                 {
                     int id = Convert.ToInt32(comboBoxComputer.SelectedValue);
-                    ComputerViewModel Computer = logicP.GetElement(id);
-
+                    ComputerViewModel product = logicC.Read(new ComputerBindingModel { Id = id })?[0];
                     int count = Convert.ToInt32(textBoxCount.Text);
-                    textBoxSum.Text = (count * Computer.Price).ToString();
+                    textBoxSum.Text = (count * product?.Price ?? 0).ToString();
                 }
                 catch (Exception ex)
                 {
