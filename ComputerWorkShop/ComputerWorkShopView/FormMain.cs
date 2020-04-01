@@ -56,7 +56,7 @@ namespace ComputerWorkShopView
             form.ShowDialog();
         }
 
-        private void изделияToolStripMenuItem_Click(object sender, EventArgs e)
+        private void компьютерыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormComputers>();
             form.ShowDialog();
@@ -130,6 +130,12 @@ namespace ComputerWorkShopView
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormWarehouses>();
+            form.ShowDialog();
         }
     }
 }

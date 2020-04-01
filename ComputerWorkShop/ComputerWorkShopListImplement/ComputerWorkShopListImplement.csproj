@@ -53,10 +53,13 @@
     <Compile Include="Implements\ComponentLogic.cs" />
     <Compile Include="Implements\ComputerLogic.cs" />
     <Compile Include="Implements\OrderLogic.cs" />
+    <Compile Include="Implements\WarehouseLogic.cs" />
     <Compile Include="Models\Component.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Computer.cs" />
     <Compile Include="Models\ComputerComponent.cs" />
+    <Compile Include="Models\WarehouseComponent.cs" />
+    <Compile Include="Models\Warehouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

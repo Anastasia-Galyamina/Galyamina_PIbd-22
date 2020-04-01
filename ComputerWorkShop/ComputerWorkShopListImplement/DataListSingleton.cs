@@ -15,12 +15,18 @@ namespace ComputerWorkShopListImplement
 
         public List<ComputerComponent> ComputerComponents { get; set; }
 
+        public List<Warehouse> Warehouses { get; set; }
+
+        public List<WarehouseComponent> WarehouseComponents { get; set; }
+
         private DataListSingleton()
         {
             Components = new List<Component>();
             Orders = new List<Order>();
             Computers = new List<Computer>();
             ComputerComponents = new List<ComputerComponent>();
+            Warehouses = new List<Warehouse>();
+            WarehouseComponents = new List<WarehouseComponent>();
         }
 
         public static DataListSingleton GetInstance()

@@ -55,16 +55,21 @@
     <Compile Include="BindingModels\ComputerComponentBindingModel.cs" />
     <Compile Include="BindingModels\CreateOrderBindingModel.cs" />
     <Compile Include="BindingModels\OrderBindingModel.cs" />
+    <Compile Include="BindingModels\WarehouseBindingModel.cs" />
+    <Compile Include="BindingModels\WarehouseComponentBindingModel.cs" />
     <Compile Include="BusinessLogic\MainLogic.cs" />
     <Compile Include="Enums\OrderStatus.cs" />
     <Compile Include="Interfaces\IComponentLogic.cs" />
     <Compile Include="Interfaces\IComputerLogic.cs" />
     <Compile Include="Interfaces\IOrderLogic.cs" />
+    <Compile Include="Interfaces\IWarehouseLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ComponentViewModel.cs" />
     <Compile Include="ViewModels\ComputerComponentViewModel.cs" />
     <Compile Include="ViewModels\ComputerViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
+    <Compile Include="ViewModels\WarehouseComponentViewModel.cs" />
+    <Compile Include="ViewModels\WarehouseViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
