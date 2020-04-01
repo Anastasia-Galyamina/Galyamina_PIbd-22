@@ -29,6 +29,7 @@ namespace ComputerWorkShopView
 
         public FormComputerComponent(IComponentLogic logic)
         {
+            InitializeComponent();
             List<ComponentViewModel> list = logic.Read(null);
             if (list != null)
             {

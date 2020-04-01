@@ -22,6 +22,11 @@ namespace ComputerWorkShopView
         public FormComputer(IComputerLogic service)
         {
             InitializeComponent();
+            dataGridView.Columns.Add("Id", "Id");
+            dataGridView.Columns.Add("ComponentName", "Компонент");
+            dataGridView.Columns.Add("Count", "Количество");
+            dataGridView.Columns[0].Visible = false;
+            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             this.logic = service;
         }
 
@@ -32,12 +37,15 @@ namespace ComputerWorkShopView
                 try
                 {
                     ComputerViewModel view = logic.Read(new ComputerBindingModel {Id = id.Value})?[0];                 if (view != null)
+                    
+                    if (view != null)
                     {
-                        textBoxName.Text = view.ComputerName;
-                        textBoxPrice.Text = view.Price.ToString();
-                        computerComponents = view.ComputerComponents;
-                        LoadData();
+                            textBoxName.Text = view.ComputerName;
+                            textBoxPrice.Text = view.Price.ToString();
+                            computerComponents = view.ComputerComponents;
+                            LoadData();                            
                     }
+                    
                 }
                 catch (Exception ex)
                 {
@@ -56,11 +64,11 @@ namespace ComputerWorkShopView
             {
                 if (computerComponents != null)
                 {
-                    dataGridView.Rows.Clear();
+                    dataGridView.Rows.Clear();                    
                     foreach (var pc in computerComponents)
-                    {
-                        dataGridView.Rows.Add(new object[] { pc.Key, pc.Value.Item1,pc.Value.Item2 });
-                    }
+                     {
+                         dataGridView.Rows.Add(new object[] { pc.Key, pc.Value.Item1,pc.Value.Item2 });
+                     }
                 }
             }
             catch (Exception ex)

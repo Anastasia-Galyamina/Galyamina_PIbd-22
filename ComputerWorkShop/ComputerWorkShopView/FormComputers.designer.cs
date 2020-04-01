@@ -103,7 +103,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormComputers";
             this.Text = "Компьютеры";
-            this.Load += new System.EventHandler(this.FormProducts_Load);
+            this.Load += new System.EventHandler(this.FormComputers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 

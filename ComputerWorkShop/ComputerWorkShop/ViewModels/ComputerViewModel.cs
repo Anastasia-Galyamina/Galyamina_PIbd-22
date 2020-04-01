@@ -13,6 +13,6 @@ namespace ComputerWorkShopBusinessLogic.ViewModels
         [DisplayName("Цена")]
         public decimal Price { get; set; }
 
-        public List<ComputerComponentViewModel> ComputerComponents { get; set; }
+        public Dictionary<int, (string, int)> ComputerComponents { get; set; }
     }
 }

@@ -18,20 +18,20 @@ namespace ComputerWorkShopListImplement.Implements
 
         public void CreateOrUpdate(ComputerBindingModel model)
         {
-            Computer tempProduct = model.Id.HasValue ? null : new Computer { Id = 1 };
+            Computer tempComputer = model.Id.HasValue ? null : new Computer { Id = 1 };
             foreach (var computer in source.Computers)
             {
                 if (computer.ComputerName == model.ComputerName && computer.Id != model.Id)
                 {
                     throw new Exception("Уже есть компьютер с таким названием");
                 }
-                if (!model.Id.HasValue && computer.Id >= tempProduct.Id)
+                if (!model.Id.HasValue && computer.Id >= tempComputer.Id)
                 {
-                    tempProduct.Id = computer.Id + 1;
+                    tempComputer.Id = computer.Id + 1;
                 }
                 else if (model.Id.HasValue && computer.Id == model.Id)
                 {
-                    tempProduct = computer;
+                    tempComputer = computer;
                 }
             }
             if (model.Id.HasValue)
@@ -49,7 +49,7 @@ namespace ComputerWorkShopListImplement.Implements
         }
         public void Delete(ComputerBindingModel model)
         {
-            // удаляем записи по компонентам при удалении изделия
+            // удаляем записи по компонентам при удалении компьютера
             for (int i = 0; i < source.ComputerComponents.Count; ++i)
             {
                 if (source.ComputerComponents[i].ComputerId == model.Id)
@@ -128,13 +128,13 @@ namespace ComputerWorkShopListImplement.Implements
             }
             return result;
         }
-        private ComputerViewModel CreateViewModel(Computer product)
+        private ComputerViewModel CreateViewModel(Computer computer)
         {
-            // требуется дополнительно получить список компонентов для изделия с названиями и их количество
-            Dictionary<int, (string, int)> cmputerComponents = new Dictionary<int, (string, int)>();
+            // требуется дополнительно получить список компонентов для компьютера с названиями и их количество
+            Dictionary<int, (string, int)> computerComponents = new Dictionary<int, (string, int)>();
             foreach (var pc in source.ComputerComponents)
             {
-                if (pc.ComputerId == product.Id)
+                if (pc.ComputerId == computer.Id)
                 {
                     string componentName = string.Empty;
                     foreach (var component in source.Components)
@@ -150,8 +150,8 @@ namespace ComputerWorkShopListImplement.Implements
             }
             return new ComputerViewModel
             {
-                Id = product.Id,
-                ComputerName = product.ComputerName,
+                Id = computer.Id,
+                ComputerName = computer.ComputerName,
                 Price = computer.Price,
                 ComputerComponents = computerComponents
             };

@@ -26,9 +26,17 @@ namespace ComputerWorkShopView
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
             try
-            {    
-                    //Логика загрузки списка компонент в выпадающий список
-                
+            {
+                //Логика загрузки списка компонент в выпадающий список
+                var list = logicC.Read(null);
+                if (list != null)
+                {
+                    comboBoxComputer.DataSource = list;
+                    comboBoxComputer.DisplayMember = "ComputerName";
+                    comboBoxComputer.ValueMember = "Id";
+                    comboBoxComputer.SelectedItem = null;
+                }
+
             }
             catch (Exception ex)
             {
