@@ -9,14 +9,12 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
     public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
-        private readonly IWarehouseLogic warehouseLogic;
-        private readonly IComponentLogic componentLogic;
+        private readonly IWarehouseLogic warehouseLogic;        
 
         public MainLogic(IOrderLogic orderLogic, IWarehouseLogic warehouseLogic, IComponentLogic componentLogic)
         {
             this.orderLogic = orderLogic;
-            this.warehouseLogic = warehouseLogic;
-            this.componentLogic = componentLogic;
+            this.warehouseLogic = warehouseLogic;           
         }
 
         public void CreateOrder(CreateOrderBindingModel model)
@@ -109,22 +107,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
         }
         public void AddComponentsToWarehouse(WarehouseComponentBindingModel model)
         {
-            WarehouseViewModel warehouse = warehouseLogic.Read(new WarehouseBindingModel() { Id = model.Id })?[0];
-            // если на складе есть компонент
-            if (warehouse.WarehouseComponents.ContainsKey(model.ComponentId))
-                //то увеличиваем его количество
-                warehouse.WarehouseComponents[model.ComponentId] = (warehouse.WarehouseComponents[model.ComponentId].Item1,
-                   warehouse.WarehouseComponents[model.ComponentId].Item2 + model.Count);
-            // если нет такого компонента, то добавляем его
-            else
-                warehouse.WarehouseComponents.Add(model.ComponentId,
-                    (componentLogic.Read(new ComponentBindingModel() { Id = model.ComponentId })[0].ComponentName, model.Count));
-            warehouseLogic.CreateOrUpdate(new WarehouseBindingModel()
-            {
-                Id = warehouse.Id,
-                WarehouseName = warehouse.WarehouseName,
-                WarehouseComponents = warehouse.WarehouseComponents
-            });
+            warehouseLogic.AddComponentToWarehouse(model);
         }
     }
 }

@@ -81,7 +81,7 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxName);
             this.Name = "FormWarehouseComponents";
-            this.Text = "FormWarehouseComponents";
+            this.Text = "Склад";
             this.Load += new System.EventHandler(this.FormWarehouseComponents_Load);
             this.Click += new System.EventHandler(this.FormWarehouseComponents_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.ViewModels;
 
@@ -14,5 +10,6 @@ namespace ComputerWorkShopBusinessLogic.Interfaces
         List<WarehouseViewModel> Read(WarehouseBindingModel model);
         void CreateOrUpdate(WarehouseBindingModel model);
         void Delete(WarehouseBindingModel model);
+        void AddComponentToWarehouse(WarehouseComponentBindingModel model);
     }
 }

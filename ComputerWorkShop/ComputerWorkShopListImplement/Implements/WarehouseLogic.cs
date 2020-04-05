@@ -4,6 +4,7 @@ using ComputerWorkShopBusinessLogic.ViewModels;
 using ComputerWorkShopListImplement.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ComputerWorkShopListImplement.Implements
 {
@@ -160,6 +161,39 @@ namespace ComputerWorkShopListImplement.Implements
                 WarehouseName = warehouse.WarehouseName,
                 WarehouseComponents = warehouseComponents
             };
+        }
+        public void AddComponentToWarehouse(WarehouseComponentBindingModel model)
+        {
+            // если склад пустой, то добавляем первый компонент с id = 1
+            if (source.WarehouseComponents.Count == 0)
+            {
+                source.WarehouseComponents.Add(new WarehouseComponent()
+                {
+                    Id = 1,
+                    ComponentId = model.ComponentId,
+                    WarehouseId = model.WarehouseId,
+                    Count = model.Count
+                });
+            }
+            // проверяем, есть ли на складе нужный компонент
+            else
+            {
+                var component = source.WarehouseComponents.FirstOrDefault(wc => wc.WarehouseId == model.WarehouseId && wc.ComponentId == model.ComponentId);
+                // если нет, то добавляем
+                if (component == null)
+                {
+                    source.WarehouseComponents.Add(new WarehouseComponent()
+                    {
+                        Id = source.WarehouseComponents.Max(sm => sm.Id) + 1,
+                        ComponentId = model.ComponentId,
+                        WarehouseId = model.WarehouseId,
+                        Count = model.Count
+                    });
+                }
+                // если есть, то увеличиваем количество
+                else
+                    component.Count += model.Count;
+            }
         }
     }
 }
