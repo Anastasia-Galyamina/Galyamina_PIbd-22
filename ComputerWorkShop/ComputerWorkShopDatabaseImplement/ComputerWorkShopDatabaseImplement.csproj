@@ -147,6 +147,11 @@
     <Compile Include="Implements\ComponentLogic.cs" />
     <Compile Include="Implements\OrderLogic.cs" />
     <Compile Include="Implements\ComputerLogic.cs" />
+    <Compile Include="Migrations\20200313113319_InitialCreate.Designer.cs">
+      <DependentUpon>20200313113319_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ComputerWorkShopDatabaseModelSnapshot.cs.cs" />
+    <Compile Include="Migrations\20200313113319_InitialCreate.cs" />
     <Compile Include="Models\Component.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Computer.cs" />
@@ -182,6 +187,7 @@
       <Name>ComputerWorkShopBusinessLogic</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.1.0.19235.1\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.1.0.19235.1\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

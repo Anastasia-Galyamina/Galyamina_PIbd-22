@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ComputerWorkShopImplement.Implements
+namespace ComputerWorkShopDataBaseImplement.Implements
 {
     public class ComputerLogic : IComputerLogic
     {
