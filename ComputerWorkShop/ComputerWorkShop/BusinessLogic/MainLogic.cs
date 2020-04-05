@@ -42,16 +42,22 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
-
-            orderLogic.CreateOrUpdate(new OrderBindingModel
+            if (warehouseLogic.RemoveComponentsFromWarehouse(order))
             {
-                Id = order.Id,
-                ComputerId = order.ComputerId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                Status = OrderStatus.Выполняется
-            });
+                orderLogic.CreateOrUpdate(new OrderBindingModel
+                {
+                    Id = order.Id,
+                    ComputerId = order.ComputerId,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    DateCreate = order.DateCreate,
+                    Status = OrderStatus.Выполняется
+                });
+            }
+            else
+            {
+                throw new Exception("На складах недостаточно компонентов");
+            }
         }
 
         public void FinishOrder(ChangeStatusBindingModel model)

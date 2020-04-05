@@ -8,7 +8,7 @@ using Unity;
 
 namespace ComputerWorkShopView
 {
-    public partial class FormWarehouseComponents : Form
+    public partial class FormWarehouse : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -17,7 +17,7 @@ namespace ComputerWorkShopView
         private int? id;
         private Dictionary<int, (string, int)> warehouseComponents;
 
-        public FormWarehouseComponents(IWarehouseLogic service)
+        public FormWarehouse(IWarehouseLogic service)
         {
             InitializeComponent();
             dataGridView.Columns.Add("Id", "Id");
@@ -28,7 +28,7 @@ namespace ComputerWorkShopView
             this.logic = service;
         }
 
-        private void FormWarehouseComponents_Load(object sender, EventArgs e)
+        private void FormWarehouse_Load(object sender, EventArgs e)
         {
             if (id.HasValue)
             {
@@ -102,5 +102,65 @@ namespace ComputerWorkShopView
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormWarehouseComponent>();
+
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                if (warehouseComponents.ContainsKey(form.Id))
+                {
+                    warehouseComponents[form.Id] = (form.ComponentName, form.Count);
+                }
+                else
+                {
+                    warehouseComponents.Add(form.Id, (form.ComponentName, form.Count));
+                }
+                LoadData();
+            }
+        }
+
+        private void buttonUpd_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                var form = Container.Resolve<FormWarehouseComponent>();
+                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                form.Id = id;
+                form.Count = warehouseComponents[id].Item2;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    warehouseComponents[form.Id] = (form.ComponentName, form.Count);
+                    LoadData();
+                }
+            }
+        }
+
+        private void buttonDel_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    try
+                    {
+                        warehouseComponents.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
+                    }
+                    LoadData();
+                }
+            }
+        }
+
+        private void buttonRef_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
     }
 }

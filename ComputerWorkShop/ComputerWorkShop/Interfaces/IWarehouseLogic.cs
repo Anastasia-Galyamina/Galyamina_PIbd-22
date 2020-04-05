@@ -11,5 +11,6 @@ namespace ComputerWorkShopBusinessLogic.Interfaces
         void CreateOrUpdate(WarehouseBindingModel model);
         void Delete(WarehouseBindingModel model);
         void AddComponentToWarehouse(WarehouseComponentBindingModel model);
+        bool RemoveComponentsFromWarehouse(OrderViewModel model);
     }
 }

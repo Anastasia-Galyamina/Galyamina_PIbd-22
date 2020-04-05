@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputerWorkShopListImpleme
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputerWorkShopView", "ComputerWorkShopView\ComputerWorkShopView.csproj", "{5981981B-6436-4383-9C15-7AA564CA5752}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputersWorkShopFileImplement", "ComputersWorkShopFileImplement\ComputersWorkShopFileImplement.csproj", "{07483650-B887-4CAF-AD3B-3A3F0B0943D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{5981981B-6436-4383-9C15-7AA564CA5752}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5981981B-6436-4383-9C15-7AA564CA5752}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5981981B-6436-4383-9C15-7AA564CA5752}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07483650-B887-4CAF-AD3B-3A3F0B0943D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07483650-B887-4CAF-AD3B-3A3F0B0943D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07483650-B887-4CAF-AD3B-3A3F0B0943D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07483650-B887-4CAF-AD3B-3A3F0B0943D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -44,22 +44,27 @@ namespace ComputerWorkShopView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormWarehouseComponents>();
+            var form = Container.Resolve<FormWarehouse>();            
+
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
-            }
+            }            
         }
 
         private void buttonUpd_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormWarehouseComponents>();
+                var form = Container.Resolve<FormWarehouse>();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите склад", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

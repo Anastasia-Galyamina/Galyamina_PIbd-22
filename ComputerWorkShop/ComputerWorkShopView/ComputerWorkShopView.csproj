@@ -101,11 +101,17 @@
     <Compile Include="FormComputers.designer.cs">
       <DependentUpon>FormComputers.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormWarehouseComponents.cs">
+    <Compile Include="FormWarehouse.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormWarehouseComponents.Designer.cs">
-      <DependentUpon>FormWarehouseComponents.cs</DependentUpon>
+    <Compile Include="FormWarehouse.designer.cs">
+      <DependentUpon>FormWarehouse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormWarehouseComponent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWarehouseComponent.designer.cs">
+      <DependentUpon>FormWarehouseComponent.cs</DependentUpon>
     </Compile>
     <Compile Include="FormWarehouses.cs">
       <SubType>Form</SubType>
@@ -136,8 +142,11 @@
     <EmbeddedResource Include="FormComputers.resx">
       <DependentUpon>FormComputers.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormWarehouseComponents.resx">
-      <DependentUpon>FormWarehouseComponents.cs</DependentUpon>
+    <EmbeddedResource Include="FormWarehouse.resx">
+      <DependentUpon>FormWarehouse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWarehouseComponent.resx">
+      <DependentUpon>FormWarehouseComponent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormWarehouses.resx">
       <DependentUpon>FormWarehouses.cs</DependentUpon>
@@ -166,6 +175,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ComputersWorkShopFileImplement\ComputersWorkShopFileImplement.csproj">
+      <Project>{07483650-b887-4caf-ad3b-3a3f0b0943d9}</Project>
+      <Name>ComputersWorkShopFileImplement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ComputerWorkShopListImplement\ComputerWorkShopListImplement.csproj">
       <Project>{c0390ea2-5f41-4861-b801-9141b8c9db65}</Project>
       <Name>ComputerWorkShopListImplement</Name>

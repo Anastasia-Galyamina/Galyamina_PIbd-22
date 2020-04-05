@@ -1,20 +1,20 @@
 ﻿using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using ComputerWorkShopBusinessLogic.ViewModels;
-using ComputerWorkShopListImplement.Models;
+using ComputersWorkShopFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ComputerWorkShopListImplement.Implements
+namespace ComputersWorkShopFileImplement.Implements
 {
     public class WarehouseLogic : IWarehouseLogic
     {
-        private readonly DataListSingleton source;
+        private readonly FileDataListSingleton source;
 
         public WarehouseLogic()
         {
-            source = DataListSingleton.GetInstance();
+            source = FileDataListSingleton.GetInstance();
         }
 
         public void CreateOrUpdate(WarehouseBindingModel warehouse)
@@ -75,21 +75,21 @@ namespace ComputerWorkShopListImplement.Implements
 
         public List<WarehouseViewModel> Read(WarehouseBindingModel model)
         {
-            List<WarehouseViewModel> result = new List<WarehouseViewModel>();
-            foreach (var warehouse in source.Warehouses)
-            {
-                if (model != null)
+            return source.Warehouses
+                .Where(rec => model == null || rec.Id == model.Id)
+                .Select(rec => new WarehouseViewModel
                 {
-                    if (warehouse.Id == model.Id)
-                    {
-                        result.Add(CreateViewModel(warehouse));
-                        break;
-                    }
-                    continue;
-                }
-                result.Add(CreateViewModel(warehouse));
-            }
-            return result;
+                    Id = rec.Id,
+                    WarehouseName = rec.WarehouseName,
+                    WarehouseComponents = source.WarehouseComponents
+                                    .Where(recWC => recWC.WarehouseId == rec.Id)
+                                    .ToDictionary(
+                                        recWC => recWC.ComponentId,
+                                        recWC => (
+                                            source.Components.FirstOrDefault(recC => recC.Id == recWC.ComponentId)?.ComponentName, recWC.Count
+                                            )
+                                        )
+                }).ToList();          
         }
 
         private Warehouse CreateModel(WarehouseBindingModel model, Warehouse warehouse)
@@ -110,8 +110,7 @@ namespace ComputerWorkShopListImplement.Implements
                     {
                         // обновляем количество
                         source.WarehouseComponents[i].Count = model.WarehouseComponents[source.WarehouseComponents[i].ComponentId].Item2;
-                        // из модели убираем эту запись, чтобы остались только не
-                        //просмотренные
+                        // из модели убираем эту запись, чтобы остались только не просмотренные
                         model.WarehouseComponents.Remove(source.WarehouseComponents[i].ComponentId);
                     }
                     else
@@ -162,6 +161,7 @@ namespace ComputerWorkShopListImplement.Implements
                 WarehouseComponents = warehouseComponents
             };
         }
+        
         public void AddComponentToWarehouse(WarehouseComponentBindingModel model)
         {
             // если склад пустой, то добавляем первый компонент с id = 1
@@ -195,9 +195,56 @@ namespace ComputerWorkShopListImplement.Implements
                     component.Count += model.Count;
             }
         }
+        // метод списания компонентов со склада, если списание прошло удачно, то возвращает true
         public bool RemoveComponentsFromWarehouse(OrderViewModel model)
         {
-            return false;
+            // ищем компьютер из заказа в списке компьютеров
+            var computer = source.Computers.Where(rec => rec.Id == model.ComputerId).FirstOrDefault();
+
+            if (computer == null)
+            {
+                throw new Exception("Заказ не найден");
+            }
+            // список компонентов компьютера
+            var computerComponents = source.ComputerComponents.Where(rec => rec.ComputerId == computer.Id).ToList();
+
+            if (computerComponents == null)
+            {
+                throw new Exception("нет компонентов");
+            } 
+            //считаем количество каждого компонента           
+            foreach (var pc in computerComponents)
+            {                
+                var warehouseComponent = source.WarehouseComponents.Where(rec => rec.ComponentId == pc.ComponentId);
+                int sum = warehouseComponent.Sum(rec => rec.Count);
+
+                if (sum < pc.Count * model.Count)
+                {
+                    return false;
+                }
+            }
+            // ищем общее число компонентов и списаваем со склада
+            foreach (var pc in computerComponents)
+            {                
+                var warehouseComponent = source.WarehouseComponents.Where(rec => rec.ComponentId == pc.ComponentId);
+                int neededCount = pc.Count * model.Count;
+
+                foreach (var wc in warehouseComponent)
+                {
+                    if (wc.Count >= neededCount)
+                    {
+                        wc.Count -= neededCount;
+                        break;
+                    }
+                    else
+                    {
+                        neededCount -= wc.Count;
+                        wc.Count = 0;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }
