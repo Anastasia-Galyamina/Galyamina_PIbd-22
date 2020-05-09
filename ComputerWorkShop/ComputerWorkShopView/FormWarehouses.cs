@@ -27,13 +27,13 @@ namespace ComputerWorkShopView
         {
             try
             {
-                var list = logic.Read(null);
+                var list = logic.GetList();
+
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dataGridView.Columns[2].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -44,7 +44,7 @@ namespace ComputerWorkShopView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormWarehouseComponents>();
+            var form = Container.Resolve<FormWarehouse>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -55,7 +55,7 @@ namespace ComputerWorkShopView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormWarehouseComponents>();
+                var form = Container.Resolve<FormWarehouse>();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -72,7 +72,7 @@ namespace ComputerWorkShopView
                     int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        logic.Delete(new WarehouseBindingModel { Id = id });
+                        logic.DelElement(id);
                     }
                     catch (Exception ex)
                     {

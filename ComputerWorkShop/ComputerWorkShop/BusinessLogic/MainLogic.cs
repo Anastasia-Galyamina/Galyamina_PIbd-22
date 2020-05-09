@@ -105,9 +105,9 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                 Status = OrderStatus.Оплачен
             });
         }
-        public void AddComponentsToWarehouse(WarehouseComponentBindingModel model)
+        public void FillWarehouse(WarehouseComponentBindingModel model)
         {
-            warehouseLogic.AddComponentToWarehouse(model);
+            warehouseLogic.FillWarehouse(model);
         }
     }
 }

@@ -17,182 +17,207 @@ namespace ComputerWorkShopListImplement.Implements
             source = DataListSingleton.GetInstance();
         }
 
-        public void CreateOrUpdate(WarehouseBindingModel warehouse)
+        public List<WarehouseViewModel> GetList()
         {
-            Warehouse tempWarehouse = warehouse.Id.HasValue ? null : new Warehouse
+            List<WarehouseViewModel> result = new List<WarehouseViewModel>();
+
+            for (int i = 0; i < source.Warehouses.Count; ++i)
+            {                
+                //List<WarehouseComponentViewModel> warehouseComponents = new List<WarehouseComponentViewModel>();
+
+                Dictionary<int, (string, int)> warehouseComponents = new Dictionary<int, (string, int)>();
+
+                for (int j = 0; j < source.WarehouseComponents.Count; ++j)
+                {
+                    if (source.WarehouseComponents[j].WarehouseId == source.Warehouses[i].Id)
+                    {
+                        string componentName = string.Empty;
+
+                        for (int k = 0; k < source.Components.Count; ++k)
+                        {
+                            if (source.WarehouseComponents[j].ComponentId == source.Components[k].Id)
+                            {
+                                componentName = source.Components[k].ComponentName;
+                                break;
+                            }
+                        }
+
+                        warehouseComponents.Add(source.WarehouseComponents[j].Id, (componentName, source.WarehouseComponents[j].Count));
+                        // добавляем к списку, а как добавить к словарю?
+
+                        /*warehouseComponents.Add(new WarehouseComponentViewModel
+                        {
+                            Id = source.WarehouseComponents[j].Id,
+                            WarehouseId = source.WarehouseComponents[j].WarehouseId,
+                            ComponentId = source.WarehouseComponents[j].ComponentId,
+                            ComponentName = componentName,
+                            Count = source.WarehouseComponents[j].Count
+                        });*/
+                    }
+                }
+
+                result.Add(new WarehouseViewModel
+                {
+                    Id = source.Warehouses[i].Id,
+                    WarehouseName = source.Warehouses[i].WarehouseName,
+                    WarehouseComponents = warehouseComponents
+                });
+            }
+
+            return result;
+        }
+
+        public WarehouseViewModel GetElement(int id)
+        {
+            for (int i = 0; i < source.Warehouses.Count; ++i)
             {
-                Id = 1
-            };
-            foreach (var s in source.Warehouses)
+                //List<WarehouseComponentViewModel> warehouseComponents = new List<WarehouseComponentViewModel>();
+                Dictionary<int, (string, int)> warehouseComponents = new Dictionary<int, (string, int)>();
+
+                for (int j = 0; j < source.WarehouseComponents.Count; ++j)
+                {
+                    if (source.WarehouseComponents[j].WarehouseId == source.Warehouses[i].Id)
+                    {
+                        string componentName = string.Empty;
+
+                        for (int k = 0; k < source.Components.Count; ++k)
+                        {
+                            if (source.WarehouseComponents[j].ComponentId == source.Components[k].Id)
+                            {
+                                componentName = source.Components[k].ComponentName;
+                                break;
+                            }
+                        }
+                        warehouseComponents.Add(source.WarehouseComponents[j].Id, (componentName, source.WarehouseComponents[j].Count));
+                       /* warehouseMaterials.Add(new WarehouseComponentViewModel
+                        {
+                            Id = source.WarehouseComponents[j].Id,
+                            WarehouseId = source.WarehouseComponents[j].WarehouseId,
+                            ComponentId = source.WarehouseComponents[j].ComponentId,
+                            ComponentName = componentName,
+                            Count = source.WarehouseComponents[j].Count
+                        });*/
+                    }
+                }
+
+                if (source.Warehouses[i].Id == id)
+                {
+                    return new WarehouseViewModel
+                    {
+                        Id = source.Warehouses[i].Id,
+                        WarehouseName = source.Warehouses[i].WarehouseName,
+                        WarehouseComponents = warehouseComponents
+                    };
+                }
+            }
+
+            throw new Exception("Элемент не найден");
+        }
+
+        public void AddElement(WarehouseBindingModel model)
+        {
+            int maxId = 0;
+
+            for (int i = 0; i < source.Warehouses.Count; ++i)
             {
-                if (s.WarehouseName == warehouse.WarehouseName && s.Id != warehouse.Id)
+                if (source.Warehouses[i].Id > maxId)
+                {
+                    maxId = source.Warehouses[i].Id;
+                }
+
+                if (source.Warehouses[i].WarehouseName == model.WarehouseName)
                 {
                     throw new Exception("Уже есть склад с таким названием");
                 }
-                if (!warehouse.Id.HasValue && s.Id >= tempWarehouse.Id)
-                {
-                    tempWarehouse.Id = s.Id + 1;
-                }
-                else if (warehouse.Id.HasValue && s.Id == warehouse.Id)
-                {
-                    tempWarehouse = s;
-                }
             }
-            if (warehouse.Id.HasValue)
+
+            source.Warehouses.Add(new Warehouse
             {
-                if (tempWarehouse == null)
-                {
-                    throw new Exception("Элемент не найден");
-                }
-                CreateModel(warehouse, tempWarehouse);
-            }
-            else
-            {
-                source.Warehouses.Add(CreateModel(warehouse, tempWarehouse));
-            }
+                Id = maxId + 1,
+                WarehouseName = model.WarehouseName
+            });
         }
 
-        public void Delete(WarehouseBindingModel model)
+        public void UpdElement(WarehouseBindingModel model)
         {
-            // удаляем записи по компонентам при удалении хранилища
+            int index = -1;
+
+            for (int i = 0; i < source.Warehouses.Count; ++i)
+            {
+                if (source.Warehouses[i].Id == model.Id)
+                {
+                    index = i;
+                }
+
+                if (source.Warehouses[i].WarehouseName == model.WarehouseName && source.Warehouses[i].Id != model.Id)
+                {
+                    throw new Exception("Уже есть склад с таким названием");
+                }
+            }
+
+            if (index == -1)
+            {
+                throw new Exception("Элемент не найден");
+            }
+
+            source.Warehouses[index].WarehouseName = model.WarehouseName;
+        }
+
+        public void DelElement(int id)
+        {
             for (int i = 0; i < source.WarehouseComponents.Count; ++i)
             {
-                if (source.WarehouseComponents[i].WarehouseId == model.Id)
+                if (source.WarehouseComponents[i].WarehouseId == id)
                 {
                     source.WarehouseComponents.RemoveAt(i--);
                 }
             }
+
             for (int i = 0; i < source.Warehouses.Count; ++i)
             {
-                if (source.Warehouses[i].Id == model.Id)
+                if (source.Warehouses[i].Id == id)
                 {
                     source.Warehouses.RemoveAt(i);
                     return;
                 }
             }
+
             throw new Exception("Элемент не найден");
         }
-
-        public List<WarehouseViewModel> Read(WarehouseBindingModel model)
+                
+        public void FillWarehouse(WarehouseComponentBindingModel model)
         {
-            List<WarehouseViewModel> result = new List<WarehouseViewModel>();
-            foreach (var warehouse in source.Warehouses)
+            int index = -1;
+            for (int i = 0; i < source.WarehouseComponents.Count; i++)
             {
-                if (model != null)
+                if (source.WarehouseComponents[i].ComponentId == model.ComponentId &&
+                    source.WarehouseComponents[i].WarehouseId == model.WarehouseId)
                 {
-                    if (warehouse.Id == model.Id)
-                    {
-                        result.Add(CreateViewModel(warehouse));
-                        break;
-                    }
-                    continue;
-                }
-                result.Add(CreateViewModel(warehouse));
-            }
-            return result;
-        }
-
-        private Warehouse CreateModel(WarehouseBindingModel model, Warehouse warehouse)
-        {
-            warehouse.WarehouseName = model.WarehouseName;
-            //обновляем существуюущие компоненты и ищем максимальный идентификатор
-            int maxSMId = 0;
-            for (int i = 0; i < source.WarehouseComponents.Count; ++i)
-            {
-                if (source.WarehouseComponents[i].Id > maxSMId)
-                {
-                    maxSMId = source.WarehouseComponents[i].Id;
-                }
-                if (source.WarehouseComponents[i].WarehouseId == warehouse.Id)
-                {
-                    // если в модели пришла запись компонента с таким id
-                    if (model.WarehouseComponents.ContainsKey(source.WarehouseComponents[i].ComponentId))
-                    {
-                        // обновляем количество
-                        source.WarehouseComponents[i].Count = model.WarehouseComponents[source.WarehouseComponents[i].ComponentId].Item2;
-                        // из модели убираем эту запись, чтобы остались только не
-                        //просмотренные
-                        model.WarehouseComponents.Remove(source.WarehouseComponents[i].ComponentId);
-                    }
-                    else
-                    {
-                        source.WarehouseComponents.RemoveAt(i--);
-                    }
+                    index = i;
+                    break;
                 }
             }
-            // новые записи
-            foreach (var sm in model.WarehouseComponents)
+            if (index != -1)
             {
-                source.WarehouseComponents.Add(new WarehouseComponent
-                {
-                    Id = ++maxSMId,
-                    WarehouseId = warehouse.Id,
-                    ComponentId = sm.Key,
-                    Count = sm.Value.Item2
-                });
+                source.WarehouseComponents[index].Count += model.Count;
             }
-            return warehouse;
-        }
-
-        private WarehouseViewModel CreateViewModel(Warehouse warehouse)
-        {
-            // требуется дополнительно получить список компонентов для хранилища с
-            // названиями и их количество
-            Dictionary<int, (string, int)> warehouseComponents = new Dictionary<int, (string, int)>();
-            foreach (var sm in source.WarehouseComponents)
-            {
-                if (sm.WarehouseId == warehouse.Id)
-                {
-                    string componentName = string.Empty;
-                    foreach (var component in source.Components)
-                    {
-                        if (sm.ComponentId == component.Id)
-                        {
-                            componentName = component.ComponentName;
-                            break;
-                        }
-                    }
-                    warehouseComponents.Add(sm.ComponentId, (componentName, sm.Count));
-                }
-            }
-            return new WarehouseViewModel
-            {
-                Id = warehouse.Id,
-                WarehouseName = warehouse.WarehouseName,
-                WarehouseComponents = warehouseComponents
-            };
-        }
-        public void AddComponentToWarehouse(WarehouseComponentBindingModel model)
-        {
-            // если склад пустой, то добавляем первый компонент с id = 1
-            if (source.WarehouseComponents.Count == 0)
-            {
-                source.WarehouseComponents.Add(new WarehouseComponent()
-                {
-                    Id = 1,
-                    ComponentId = model.ComponentId,
-                    WarehouseId = model.WarehouseId,
-                    Count = model.Count
-                });
-            }
-            // проверяем, есть ли на складе нужный компонент
             else
             {
-                var component = source.WarehouseComponents.FirstOrDefault(wc => wc.WarehouseId == model.WarehouseId && wc.ComponentId == model.ComponentId);
-                // если нет, то добавляем
-                if (component == null)
+                int maxId = 0;
+                for (int i = 0; i < source.WarehouseComponents.Count; i++)
                 {
-                    source.WarehouseComponents.Add(new WarehouseComponent()
+                    if (source.WarehouseComponents[i].Id > maxId)
                     {
-                        Id = source.WarehouseComponents.Max(sm => sm.Id) + 1,
-                        ComponentId = model.ComponentId,
-                        WarehouseId = model.WarehouseId,
-                        Count = model.Count
-                    });
+                        maxId = source.WarehouseComponents[i].Id;
+                    }
                 }
-                // если есть, то увеличиваем количество
-                else
-                    component.Count += model.Count;
+                source.WarehouseComponents.Add(new WarehouseComponent
+                {
+                    Id = maxId + 1,
+                    WarehouseId = model.WarehouseId,
+                    ComponentId = model.ComponentId,
+                    Count = model.Count
+                });
             }
         }
     }
