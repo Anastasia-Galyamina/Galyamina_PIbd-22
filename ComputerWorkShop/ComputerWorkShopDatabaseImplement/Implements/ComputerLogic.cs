@@ -1,15 +1,13 @@
 ﻿using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using ComputerWorkShopBusinessLogic.ViewModels;
-using ComputerWorkShopDatabaseImplement;
 using ComputerWorkShopDatabaseImplement.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace ComputerWorkShopDataBaseImplement.Implements
+namespace ComputerWorkShopDatabaseImplement.Implements
 {
     public class ComputerLogic : IComputerLogic
     {
@@ -91,7 +89,7 @@ namespace ComputerWorkShopDataBaseImplement.Implements
                 {
                     try
                     {
-                        // удаяем записи по продуктам при удалении закуски
+                        // удаяем записи по компонентам при удалении компьютера
                         context.ComputerComponents.RemoveRange(context.ComputerComponents.Where(rec =>
                         rec.ComputerId == model.Id));
                         Computer element = context.Computers.FirstOrDefault(rec => rec.Id
