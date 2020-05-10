@@ -1,13 +1,6 @@
 ﻿using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
@@ -19,11 +12,16 @@ namespace ComputerWorkShopView
         public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
         private readonly IWarehouseLogic logic;
-        private int? id;
+        private int? id;        
         public FormWarehouse(IWarehouseLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
+            dataGridView.Columns.Add("Id", "Id");
+            dataGridView.Columns.Add("ComponentName", "Компонент");
+            dataGridView.Columns.Add("Count", "Количество");
+            dataGridView.Columns[0].Visible = false;
+            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private void FormWarehouse_Load(object sender, EventArgs e)
@@ -38,25 +36,23 @@ namespace ComputerWorkShopView
                         textBoxName.Text = view.WarehouseName;
                     }
                     var warehouseList = logic.GetList();
-                    var warehouseDetails = warehouseList[0].WarehouseComponents;
+                    var warehouseComponents = warehouseList[0].WarehouseComponents;
                     for (int i = 0; i < warehouseList.Count; ++i)
                     {
                         if (warehouseList[i].Id == id)
                         {
-                            warehouseDetails = warehouseList[i].WarehouseComponents;
+                            warehouseComponents = warehouseList[i].WarehouseComponents;
                         }
                     }
-                    if (warehouseDetails != null)
+                    if (warehouseComponents != null)
                     {
-                        dataGridView.DataSource = warehouseDetails;
-                        dataGridView.Columns[0].Visible = false;
-                        dataGridView.Columns[1].Visible = false;
-                        dataGridView.Columns[2].Visible = false;
-                        dataGridView.Columns[3].Visible = false;
-                        dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                        dataGridView.Rows.Clear();
+                        foreach (var pc in warehouseComponents)
+                        {
+                            dataGridView.Rows.Add(new object[] { pc.Key, pc.Value.Item1, pc.Value.Item2 });
+                        }                       
 
-                    }
-                    dataGridView.Columns[1].Visible = false;
+                    }                   
                 }
                 catch (Exception ex)
                 {
@@ -68,9 +64,32 @@ namespace ComputerWorkShopView
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(textBoxName.Text))
+            {
+                MessageBox.Show("Заполните название", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            try
+            {
+                if (id.HasValue)
+                {
+                    logic.UpdElement(new WarehouseBindingModel { Id = id.Value, WarehouseName = textBoxName.Text });
+                }
+                else
+                {
+                    logic.AddElement(new WarehouseBindingModel { WarehouseName = textBoxName.Text });
+                }
+
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;

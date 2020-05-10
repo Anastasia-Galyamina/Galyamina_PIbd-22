@@ -36,7 +36,7 @@ namespace ComputerWorkShopView
             {
                 try
                 {
-                    ComputerViewModel view = logic.Read(new ComputerBindingModel {Id = id.Value})?[0];                 if (view != null)
+                    ComputerViewModel view = logic.Read(new ComputerBindingModel {Id = id.Value})?[0];               //  if (view != null)
                     
                     if (view != null)
                     {
