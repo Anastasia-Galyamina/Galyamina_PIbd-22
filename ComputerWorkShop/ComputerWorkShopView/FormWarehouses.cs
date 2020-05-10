@@ -1,5 +1,4 @@
-﻿using ComputerWorkShopBusinessLogic.BindingModels;
-using ComputerWorkShopBusinessLogic.Interfaces;
+﻿using ComputerWorkShopBusinessLogic.Interfaces;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -27,6 +26,7 @@ namespace ComputerWorkShopView
         {
             try
             {
+
                 var list = logic.GetList();
 
                 if (list != null)
@@ -34,6 +34,7 @@ namespace ComputerWorkShopView
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[2].Visible = false;
                 }
             }
             catch (Exception ex)

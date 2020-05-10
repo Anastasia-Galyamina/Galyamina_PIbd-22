@@ -68,39 +68,7 @@ namespace ComputerWorkShopView
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxName.Text))
-            {
-                MessageBox.Show("Заполните название", "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
-                return;
-            }
-            try
-            {
-                if (id.HasValue)
-                {
-                    logic.UpdElement(new WarehouseBindingModel
-                    {
-                        Id = id.Value,
-                        WarehouseName = textBoxName.Text
-                    });
-                }
-                else
-                {
-                    logic.AddElement(new WarehouseBindingModel
-                    {
-                        WarehouseName = textBoxName.Text
-                    });
-                }
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
-               MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DialogResult = DialogResult.OK;
-                Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
-            }
+
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
