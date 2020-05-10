@@ -1,15 +1,13 @@
 ﻿using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using ComputerWorkShopBusinessLogic.ViewModels;
-using ComputerWorkShopDatabaseImplement;
 using ComputerWorkShopDatabaseImplement.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace ComputerWorkShopDataBaseImplement.Implements
+namespace ComputerWorkShopDatabaseImplement.Implements
 {
     public class OrderLogic : IOrderLogic
     {

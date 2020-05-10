@@ -54,16 +54,21 @@ namespace ComputerWorkShopView
 
         private void LoadData()
         {
+            dataGridView.Columns.Clear();
+            dataGridView.Columns.Add("Id", "Id");
+            dataGridView.Columns.Add("MaterialName", "Материал");
+            dataGridView.Columns.Add("Count", "Количество");
+            dataGridView.Columns[0].Visible = false;
+            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             try
             {
                 if (computerComponents != null)
                 {
-                    dataGridView.DataSource = null;
-                    dataGridView.DataSource = computerComponents;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Rows.Clear();
+                    foreach (var ad in computerComponents)
+                    {
+                        dataGridView.Rows.Add(new object[] { ad.Key, ad.Value.Item1, ad.Value.Item2 });
+                    }
                 }
             }
             catch (Exception ex)
