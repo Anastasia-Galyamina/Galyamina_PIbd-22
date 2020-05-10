@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.buttonSaveToExcel = new System.Windows.Forms.Button();
             this.Component = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Computer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SaveToExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,10 +43,21 @@
             this.Component,
             this.Computer,
             this.Count});
-            this.dataGridView.Location = new System.Drawing.Point(25, 67);
+            this.dataGridView.Location = new System.Drawing.Point(12, 70);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(345, 221);
+            this.dataGridView.RowTemplate.Height = 24;
+            this.dataGridView.Size = new System.Drawing.Size(344, 266);
             this.dataGridView.TabIndex = 0;
+            // 
+            // buttonSaveToExcel
+            // 
+            this.buttonSaveToExcel.Location = new System.Drawing.Point(12, 12);
+            this.buttonSaveToExcel.Name = "buttonSaveToExcel";
+            this.buttonSaveToExcel.Size = new System.Drawing.Size(174, 36);
+            this.buttonSaveToExcel.TabIndex = 1;
+            this.buttonSaveToExcel.Text = "Сохранить в Excel";
+            this.buttonSaveToExcel.UseVisualStyleBackColor = true;
+            this.buttonSaveToExcel.Click += new System.EventHandler(this.ButtonSaveToExcel_Click);
             // 
             // Component
             // 
@@ -63,24 +74,16 @@
             this.Count.HeaderText = "Количество";
             this.Count.Name = "Count";
             // 
-            // SaveToExcel
-            // 
-            this.SaveToExcel.Location = new System.Drawing.Point(25, 12);
-            this.SaveToExcel.Name = "SaveToExcel";
-            this.SaveToExcel.Size = new System.Drawing.Size(201, 26);
-            this.SaveToExcel.TabIndex = 1;
-            this.SaveToExcel.Text = "Сохранить в Excel";
-            this.SaveToExcel.UseVisualStyleBackColor = true;
-            // 
             // FormReportComputerComponents
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.SaveToExcel);
+            this.ClientSize = new System.Drawing.Size(412, 450);
+            this.Controls.Add(this.buttonSaveToExcel);
             this.Controls.Add(this.dataGridView);
             this.Name = "FormReportComputerComponents";
-            this.Text = "FormReportComputerComponents";
+            this.Text = "Компоненты по компьютерам";
+            this.Load += new System.EventHandler(this.FormReportComputerComponents_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 
@@ -92,6 +95,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Component;
         private System.Windows.Forms.DataGridViewTextBoxColumn Computer;
         private System.Windows.Forms.DataGridViewTextBoxColumn Count;
-        private System.Windows.Forms.Button SaveToExcel;
+        private System.Windows.Forms.Button buttonSaveToExcel;
     }
 }

@@ -1,13 +1,10 @@
-﻿using ComputerWorkShop.ViewModels;
+﻿using ComputerWorkShopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ComputerWorkShop.HelperModels
+namespace ComputerWorkShopBusinessLogic.HelperModels
 {
-    class PdfInfo
+    public class PdfInfo
     {
         public string FileName { get; set; }
         public string Title { get; set; }

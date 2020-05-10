@@ -1,13 +1,9 @@
-﻿using DocumentFormat.OpenXml.Drawing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.DocumentObjectModel;
-using MigraDoc.DocumentObjectModel.Tables;
+using System.Collections.Generic;
 
-namespace ComputerWorkShop.HelperModels
+
+namespace ComputerWorkShopBusinessLogic.HelperModels
 {
     class PdfRowParameters
     {

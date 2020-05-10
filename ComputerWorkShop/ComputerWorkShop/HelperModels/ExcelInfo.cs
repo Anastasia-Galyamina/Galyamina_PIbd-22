@@ -1,16 +1,12 @@
-﻿using ComputerWorkShop.ViewModels;
-using System;
+﻿using ComputerWorkShopBusinessLogic.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ComputerWorkShop.HelperModels
+namespace ComputerWorkShopBusinessLogic.HelperModels
 {
-    class ExcelInfo
+    public class ExcelInfo
     {
         public string FileName { get; set; }
         public string Title { get; set; }
-        public List<ReportComputerComponentViewModel> ProductComponents { get; set; }
+        public List<ReportComputerComponentViewModel> ComputerComponents { get; set; }
     }
 }

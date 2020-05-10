@@ -1,14 +1,11 @@
 ﻿using ComputerWorkShopBusinessLogic.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ComputerWorkShop.ViewModels
+
+namespace ComputerWorkShopBusinessLogic.ViewModels
 {
-    class ReportOrdersViewModel
-    {
+    public class ReportOrdersViewModel
+    {        
         public DateTime DateCreate { get; set; }
         public string ComputerName { get; set; }
         public int Count { get; set; }

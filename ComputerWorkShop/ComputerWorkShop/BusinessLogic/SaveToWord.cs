@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ComputerWorkShop.HelperModels;
+﻿using ComputerWorkShopBusinessLogic.HelperModels;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using System.Collections.Generic;
 
-namespace ComputerWorkShop.BusinessLogic
+namespace ComputerWorkShopBusinessLogic.BusinessLogic
 {
-    class SaveToWord
+    public class SaveToWord
     {
+        /// <summary>
+        /// Создание документа
+        /// </summary>
+        /// <param name="info"></param>
         public static void CreateDoc(WordInfo info)
         {
             using (WordprocessingDocument wordDocument =
@@ -30,11 +30,12 @@ namespace ComputerWorkShop.BusinessLogic
                         JustificationValues = JustificationValues.Center
                     }
                 }));
-                foreach (var component in info.Components)
+
+                foreach (var computer in info.Computers)
                 {
                     docBody.AppendChild(CreateParagraph(new WordParagraph
                     {
-                        Texts = new List<string> { component.ComponentName },
+                        Texts = new List<string> { computer.ComputerName, "  —  Цена: " + computer.Price.ToString() },
                         TextProperties = new WordParagraphProperties
                         {
                             Size = "24",
@@ -42,6 +43,7 @@ namespace ComputerWorkShop.BusinessLogic
                         }
                     }));
                 }
+                
                 docBody.AppendChild(CreateSectionProperties());
                 wordDocument.MainDocumentPart.Document.Save();
             }
@@ -85,13 +87,13 @@ namespace ComputerWorkShop.BusinessLogic
                     {
                         properties.AppendChild(new Bold());
                     }
-                    docRun.AppendChild(properties);
-                    docRun.AppendChild(new Text
-                    {
-                        Text = run,
-                        Space =
-                   SpaceProcessingModeValues.Preserve
-                    });
+                    docRun.AppendChild(properties);                    
+                docRun.AppendChild(new Text
+                 {
+                     Text = run,
+                     Space =
+                SpaceProcessingModeValues.Preserve
+                 });
                     docParagraph.AppendChild(docRun);
                 }
                 return docParagraph;

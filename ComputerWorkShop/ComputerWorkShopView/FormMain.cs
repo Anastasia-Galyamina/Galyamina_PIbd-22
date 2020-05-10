@@ -16,11 +16,15 @@ namespace ComputerWorkShopView
 
         private readonly IOrderLogic orderLogic;
 
-        public FormMain(MainLogic logic, IOrderLogic orderLogic)
+        private readonly ReportLogic reportLogic;
+
+
+        public FormMain(MainLogic logic, IOrderLogic orderLogic, ReportLogic reportLogic)
         {
             InitializeComponent();
             this.logic = logic;
             this.orderLogic = orderLogic;
+            this.reportLogic = reportLogic;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -130,19 +134,25 @@ namespace ComputerWorkShopView
         {
             LoadData();
         }
+
         private void списокКомпонентовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    report.SaveComponentsToWordFile(new ReportBindingModel { FileName = dialog.FileName });
-                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    reportLogic.SaveComponentsToWordFile(new ReportBindingModel
+                    {
+                        FileName =
+                   dialog.FileName
+                    });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
                 }
             }
         }
 
-        private void компонентыПоИзделямToolStripMenuItem_Click(object sender, EventArgs e)
+        private void компонентыПоКомпьютерамToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportComputerComponents>();
             form.ShowDialog();

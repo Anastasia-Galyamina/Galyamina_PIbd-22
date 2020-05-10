@@ -1,18 +1,14 @@
-﻿using ComputerWorkShop.HelperModels;
+﻿using ComputerWorkShopBusinessLogic.HelperModels;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2013.Excel;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ComputerWorkShop.BusinessLogic
+namespace ComputerWorkShopBusinessLogic.BusinessLogic
 {
-    class SaveToExcel
+    public class SaveToExcel
     {
         public static void CreateDoc(ExcelInfo info)
         {
@@ -26,10 +22,7 @@ namespace ComputerWorkShop.BusinessLogic
                 // Получаем/создаем хранилище текстов для книги
                 SharedStringTablePart shareStringPart =
                spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().Count() > 0
-                ?
-               spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First()
-                :
-               spreadsheetDocument.WorkbookPart.AddNewPart<SharedStringTablePart>();
+                ?spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First()  : spreadsheetDocument.WorkbookPart.AddNewPart<SharedStringTablePart>();
                 // Создаем SharedStringTable, если его нет
                 if (shareStringPart.SharedStringTable == null)
                 {
@@ -64,7 +57,7 @@ namespace ComputerWorkShop.BusinessLogic
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
-                foreach (var pc in info.ProductComponents)
+                foreach (var pc in info.ComputerComponents)
                 {
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
@@ -76,7 +69,7 @@ namespace ComputerWorkShop.BusinessLogic
                         StyleIndex = 0U
                     });
                     rowIndex++;
-                    foreach (var product in pc.Computers)
+                    foreach (var computer in pc.Computers)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -84,8 +77,8 @@ namespace ComputerWorkShop.BusinessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "B",
                             RowIndex = rowIndex,
-                            Text = product.Item1,
-                            StyleIndex = 1U
+                            Text = computer.Item1,                            
+                        StyleIndex = 1U
                         });
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -93,7 +86,7 @@ namespace ComputerWorkShop.BusinessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "C",
                             RowIndex = rowIndex,
-                            Text = product.Item2.ToString(),
+                            Text = computer.Item2.ToString(),
                             StyleIndex = 1U
                         });
                         rowIndex++;
@@ -144,7 +137,7 @@ namespace ComputerWorkShop.BusinessLogic
             fontTitle.Append(new FontScheme() { Val = FontSchemeValues.Minor });
             fonts.Append(fontUsual);
             fonts.Append(fontTitle);
-            Fills fills = new Fills() { Count = (UInt32Value)2U };
+            Fills fills = new Fills() { Count = (UInt32Value)2U };            
             Fill fill1 = new Fill();
             fill1.Append(new PatternFill() { PatternType = PatternValues.None });
             Fill fill2 = new Fill();
@@ -234,7 +227,7 @@ namespace ComputerWorkShop.BusinessLogic
             };
             CellFormat cellFormatTitle = new CellFormat()
             {
-                NumberFormatId =
+                NumberFormatId =           
            (UInt32Value)0U,
                 FontId = (UInt32Value)1U,
                 FillId = (UInt32Value)0U,
@@ -322,14 +315,14 @@ namespace ComputerWorkShop.BusinessLogic
         /// <returns></returns>
         private static void InsertCellInWorksheet(ExcelCellParameters cellParameters)
         {
-            SheetData sheetData = cellParameters.Worksheet.GetFirstChild<SheetData>();
+            SheetData sheetData = cellParameters.Worksheet.GetFirstChild<SheetData>();            
             // Ищем строку, либо добавляем ее
             Row row;
             if (sheetData.Elements<Row>().Where(r => r.RowIndex ==
            cellParameters.RowIndex).Count() != 0)
             {
                 row = sheetData.Elements<Row>().Where(r => r.RowIndex ==
-                cellParameters.RowIndex).First();
+               cellParameters.RowIndex).First();
             }
             else
             {
@@ -382,8 +375,8 @@ namespace ComputerWorkShop.BusinessLogic
         /// <param name="cell1Name"></param>
         /// <param name="cell2Name"></param>
         private static void MergeCells(ExcelMergeParameters mergeParameters)
-        {
-            MergeCells mergeCells;
+        {            
+             MergeCells mergeCells;
             if (mergeParameters.Worksheet.Elements<MergeCells>().Count() > 0)
             {
                 mergeCells = mergeParameters.Worksheet.Elements<MergeCells>().First();
@@ -408,5 +401,6 @@ namespace ComputerWorkShop.BusinessLogic
             };
             mergeCells.Append(mergeCell);
         }
+
     }
 }

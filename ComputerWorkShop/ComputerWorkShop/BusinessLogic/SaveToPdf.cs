@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ComputerWorkShop.HelperModels;
+﻿using ComputerWorkShopBusinessLogic.HelperModels;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
+using System.Collections.Generic;
 
-namespace ComputerWorkShop.BusinessLogic
+namespace ComputerWorkShopBusinessLogic.BusinessLogic
 {
-    class SaveToPdf
+    public class SaveToPdf
     {
         public static void CreateDoc(PdfInfo info)
         {
@@ -21,13 +17,12 @@ namespace ComputerWorkShop.BusinessLogic
             paragraph.Format.SpaceAfter = "1cm";
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Style = "NormalTitle";
-            paragraph = section.AddParagraph($"с {info.DateFrom.ToShortDateString()} по { info.DateTo.ToShortDateString()}");
+            paragraph = section.AddParagraph($"с {info.DateFrom.ToShortDateString()} по { info.DateTo.ToShortDateString()} ");
             paragraph.Format.SpaceAfter = "1cm";
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Style = "Normal";
             var table = document.LastSection.AddTable();
-            List<string> columns = new List<string> { "3cm", "6cm", "3cm", "2cm", "3cm"
-};
+            List<string> columns = new List<string> { "3cm", "6cm", "3cm", "2cm", "3cm"};
             foreach (var elem in columns)
             {
                 table.AddColumn(elem);
@@ -35,8 +30,7 @@ namespace ComputerWorkShop.BusinessLogic
             CreateRow(new PdfRowParameters
             {
                 Table = table,
-                Texts = new List<string> { "Дата заказа", "Изделие", "Количество",
-"Сумма", "Статус" },
+                Texts = new List<string> { "Дата заказа", "Изделие", "Количество","Сумма", "Статус" },
                 Style = "NormalTitle",
                 ParagraphAlignment = ParagraphAlignment.Center
             });
@@ -46,25 +40,25 @@ namespace ComputerWorkShop.BusinessLogic
                 {
                     Table = table,
                     Texts = new List<string> { order.DateCreate.ToShortDateString(),
-order.ComputerName, order.Count.ToString(), order.Sum.ToString(), order.Status.ToString()
-},
+                    order.ComputerName, order.Count.ToString(), order.Sum.ToString(), order.Status.ToString()
+                    },
                     Style = "Normal",
                     ParagraphAlignment = ParagraphAlignment.Left
                 });
             }
-            PdfDocumentRenderer renderer = new PdfDocumentRenderer(true,
-           PdfSharp.Pdf.PdfFontEmbedding.Always)
+            PdfDocumentRenderer renderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
             {
                 Document = document
             };
             renderer.RenderDocument();
             renderer.PdfDocument.Save(info.FileName);
         }
-        /// <summary>
-        /// Создание стилей для документа
-        /// </summary>
-        /// <param name="document"></param>
-        private static void DefineStyles(Document document)
+         /// <summary>
+         /// Создание стилей для документа
+         /// </summary>
+         /// <param name="document"></param>
+
+         private static void DefineStyles(Document document)
         {
             Style style = document.Styles["Normal"];
             style.Font.Name = "Times New Roman";

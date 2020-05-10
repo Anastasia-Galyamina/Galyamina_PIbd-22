@@ -1,58 +1,53 @@
-﻿using ComputerWorkShop.BindingModels;
-using ComputerWorkShop.HelperModels;
-using ComputerWorkShop.ViewModels;
-using ComputerWorkShopBusinessLogic.BindingModels;
+﻿using ComputerWorkShopBusinessLogic.BindingModels;
+using ComputerWorkShopBusinessLogic.HelperModels;
 using ComputerWorkShopBusinessLogic.Interfaces;
+using ComputerWorkShopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ComputerWorkShop.BusinessLogic
+namespace ComputerWorkShopBusinessLogic.BusinessLogic
 {
-    class ReportLogic
+    public class ReportLogic
     {
         private readonly IComponentLogic componentLogic;
-        private readonly IComputerLogic productLogic;
+        private readonly IComputerLogic computerLogic;
         private readonly IOrderLogic orderLogic;
-        public ReportLogic(IComputerLogic productLogic, IComponentLogic componentLogic,
+        public ReportLogic(IComputerLogic computerLogic, IComponentLogic componentLogic,
        IOrderLogic orderLLogic)
-        {
-            this.productLogic = productLogic;
+        {            
+            this.computerLogic = computerLogic;
             this.componentLogic = componentLogic;
             this.orderLogic = orderLLogic;
         }
         /// <summary>
-        /// Получение списка компонент с указанием, в каких изделиях используются
+        /// Получение списка компонент с указанием, в каких компьютерах используются
         /// </summary>
         /// <returns></returns>
-        public List<ReportComputerComponentViewModel> GetProductComponent()
+        public List<ReportComputerComponentViewModel> GetComputerComponent()
         {
             var components = componentLogic.Read(null);
-            var products = productLogic.Read(null);
+            var computers = computerLogic.Read(null);
             var list = new List<ReportComputerComponentViewModel>();
             foreach (var component in components)
             {
-                var record = new ReportComputerComponentViewModel
+                foreach (var component in components)
                 {
-                    ComponentName = component.ComponentName,
-                    Computers = new List<Tuple<string, int>>(),
-                    TotalCount = 0
-                };
-                foreach (var product in products)
-                {
-                    if (product.ComputerComponents.ContainsKey(component.Id))
+                    foreach (var computer in computers)
                     {
-                        record.Computers.Add(new Tuple<string, int>(product.ComputerName,
-                       product.ComputerComponents[component.Id].Item2));
-                        record.TotalCount +=
-                       product.ComputerComponents[component.Id].Item2;
+                        if (computer.ComputerComponents.ContainsKey(component.Id))
+                        {
+                            var record = new ReportComputerComponentViewModel
+                            {
+                                ComputerName = computer.ComputerName,
+                                ComponentName = component.ComponentName,
+                                TotalCount = computer.ComputerComponents[component.Id].Item2
+                            };
+                            list.Add(record);
+                        }
                     }
                 }
-                list.Add(record);
-            }
-            return list;
+                return list;
         }
         /// <summary>
         /// Получение списка заказов за определенный период
@@ -76,30 +71,30 @@ namespace ComputerWorkShop.BusinessLogic
             })
            .ToList();
         }
-        /// <summary>
-        /// Сохранение компонент в файл-Word
-        /// </summary>
-        /// <param name="model"></param>
-        public void SaveComponentsToWordFile(ReportBindingModel model)
+         /// <summary>
+         /// Сохранение компонент в файл-Word
+         /// </summary>
+         /// <param name="model"></param>
+         public void SaveComponentsToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
                 Title = "Список компонент",
-                Components = componentLogic.Read(null)
+                Computers = computerLogic.Read(null)
             });
         }
         /// <summary>
         /// Сохранение компонент с указаеним продуктов в файл-Excel
         /// </summary>
         /// <param name="model"></param>
-        public void SaveProductComponentToExcelFile(ReportBindingModel model)
+        public void SaveComputerComponentToExcelFile(ReportBindingModel model)
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
                 Title = "Список компонент",
-                ProductComponents = GetProductComponent()
+                ComputerComponents = GetComputerComponent()
             });
         }
         /// <summary>
