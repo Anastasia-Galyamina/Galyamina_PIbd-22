@@ -1,11 +1,9 @@
 ﻿using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.BusinessLogic;
-using Microsoft.Reporting.WinForms;
 using System;
 using System.Windows.Forms;
 using Unity;
-using System.Collections.Generic;
-using System.Linq;
+
 
 namespace ComputerWorkShopView
 {
@@ -19,59 +17,35 @@ namespace ComputerWorkShopView
             InitializeComponent();
             this.logic = logic;
         }
-        private void buttonSaveToExcel_Click(object sender, EventArgs e)
-        {
-            using (var dialog = new SaveFileDialog { Filter = "xlsx|*.xlsx" })
-            {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
-                    {
-                        MessageBox.Show("Дата начала должна быть меньше даты окончания", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                    try
-                    {
-                        logic.SaveOrdersToExcelFile(new ReportBindingModel
-                        {
-                            FileName = dialog.FileName,
-                            DateFrom = dateTimePickerFrom.Value.Date,
-                            DateTo = dateTimePickerTo.Value.Date,
-                        });
-                        MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                       MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-        private void buttonMake_Click(object sender, EventArgs e)
+        private void ButtonMake_Click(object sender, EventArgs e)
         {
             if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
             {
                 MessageBox.Show("Дата начала должна быть меньше даты окончания", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             try
             {
                 var dict = logic.GetOrders(new ReportBindingModel { DateFrom = dateTimePickerFrom.Value.Date, DateTo = dateTimePickerTo.Value.Date });
+
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
+
                     foreach (var date in dict)
                     {
-                        decimal sum = 0;
-                        dataGridView.Rows.Add(new object[] { date.Key.ToShortDateString(), "", "" });
+                        decimal dateSum = 0;
+
+                        dataGridView.Rows.Add(new object[] { date.Key, "", "" });
+
                         foreach (var order in date)
                         {
-                            dataGridView.Rows.Add(new object[] { "", order.SnackName, order.Sum });
-                            sum += order.Sum;
+                            dataGridView.Rows.Add(new object[] { "", order.ComputerName, order.Sum });
+                            dateSum += order.Sum;
                         }
-                        dataGridView.Rows.Add(new object[] { "Итого", "", sum });
+
+                        dataGridView.Rows.Add(new object[] { "Итого", "", dateSum });
                         dataGridView.Rows.Add(new object[] { });
                     }
                 }
@@ -79,6 +53,34 @@ namespace ComputerWorkShopView
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ButtonToExcel_Click(object sender, EventArgs e)
+        {
+            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
+            {
+                MessageBox.Show("Дата начала должна быть меньше даты окончания", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (var dialog = new SaveFileDialog { Filter = "xlsx|*.xlsx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        logic.SaveOrdersToExcelFile(new ReportBindingModel { FileName = dialog.FileName, DateFrom = dateTimePickerFrom.Value.Date, DateTo = dateTimePickerTo.Value.Date });
+
+                        MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    }
+                }
             }
         }
     }

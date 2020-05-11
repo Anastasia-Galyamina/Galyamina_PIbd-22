@@ -5,6 +5,15 @@ using System;
 using System.Windows.Forms;
 using Unity;
 
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
 namespace ComputerWorkShopView
 {
     public partial class FormReportComputerComponents : Form
@@ -14,9 +23,10 @@ namespace ComputerWorkShopView
         private readonly ReportLogic logic;
         public FormReportComputerComponents(ReportLogic logic)
         {
-            InitializeComponent();            
+            InitializeComponent();
             this.logic = logic;
         }
+
         private void ButtonSaveToPDF_Click(object sender, EventArgs e)
         {
             using (var dialog = new SaveFileDialog { Filter = "pdf|*.pdf" })
@@ -45,7 +55,7 @@ namespace ComputerWorkShopView
             try
             {
                 var dataSource = logic.GetComputerComponent();
-                ReportDataSource source = new ReportDataSource("DataSetComputerComponent", dataSource);
+                ReportDataSource source = new ReportDataSource("DataSetComputerComponents", dataSource);
                 reportViewer.LocalReport.DataSources.Add(source);
                 reportViewer.RefreshReport();
             }
@@ -53,12 +63,6 @@ namespace ComputerWorkShopView
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void FormReportComputerComponents_Load(object sender, EventArgs e)
-        {
-
-            this.reportViewer.RefreshReport();
         }
     }
 }

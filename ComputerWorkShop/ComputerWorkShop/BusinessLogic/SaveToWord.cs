@@ -30,20 +30,20 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                         JustificationValues = JustificationValues.Center
                     }
                 }));
-
-                foreach (var computer in info.Computers)
+                foreach (var product in info.Computers)
                 {
                     docBody.AppendChild(CreateParagraph(new WordParagraph
                     {
-                        Texts = new List<string> { computer.ComputerName, "  —  Цена: " + computer.Price.ToString() },
+                        Texts = new List<string> { product.ComputerName, " - " + product.Price.ToString() },
+
                         TextProperties = new WordParagraphProperties
                         {
+                            Bold = true,
                             Size = "24",
                             JustificationValues = JustificationValues.Both
                         }
                     }));
                 }
-                
                 docBody.AppendChild(CreateSectionProperties());
                 wordDocument.MainDocumentPart.Document.Save();
             }
@@ -80,20 +80,19 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                     RunProperties properties = new RunProperties();
                     properties.AppendChild(new FontSize
                     {
-                        Val =
-                   paragraph.TextProperties.Size
+                        Val = paragraph.TextProperties.Size
                     });
-                    if (paragraph.TextProperties.Bold)
+                    if (!run.StartsWith(" - ") && paragraph.TextProperties.Bold)
                     {
                         properties.AppendChild(new Bold());
                     }
-                    docRun.AppendChild(properties);                    
-                docRun.AppendChild(new Text
-                 {
-                     Text = run,
-                     Space =
-                SpaceProcessingModeValues.Preserve
-                 });
+                    docRun.AppendChild(properties);
+                    docRun.AppendChild(new Text
+                    {
+                        Text = run,
+                        Space =
+                   SpaceProcessingModeValues.Preserve
+                    });
                     docParagraph.AppendChild(docRun);
                 }
                 return docParagraph;

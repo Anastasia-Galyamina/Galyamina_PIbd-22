@@ -13,68 +13,52 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
         private readonly IComponentLogic componentLogic;
         private readonly IComputerLogic computerLogic;
         private readonly IOrderLogic orderLogic;
-        public ReportLogic(IComputerLogic computerLogic, IComponentLogic componentLogic,
-       IOrderLogic orderLLogic)
-        {            
+
+        public ReportLogic(IComputerLogic computerLogic, IComponentLogic componentLogic, IOrderLogic orderLogic)
+        {
             this.computerLogic = computerLogic;
             this.componentLogic = componentLogic;
-            this.orderLogic = orderLLogic;
+            this.orderLogic = orderLogic;
         }
-        /// <summary>
-        /// Получение списка компонент с указанием, в каких компьютерах используются
-        /// </summary>
-        /// <returns></returns>
+
         public List<ReportComputerComponentViewModel> GetComputerComponent()
         {
-            var components = componentLogic.Read(null);
             var computers = computerLogic.Read(null);
-            var list = new List<ReportComputerComponentViewModel>();            
-               
-            foreach (var component in components)
+            var list = new List<ReportComputerComponentViewModel>();
+
+            foreach (var computer in computers)
             {
-                foreach (var computer in computers)
+                foreach (var pc in computer.ComputerComponents)
                 {
-                    if (computer.ComputerComponents.ContainsKey(component.Id))
+                    var record = new ReportComputerComponentViewModel
                     {
-                        var record = new ReportComputerComponentViewModel
-                        {
-                            ComputerName = computer.ComputerName,
-                            ComponentName = component.ComponentName,
-                            Count = computer.ComputerComponents[component.Id].Item2
-                        };
-                        list.Add(record);
-                    }
+                        ComputerName = computer.ComputerName,
+                        ComponentName = pc.Value.Item1,
+                        Count = pc.Value.Item2
+                    };
+
+                    list.Add(record);
                 }
-            }            
+            }
             return list;
         }
-        /// <summary>
-        /// Получение списка заказов за определенный период
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
+
+        public List<IGrouping<DateTime, OrderViewModel>> GetOrders(ReportBindingModel model)
         {
-            return orderLogic.Read(new OrderBindingModel
+            var list = orderLogic
+            .Read(new OrderBindingModel
             {
                 DateFrom = model.DateFrom,
                 DateTo = model.DateTo
             })
-            .Select(x => new ReportOrdersViewModel
-            {
-                DateCreate = x.DateCreate,
-                ComputerName = x.ComputerName,
-                Count = x.Count,
-                Sum = x.Sum,
-                Status = x.Status
-            })
-           .ToList();
+            .GroupBy(rec => rec.DateCreate.Date)
+            .OrderBy(recG => recG.Key)
+            .ToList();
+
+            return list;
         }
-         /// <summary>
-         /// Сохранение компьютеров в файл-Word
-         /// </summary>
-         /// <param name="model"></param>
-         public void SaveComputersToWordFile(ReportBindingModel model)
+
+        public void SaveComputersToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
             {
@@ -83,23 +67,17 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                 Computers = computerLogic.Read(null)
             });
         }
-        /// <summary>
-        /// Сохранение заказовв в файл-Excel
-        /// </summary>
-        /// <param name="model"></param>
+
         public void SaveOrdersToExcelFile(ReportBindingModel model)
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
-                Title = "Список компонент",
+                Title = "Список заказов",
                 Orders = GetOrders(model)
             });
         }
-        /// <summary>
-        /// Сохранение компьютеров с компонентами в файл-Pdf
-        /// </summary>
-        /// <param name="model"></param>
+
         public void SaveComputerComponentsToPdfFile(ReportBindingModel model)
         {
             SaveToPdf.CreateDoc(new PdfInfo

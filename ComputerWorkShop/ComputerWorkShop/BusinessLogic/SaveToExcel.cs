@@ -24,7 +24,10 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                 // Получаем/создаем хранилище текстов для книги
                 SharedStringTablePart shareStringPart =
                spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().Count() > 0
-                ?spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First()  : spreadsheetDocument.WorkbookPart.AddNewPart<SharedStringTablePart>();
+                ?
+               spreadsheetDocument.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First()
+                :
+               spreadsheetDocument.WorkbookPart.AddNewPart<SharedStringTablePart>();
                 // Создаем SharedStringTable, если его нет
                 if (shareStringPart.SharedStringTable == null)
                 {
@@ -59,32 +62,21 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
-                List<DateTime> dates = new List<DateTime>();
-                foreach (var order in info.Orders)
-                {
-                    if (!dates.Contains(order.DateCreate.Date))
-                    {
-                        dates.Add(order.DateCreate.Date);
-                    }
-                }
 
-                foreach (var date in dates)
+                foreach (var date in info.Orders)
                 {
                     decimal dateSum = 0;
-
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
                         ShareStringPart = shareStringPart,
                         ColumnName = "A",
                         RowIndex = rowIndex,
-                        Text = date.Date.ToString(),
+                        Text = date.Key.ToString(),
                         StyleIndex = 0U
                     });
-
                     rowIndex++;
-
-                    foreach (var order in info.Orders.Where(rec => rec.DateCreate.Date == date.Date))
+                    foreach (var order in date)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -105,12 +97,9 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                             Text = order.Sum.ToString(),
                             StyleIndex = 1U
                         });
-
                         dateSum += order.Sum;
-
                         rowIndex++;
                     }
-
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
@@ -120,7 +109,6 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                         Text = "Итого",
                         StyleIndex = 0U
                     });
-
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
@@ -130,10 +118,8 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                         Text = dateSum.ToString(),
                         StyleIndex = 0U
                     });
-
                     rowIndex++;
                 }
-
                 workbookpart.Workbook.Save();
             }
         }
@@ -169,7 +155,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             fontTitle.Append(new FontScheme() { Val = FontSchemeValues.Minor });
             fonts.Append(fontUsual);
             fonts.Append(fontTitle);
-            Fills fills = new Fills() { Count = (UInt32Value)2U };            
+            Fills fills = new Fills() { Count = (UInt32Value)2U };
             Fill fill1 = new Fill();
             fill1.Append(new PatternFill() { PatternType = PatternValues.None });
             Fill fill2 = new Fill();
@@ -259,7 +245,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             };
             CellFormat cellFormatTitle = new CellFormat()
             {
-                NumberFormatId =           
+                NumberFormatId =
            (UInt32Value)0U,
                 FontId = (UInt32Value)1U,
                 FillId = (UInt32Value)0U,
@@ -347,14 +333,14 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
         /// <returns></returns>
         private static void InsertCellInWorksheet(ExcelCellParameters cellParameters)
         {
-            SheetData sheetData = cellParameters.Worksheet.GetFirstChild<SheetData>();            
+            SheetData sheetData = cellParameters.Worksheet.GetFirstChild<SheetData>();
             // Ищем строку, либо добавляем ее
             Row row;
             if (sheetData.Elements<Row>().Where(r => r.RowIndex ==
            cellParameters.RowIndex).Count() != 0)
             {
                 row = sheetData.Elements<Row>().Where(r => r.RowIndex ==
-               cellParameters.RowIndex).First();
+                cellParameters.RowIndex).First();
             }
             else
             {
@@ -407,8 +393,8 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
         /// <param name="cell1Name"></param>
         /// <param name="cell2Name"></param>
         private static void MergeCells(ExcelMergeParameters mergeParameters)
-        {            
-             MergeCells mergeCells;
+        {
+            MergeCells mergeCells;
             if (mergeParameters.Worksheet.Elements<MergeCells>().Count() > 0)
             {
                 mergeCells = mergeParameters.Worksheet.Elements<MergeCells>().First();
@@ -433,6 +419,5 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             };
             mergeCells.Append(mergeCell);
         }
-
     }
 }

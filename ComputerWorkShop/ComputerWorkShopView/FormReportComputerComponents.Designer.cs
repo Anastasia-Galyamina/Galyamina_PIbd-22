@@ -44,11 +44,11 @@
             // 
             // reportViewer
             // 
-            this.reportViewer.LocalReport.ReportEmbeddedResource = "ComputerWorkShopView.ReportOrders.rdlc";
-            this.reportViewer.Location = new System.Drawing.Point(4, 65);
+            this.reportViewer.LocalReport.ReportEmbeddedResource = "ComputerWorkShopView.ReportComputerComponent.rdlc";
+            this.reportViewer.Location = new System.Drawing.Point(3, 54);
             this.reportViewer.Name = "reportViewer";
             this.reportViewer.ServerReport.BearerToken = null;
-            this.reportViewer.Size = new System.Drawing.Size(396, 246);
+            this.reportViewer.Size = new System.Drawing.Size(753, 508);
             this.reportViewer.TabIndex = 2;
             this.reportViewer.Load += new System.EventHandler(this.reportViewer_Load);
             // 
@@ -56,12 +56,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(412, 450);
+            this.ClientSize = new System.Drawing.Size(1043, 615);
             this.Controls.Add(this.reportViewer);
             this.Controls.Add(this.buttonSaveToExcel);
             this.Name = "FormReportComputerComponents";
             this.Text = "Компоненты по компьютерам";
-            this.Load += new System.EventHandler(this.FormReportComputerComponents_Load);
             this.ResumeLayout(false);
 
         }

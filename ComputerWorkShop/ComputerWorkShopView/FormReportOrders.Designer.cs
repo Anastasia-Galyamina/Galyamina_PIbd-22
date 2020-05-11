@@ -64,7 +64,7 @@
             this.buttonSave.TabIndex = 4;
             this.buttonSave.Text = "В Excel";
             this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSaveToExcel_Click);
+            this.buttonSave.Click += new System.EventHandler(this.ButtonToExcel_Click);
             // 
             // buttonMake
             // 
@@ -74,7 +74,7 @@
             this.buttonMake.TabIndex = 3;
             this.buttonMake.Text = "Сформировать";
             this.buttonMake.UseVisualStyleBackColor = true;
-            this.buttonMake.Click += new System.EventHandler(this.buttonMake_Click);
+            this.buttonMake.Click += new System.EventHandler(this.ButtonMake_Click);
             // 
             // label2
             // 
