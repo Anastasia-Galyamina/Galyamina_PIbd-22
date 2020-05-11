@@ -17,13 +17,13 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
         public void CreateOrder(CreateOrderBindingModel model)
         {
             orderLogic.CreateOrUpdate(new OrderBindingModel
-                                            {
-                                                ComputerId = model.ComputerId,
-                                                Count = model.Count,
-                                                Sum = model.Sum,
-                                                DateCreate = DateTime.Now,
-                                                Status = OrderStatus.Принят
-                                            });
+            {
+                ComputerId = model.ComputerId,
+                Count = model.Count,
+                Sum = model.Sum,
+                DateCreate = DateTime.Now,
+                Status = OrderStatus.Принят
+            });
         }
 
         public void TakeOrderInWork(ChangeStatusBindingModel model)
@@ -41,14 +41,14 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             }
 
             orderLogic.CreateOrUpdate(new OrderBindingModel
-                                            {
-                                                Id = order.Id,
-                                                ComputerId = order.ComputerId,
-                                                Count = order.Count,
-                                                Sum = order.Sum,
-                                                DateCreate = order.DateCreate,
-                                                Status = OrderStatus.Выполняется
-                                            });
+            {
+                Id = order.Id,
+                ComputerId = order.ComputerId,
+                Count = order.Count,
+                Sum = order.Sum,
+                DateCreate = order.DateCreate,
+                Status = OrderStatus.Выполняется
+            });
         }
 
         public void FinishOrder(ChangeStatusBindingModel model)
@@ -92,15 +92,15 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             }
 
             orderLogic.CreateOrUpdate(new OrderBindingModel
-                                            {
-                                                Id = order.Id,
-                                                ComputerId = order.ComputerId,
-                                                Count = order.Count,
-                                                Sum = order.Sum,
-                                                DateCreate = order.DateCreate,
-                                                DateImplement = order.DateImplement,
-                                                Status = OrderStatus.Оплачен
-                                            });
+            {
+                Id = order.Id,
+                ComputerId = order.ComputerId,
+                Count = order.Count,
+                Sum = order.Sum,
+                DateCreate = order.DateCreate,
+                DateImplement = order.DateImplement,
+                Status = OrderStatus.Оплачен
+            });
         }
     }
 }

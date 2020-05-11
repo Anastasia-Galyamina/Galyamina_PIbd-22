@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;using System.Collections.Generic;
 using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using ComputerWorkShopListImplement.Models;
@@ -13,35 +9,33 @@ namespace ComputerWorkShopListImplement.Implements
     public class OrderLogic:IOrderLogic
     {
         private readonly DataListSingleton source;
-
         public OrderLogic()
         {
             source = DataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(OrderBindingModel model)
         {
-            Order tempOrder = model.Id.HasValue ? null : new Order { Id = 1 };
-
-            foreach (var order in source.Orders)
+            Order tempOrder = model.Id.HasValue ? null : new Order
             {
-                if (!model.Id.HasValue && order.Id >= tempOrder.Id)
+                Id = 1
+            };
+            foreach (var Order in source.Orders)
+            {
+                if (!model.Id.HasValue && Order.Id >= tempOrder.Id)
                 {
-                    tempOrder.Id = order.Id + 1;
+                    tempOrder.Id = Order.Id + 1;
                 }
-                else if (model.Id.HasValue && order.Id == model.Id)
+                else if (model.Id.HasValue && Order.Id == model.Id)
                 {
-                    tempOrder = order;
+                    tempOrder = Order;
                 }
             }
-
             if (model.Id.HasValue)
             {
                 if (tempOrder == null)
                 {
                     throw new Exception("Элемент не найден");
                 }
-                
                 CreateModel(model, tempOrder);
             }
             else
@@ -49,83 +43,66 @@ namespace ComputerWorkShopListImplement.Implements
                 source.Orders.Add(CreateModel(model, tempOrder));
             }
         }
-
         public void Delete(OrderBindingModel model)
         {
             for (int i = 0; i < source.Orders.Count; ++i)
             {
-                if (source.Orders[i].Id == model.Id)
+                if (source.Orders[i].Id == model.Id.Value)
                 {
                     source.Orders.RemoveAt(i);
                     return;
                 }
             }
-
             throw new Exception("Элемент не найден");
         }
-
-        private Order CreateModel(OrderBindingModel model, Order order)
-        {
-            order.ComputerId = model.ComputerId;
-            order.Count = model.Count;
-            order.DateCreate = model.DateCreate;
-            order.DateImplement = model.DateImplement;
-            order.Sum = model.Sum;
-            order.Status = model.Status;
-
-            return order;
-        }
-
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             List<OrderViewModel> result = new List<OrderViewModel>();
-
-            foreach (var order in source.Orders)
+            foreach (var Order in source.Orders)
             {
                 if (model != null)
                 {
-                    if (order.Id == model.Id)
+                    if (Order.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo))
                     {
-                        result.Add(CreateViewModel(order));
+                        result.Add(CreateViewModel(Order));
                         break;
                     }
-
                     continue;
                 }
-
-                result.Add(CreateViewModel(order));
+                result.Add(CreateViewModel(Order));
             }
-
             return result;
         }
-
-        private OrderViewModel CreateViewModel(Order order)
+        private Order CreateModel(OrderBindingModel model, Order Order)
         {
-            string ComputerName = null;
-
-            foreach (var Computer in source.Computers)
+            Order.ComputerId = model.ComputerId == 0 ? Order.ComputerId : model.ComputerId;
+            Order.Count = model.Count;
+            Order.Sum = model.Sum;
+            Order.Status = model.Status;
+            Order.DateCreate = model.DateCreate;
+            Order.DateImplement = model.DateImplement;
+            return Order;
+        }
+        private OrderViewModel CreateViewModel(Order Order)
+        {
+            string MebelName = "";
+            for (int j = 0; j < source.Computers.Count; ++j)
             {
-                if (Computer.Id == order.ComputerId)
+                if (source.Computers[j].Id == Order.ComputerId)
                 {
-                    ComputerName = Computer.ComputerName;
+                    MebelName = source.Computers[j].ComputerName;
+                    break;
                 }
             }
-
-            if (ComputerName == null)
-            {
-                throw new Exception("Компьютер не найден");
-            }
-
             return new OrderViewModel
             {
-                Id = order.Id,
-                ComputerId = order.ComputerId,
-                ComputerName = ComputerName,
-                Count = order.Count,
-                Sum = order.Sum,
-                Status = order.Status,
-                DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement
+                Id = Order.Id,
+                ComputerName = MebelName,
+                Count = Order.Count,
+                Sum = Order.Sum,
+                Status = Order.Status,
+                DateCreate = Order.DateCreate,
+                DateImplement = Order.DateImplement
             };
         }
     }

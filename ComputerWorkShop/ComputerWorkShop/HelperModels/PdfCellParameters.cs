@@ -1,0 +1,14 @@
+﻿using MigraDoc.DocumentObjectModel.Tables;
+using MigraDoc.DocumentObjectModel;
+
+namespace ComputerWorkShopBusinessLogic.HelperModels
+{
+    class PdfCellParameters
+    {
+        public Cell Cell { get; set; }
+        public string Text { get; set; }
+        public string Style { get; set; }
+        public ParagraphAlignment ParagraphAlignment { get; set; }
+        public Unit BorderWidth { get; set; }
+    }
+}
