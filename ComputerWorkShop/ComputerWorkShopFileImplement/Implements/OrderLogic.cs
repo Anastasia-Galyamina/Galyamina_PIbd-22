@@ -11,20 +11,16 @@ namespace ComputerWorkShopFileImplement.Implements
     public class OrderLogic:IOrderLogic
     {
         private readonly FileDataListSingleton source;
-
         public OrderLogic()
         {
             source = FileDataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(OrderBindingModel model)
         {
             Order element;
-
             if (model.Id.HasValue)
             {
                 element = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-
                 if (element == null)
                 {
                     throw new Exception("Элемент не найден");
@@ -32,11 +28,11 @@ namespace ComputerWorkShopFileImplement.Implements
             }
             else
             {
-                int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
+                int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec =>
+               rec.Id) : 0;
                 element = new Order { Id = maxId + 1 };
                 source.Orders.Add(element);
             }
-
             element.ComputerId = model.ComputerId == 0 ? element.ComputerId : model.ComputerId;
             element.Count = model.Count;
             element.Sum = model.Sum;
@@ -44,11 +40,10 @@ namespace ComputerWorkShopFileImplement.Implements
             element.DateCreate = model.DateCreate;
             element.DateImplement = model.DateImplement;
         }
-
         public void Delete(OrderBindingModel model)
         {
-            Order element = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-
+            Order element = source.Orders.FirstOrDefault(rec => rec.Id ==
+           model.Id);
             if (element != null)
             {
                 source.Orders.Remove(element);
@@ -58,16 +53,14 @@ namespace ComputerWorkShopFileImplement.Implements
                 throw new Exception("Элемент не найден");
             }
         }
-
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(rec => model == null || rec.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
-                ComputerId = rec.ComputerId,
-                ComputerName = GetProductName(rec.ComputerId),
+                ComputerName = GetMebelName(rec.ComputerId),
                 Count = rec.Count,
                 Sum = rec.Sum,
                 Status = rec.Status,
@@ -77,13 +70,11 @@ namespace ComputerWorkShopFileImplement.Implements
             .ToList();
         }
 
-        private string GetProductName(int id)
+        private string GetMebelName(int id)
         {
             string name = "";
-            var product = source.Computers.FirstOrDefault(x => x.Id == id);
-
-            name = product != null ? product.ComputerName : "";
-
+            var mebel = source.Computers.FirstOrDefault(x => x.Id == id);
+            name = mebel != null ? mebel.ComputerName : "";
             return name;
         }
     }
