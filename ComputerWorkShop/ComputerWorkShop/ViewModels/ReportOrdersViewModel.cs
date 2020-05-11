@@ -1,7 +1,6 @@
 ﻿using ComputerWorkShopBusinessLogic.Enums;
 using System;
 
-
 namespace ComputerWorkShopBusinessLogic.ViewModels
 {
     public class ReportOrdersViewModel

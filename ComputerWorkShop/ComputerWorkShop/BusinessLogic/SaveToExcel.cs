@@ -4,6 +4,8 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2013.Excel;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ComputerWorkShopBusinessLogic.BusinessLogic
@@ -57,19 +59,32 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
-                foreach (var pc in info.ComputerComponents)
+                List<DateTime> dates = new List<DateTime>();
+                foreach (var order in info.Orders)
                 {
+                    if (!dates.Contains(order.DateCreate.Date))
+                    {
+                        dates.Add(order.DateCreate.Date);
+                    }
+                }
+
+                foreach (var date in dates)
+                {
+                    decimal dateSum = 0;
+
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
                         ShareStringPart = shareStringPart,
                         ColumnName = "A",
                         RowIndex = rowIndex,
-                        Text = pc.ComponentName,
+                        Text = date.Date.ToString(),
                         StyleIndex = 0U
                     });
+
                     rowIndex++;
-                    foreach (var computer in pc.Computers)
+
+                    foreach (var order in info.Orders.Where(rec => rec.DateCreate.Date == date.Date))
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -77,31 +92,48 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "B",
                             RowIndex = rowIndex,
-                            Text = computer.Item1,                            
-                        StyleIndex = 1U
+                            Text = order.ComputerName,
+                            StyleIndex = 1U
                         });
+
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
                             Worksheet = worksheetPart.Worksheet,
                             ShareStringPart = shareStringPart,
                             ColumnName = "C",
                             RowIndex = rowIndex,
-                            Text = computer.Item2.ToString(),
+                            Text = order.Sum.ToString(),
                             StyleIndex = 1U
                         });
+
+                        dateSum += order.Sum;
+
                         rowIndex++;
                     }
+
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        Worksheet = worksheetPart.Worksheet,
+                        ShareStringPart = shareStringPart,
+                        ColumnName = "A",
+                        RowIndex = rowIndex,
+                        Text = "Итого",
+                        StyleIndex = 0U
+                    });
+
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
                         ShareStringPart = shareStringPart,
                         ColumnName = "C",
                         RowIndex = rowIndex,
-                        Text = pc.TotalCount.ToString(),
+                        Text = dateSum.ToString(),
                         StyleIndex = 0U
                     });
+
                     rowIndex++;
                 }
+
                 workbookpart.Workbook.Save();
             }
         }

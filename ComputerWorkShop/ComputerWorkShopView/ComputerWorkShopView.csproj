@@ -280,12 +280,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ReportOrders.rdlc" />
+    <EmbeddedResource Include="ReportComputerComponent.rdlc" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ComputerWorkShopBusinessLogic.ViewModels.ComponentViewModel.datasource" />
     <None Include="Properties\DataSources\ComputerWorkShopBusinessLogic.ViewModels.ComputerComponentViewModel.datasource" />
     <None Include="Properties\DataSources\ComputerWorkShopBusinessLogic.ViewModels.ComputerViewModel.datasource" />
     <None Include="Properties\DataSources\ComputerWorkShopBusinessLogic.ViewModels.OrderViewModel.datasource" />
+    <None Include="Properties\DataSources\ComputerWorkShopBusinessLogic.ViewModels.ReportComputerComponentViewModel.datasource" />
+    <None Include="Properties\DataSources\ComputerWorkShopBusinessLogic.ViewModels.ReportOrdersViewModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

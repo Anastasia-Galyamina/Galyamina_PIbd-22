@@ -1,5 +1,6 @@
 ﻿using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.BusinessLogic;
+using Microsoft.Reporting.WinForms;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -16,54 +17,48 @@ namespace ComputerWorkShopView
             InitializeComponent();            
             this.logic = logic;
         }
-        private void FormReportComputerComponents_Load(object sender, EventArgs e)
+        private void ButtonSaveToPDF_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var dict = logic.GetComputerComponent();
-                if (dict != null)
-                {
-                    dataGridView.Rows.Clear();
-                    foreach (var elem in dict)
-                    {
-                        dataGridView.Rows.Add(new object[] { elem.ComponentName, "", ""});
-                        foreach (var listElem in elem.Computers)
-                        {
-                            dataGridView.Rows.Add(new object[] { "", listElem.Item1,listElem.Item2 });
-                        }
-                        dataGridView.Rows.Add(new object[] { "Итого", "", elem.TotalCount});
-                        dataGridView.Rows.Add(new object[] { });
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
-            }
-        }
-        private void ButtonSaveToExcel_Click(object sender, EventArgs e)
-        {
-            using (var dialog = new SaveFileDialog { Filter = "xlsx|*.xlsx" })
+            using (var dialog = new SaveFileDialog { Filter = "pdf|*.pdf" })
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
-                        logic.SaveProductComponentToExcelFile(new ReportBindingModel
+                        logic.SaveComputerComponentsToPdfFile(new ReportBindingModel
                         {
-                            FileName = dialog.FileName
+                            FileName = dialog.FileName,
                         });
-                        MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+
+                        MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                       MessageBoxIcon.Error);
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
+        }
+
+        private void reportViewer_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                var dataSource = logic.GetComputerComponent();
+                ReportDataSource source = new ReportDataSource("DataSetComputerComponent", dataSource);
+                reportViewer.LocalReport.DataSources.Add(source);
+                reportViewer.RefreshReport();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void FormReportComputerComponents_Load(object sender, EventArgs e)
+        {
+
+            this.reportViewer.RefreshReport();
         }
     }
 }

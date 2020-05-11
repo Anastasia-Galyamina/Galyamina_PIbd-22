@@ -28,26 +28,25 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
         {
             var components = componentLogic.Read(null);
             var computers = computerLogic.Read(null);
-            var list = new List<ReportComputerComponentViewModel>();
+            var list = new List<ReportComputerComponentViewModel>();            
+               
             foreach (var component in components)
             {
-                foreach (var component in components)
+                foreach (var computer in computers)
                 {
-                    foreach (var computer in computers)
+                    if (computer.ComputerComponents.ContainsKey(component.Id))
                     {
-                        if (computer.ComputerComponents.ContainsKey(component.Id))
+                        var record = new ReportComputerComponentViewModel
                         {
-                            var record = new ReportComputerComponentViewModel
-                            {
-                                ComputerName = computer.ComputerName,
-                                ComponentName = component.ComponentName,
-                                TotalCount = computer.ComputerComponents[component.Id].Item2
-                            };
-                            list.Add(record);
-                        }
+                            ComputerName = computer.ComputerName,
+                            ComponentName = component.ComponentName,
+                            Count = computer.ComputerComponents[component.Id].Item2
+                        };
+                        list.Add(record);
                     }
                 }
-                return list;
+            }            
+            return list;
         }
         /// <summary>
         /// Получение списка заказов за определенный период
@@ -72,44 +71,42 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
            .ToList();
         }
          /// <summary>
-         /// Сохранение компонент в файл-Word
+         /// Сохранение компьютеров в файл-Word
          /// </summary>
          /// <param name="model"></param>
-         public void SaveComponentsToWordFile(ReportBindingModel model)
+         public void SaveComputersToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
-                Title = "Список компонент",
+                Title = "Список компьютеров",
                 Computers = computerLogic.Read(null)
             });
         }
         /// <summary>
-        /// Сохранение компонент с указаеним продуктов в файл-Excel
+        /// Сохранение заказовв в файл-Excel
         /// </summary>
         /// <param name="model"></param>
-        public void SaveComputerComponentToExcelFile(ReportBindingModel model)
+        public void SaveOrdersToExcelFile(ReportBindingModel model)
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
                 Title = "Список компонент",
-                ComputerComponents = GetComputerComponent()
+                Orders = GetOrders(model)
             });
         }
         /// <summary>
-        /// Сохранение заказов в файл-Pdf
+        /// Сохранение компьютеров с компонентами в файл-Pdf
         /// </summary>
         /// <param name="model"></param>
-        public void SaveOrdersToPdfFile(ReportBindingModel model)
+        public void SaveComputerComponentsToPdfFile(ReportBindingModel model)
         {
             SaveToPdf.CreateDoc(new PdfInfo
             {
                 FileName = model.FileName,
-                Title = "Список заказов",
-                DateFrom = model.DateFrom.Value,
-                DateTo = model.DateTo.Value,
-                Orders = GetOrders(model)
+                Title = "Список компьютеров с компонентами",
+                ComputerComponents = GetComputerComponent()
             });
         }
     }

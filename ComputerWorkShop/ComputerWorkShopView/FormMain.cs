@@ -135,13 +135,13 @@ namespace ComputerWorkShopView
             LoadData();
         }
 
-        private void списокКомпонентовToolStripMenuItem_Click(object sender, EventArgs e)
+        private void списокКомпьютеровToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    reportLogic.SaveComponentsToWordFile(new ReportBindingModel
+                    reportLogic.SaveComputersToWordFile(new ReportBindingModel
                     {
                         FileName =
                    dialog.FileName

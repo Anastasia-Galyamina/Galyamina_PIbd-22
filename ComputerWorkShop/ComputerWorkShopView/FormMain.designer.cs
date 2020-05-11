@@ -96,8 +96,8 @@
             // 
             this.списокКомпонентовToolStripMenuItem.Name = "списокКомпонентовToolStripMenuItem";
             this.списокКомпонентовToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.списокКомпонентовToolStripMenuItem.Text = "Список компонентов";
-            this.списокКомпонентовToolStripMenuItem.Click += new System.EventHandler(this.списокКомпонентовToolStripMenuItem_Click);
+            this.списокКомпонентовToolStripMenuItem.Text = "Список компьютеров";
+            this.списокКомпонентовToolStripMenuItem.Click += new System.EventHandler(this.списокКомпьютеровToolStripMenuItem_Click);
             // 
             // компонентыПоКомпьютерамToolStripMenuItem
             // 
