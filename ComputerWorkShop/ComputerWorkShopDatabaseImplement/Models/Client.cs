@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ComputerWorkShopDatabaseImplement.Models
 {
@@ -12,6 +13,8 @@ namespace ComputerWorkShopDatabaseImplement.Models
         public string Login { get; set; }
         [Required]
         public string Password { get; set; }
+
+        [ForeignKey("ClientId")]
         public virtual List<Order> Orders { get; set; }
     }
 }

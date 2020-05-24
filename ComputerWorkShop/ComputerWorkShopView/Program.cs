@@ -29,8 +29,8 @@ namespace ComputerWorkShopView
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ReportLogic>(new HierarchicalLifetimeManager());
-
-            return currentContainer;
+            currentContainer.RegisterType<IClientLogic, ClientLogic>(new HierarchicalLifetimeManager());
+            return currentContainer;            
         }
     }
 }

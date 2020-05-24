@@ -30,11 +30,11 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                         JustificationValues = JustificationValues.Center
                     }
                 }));
-                foreach (var product in info.Computers)
+                foreach (var computer in info.Computers)
                 {
                     docBody.AppendChild(CreateParagraph(new WordParagraph
                     {
-                        Texts = new List<string> { product.ComputerName, " - " + product.Price.ToString() },
+                        Texts = new List<string> { computer.ComputerName, " - " + computer.Price.ToString() },
 
                         TextProperties = new WordParagraphProperties
                         {

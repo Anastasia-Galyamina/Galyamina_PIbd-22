@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ComputerRestApi\ComputerRestApi.csproj" />
     <ProjectReference Include="..\ComputerWorkShopDatabaseImplement\ComputerWorkShopDatabaseImplement.csproj" />
     <ProjectReference Include="..\ComputerWorkShop\ComputerWorkShopBusinessLogic.csproj" />
   </ItemGroup>

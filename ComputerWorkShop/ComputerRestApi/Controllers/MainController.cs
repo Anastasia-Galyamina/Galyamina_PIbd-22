@@ -26,9 +26,9 @@ namespace ComputerRestApi.Controllers
         public List<ComputerModel> GetComputerList() => _computer.Read(null)?.Select(rec =>
        Convert(rec)).ToList();
         [HttpGet]
-        public ComputerModel GetComputer(int productId) => Convert(_computer.Read(new
+        public ComputerModel GetComputer(int computerId) => Convert(_computer.Read(new
        ComputerBindingModel
-        { Id = productId })?[0]);
+        { Id = computerId })?[0]);
         [HttpGet]
         public List<OrderViewModel> GetOrders(int clientId) => _order.Read(new
        OrderBindingModel

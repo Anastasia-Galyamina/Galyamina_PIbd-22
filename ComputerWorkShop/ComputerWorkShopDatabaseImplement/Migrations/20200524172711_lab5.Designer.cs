@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComputerWorkShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(ComputerWorkShopDatabase))]
-    [Migration("20200524103915_lab5")]
+    [Migration("20200524172711_lab5")]
     partial class lab5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
