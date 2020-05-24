@@ -4,14 +4,16 @@ using ComputerWorkShopDatabaseImplement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ComputerWorkShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(ComputerWorkShopDatabase))]
-    partial class ComputerWorkShopDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20200524103915_lab5")]
+    partial class lab5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

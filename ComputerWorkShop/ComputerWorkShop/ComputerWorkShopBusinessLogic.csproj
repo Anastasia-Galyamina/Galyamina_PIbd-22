@@ -64,6 +64,7 @@
     <Reference Include="System.IO.Packaging, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Packaging.4.7.0\lib\net46\System.IO.Packaging.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -77,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingModels\ChangeStatusBindingModel.cs" />
+    <Compile Include="BindingModels\ClientBindingModel.cs" />
     <Compile Include="BindingModels\ComponentBindingModel.cs" />
     <Compile Include="BindingModels\ComputerBindingModel.cs" />
     <Compile Include="BindingModels\ComputerComponentBindingModel.cs" />
@@ -98,10 +100,12 @@
     <Compile Include="HelperModels\WordInfo.cs" />
     <Compile Include="HelperModels\WordParagraph.cs" />
     <Compile Include="HelperModels\WordParagraphProperties.cs" />
+    <Compile Include="Interfaces\IClientLogic.cs" />
     <Compile Include="Interfaces\IComponentLogic.cs" />
     <Compile Include="Interfaces\IOrderLogic.cs" />
     <Compile Include="Interfaces\IComputerLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\ComponentViewModel.cs" />
     <Compile Include="ViewModels\ComputerComponentViewModel.cs" />
     <Compile Include="ViewModels\ComputerViewModel.cs" />

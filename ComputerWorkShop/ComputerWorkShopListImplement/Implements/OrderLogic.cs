@@ -62,7 +62,9 @@ namespace ComputerWorkShopListImplement.Implements
             {
                 if (model != null)
                 {
-                    if (Order.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo))
+                    if (Order.Id == model.Id 
+                        || (model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo)
+                        || Order.ClientId == model.ClientId)
                     {
                         result.Add(CreateViewModel(Order));
                         break;
@@ -76,6 +78,7 @@ namespace ComputerWorkShopListImplement.Implements
         private Order CreateModel(OrderBindingModel model, Order Order)
         {
             Order.ComputerId = model.ComputerId == 0 ? Order.ComputerId : model.ComputerId;
+            Order.ClientId = model.ClientId;
             Order.Count = model.Count;
             Order.Sum = model.Sum;
             Order.Status = model.Status;
@@ -97,6 +100,8 @@ namespace ComputerWorkShopListImplement.Implements
             return new OrderViewModel
             {
                 Id = Order.Id,
+                ComputerId = Order.ComputerId,
+                ClientId = Order.ClientId,
                 ComputerName = MebelName,
                 Count = Order.Count,
                 Sum = Order.Sum,

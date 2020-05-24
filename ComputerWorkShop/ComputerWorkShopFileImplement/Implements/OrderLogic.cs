@@ -34,6 +34,7 @@ namespace ComputerWorkShopFileImplement.Implements
                 source.Orders.Add(element);
             }
             element.ComputerId = model.ComputerId == 0 ? element.ComputerId : model.ComputerId;
+            element.ClientId = model.ClientId == 0 ? element.ClientId : (int)model.ClientId;
             element.Count = model.Count;
             element.Sum = model.Sum;
             element.Status = model.Status;
@@ -56,11 +57,17 @@ namespace ComputerWorkShopFileImplement.Implements
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(rec => model == null || rec.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
+            .Where(rec => model == null 
+            || rec.Id == model.Id 
+            || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+            || rec.ClientId == model.ClientId)
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
-                ComputerName = GetMebelName(rec.ComputerId),
+                ClientId = rec.ClientId,
+                ComputerId = rec.ComputerId,
+                ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.ClientFIO,
+                ComputerName = source.Computers.FirstOrDefault(recP => recP.Id == rec.ComputerId)?.ComputerName,
                 Count = rec.Count,
                 Sum = rec.Sum,
                 Status = rec.Status,
@@ -68,14 +75,6 @@ namespace ComputerWorkShopFileImplement.Implements
                 DateImplement = rec.DateImplement
             })
             .ToList();
-        }
-
-        private string GetMebelName(int id)
-        {
-            string name = "";
-            var mebel = source.Computers.FirstOrDefault(x => x.Id == id);
-            name = mebel != null ? mebel.ComputerName : "";
-            return name;
-        }
+        }        
     }
 }

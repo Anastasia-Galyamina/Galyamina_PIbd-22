@@ -144,6 +144,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implements\ClientLogic.cs" />
     <Compile Include="Implements\ComponentLogic.cs" />
     <Compile Include="Implements\OrderLogic.cs" />
     <Compile Include="Implements\ComputerLogic.cs" />
@@ -151,7 +152,12 @@
     <Compile Include="Migrations\20200510103227_InitialCreate.designer.cs">
       <DependentUpon>20200510103227_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200524103915_lab5.cs" />
+    <Compile Include="Migrations\20200524103915_lab5.designer.cs">
+      <DependentUpon>20200524103915_lab5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ComputerWorkShopDatabaseModelSnapshot.cs" />
+    <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Component.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Computer.cs" />
