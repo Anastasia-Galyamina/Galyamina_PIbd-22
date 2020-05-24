@@ -50,8 +50,7 @@ namespace ComputerWorkShopView
                         foreach (var pc in warehouseComponents)
                         {
                             dataGridView.Rows.Add(new object[] { pc.Key, pc.Value.Item1, pc.Value.Item2 });
-                        }                       
-
+                        }   
                     }                   
                 }
                 catch (Exception ex)
@@ -69,7 +68,6 @@ namespace ComputerWorkShopView
                 MessageBox.Show("Заполните название", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
             try
             {
                 if (id.HasValue)

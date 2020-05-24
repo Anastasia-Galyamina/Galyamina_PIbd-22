@@ -4,7 +4,6 @@ using ComputerWorkShopBusinessLogic.ViewModels;
 using ComputerWorkShopListImplement.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ComputerWorkShopListImplement.Implements
 {
@@ -22,9 +21,7 @@ namespace ComputerWorkShopListImplement.Implements
             List<WarehouseViewModel> result = new List<WarehouseViewModel>();
 
             for (int i = 0; i < source.Warehouses.Count; ++i)
-            {                
-                //List<WarehouseComponentViewModel> warehouseComponents = new List<WarehouseComponentViewModel>();
-
+            {     
                 Dictionary<int, (string, int)> warehouseComponents = new Dictionary<int, (string, int)>();
 
                 for (int j = 0; j < source.WarehouseComponents.Count; ++j)
@@ -42,17 +39,7 @@ namespace ComputerWorkShopListImplement.Implements
                             }
                         }
 
-                        warehouseComponents.Add(source.WarehouseComponents[j].Id, (componentName, source.WarehouseComponents[j].Count));
-                        // добавляем к списку, а как добавить к словарю?
-
-                        /*warehouseComponents.Add(new WarehouseComponentViewModel
-                        {
-                            Id = source.WarehouseComponents[j].Id,
-                            WarehouseId = source.WarehouseComponents[j].WarehouseId,
-                            ComponentId = source.WarehouseComponents[j].ComponentId,
-                            ComponentName = componentName,
-                            Count = source.WarehouseComponents[j].Count
-                        });*/
+                        warehouseComponents.Add(source.WarehouseComponents[j].Id, (componentName, source.WarehouseComponents[j].Count));                        
                     }
                 }
 
@@ -70,8 +57,7 @@ namespace ComputerWorkShopListImplement.Implements
         public WarehouseViewModel GetElement(int id)
         {
             for (int i = 0; i < source.Warehouses.Count; ++i)
-            {
-                //List<WarehouseComponentViewModel> warehouseComponents = new List<WarehouseComponentViewModel>();
+            {                
                 Dictionary<int, (string, int)> warehouseComponents = new Dictionary<int, (string, int)>();
 
                 for (int j = 0; j < source.WarehouseComponents.Count; ++j)
@@ -88,15 +74,7 @@ namespace ComputerWorkShopListImplement.Implements
                                 break;
                             }
                         }
-                        warehouseComponents.Add(source.WarehouseComponents[j].Id, (componentName, source.WarehouseComponents[j].Count));
-                       /* warehouseMaterials.Add(new WarehouseComponentViewModel
-                        {
-                            Id = source.WarehouseComponents[j].Id,
-                            WarehouseId = source.WarehouseComponents[j].WarehouseId,
-                            ComponentId = source.WarehouseComponents[j].ComponentId,
-                            ComponentName = componentName,
-                            Count = source.WarehouseComponents[j].Count
-                        });*/
+                        warehouseComponents.Add(source.WarehouseComponents[j].Id, (componentName, source.WarehouseComponents[j].Count));                      
                     }
                 }
 
