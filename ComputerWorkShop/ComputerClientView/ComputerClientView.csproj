@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ComputerRestApi\ComputerRestApi.csproj" />
+    <ProjectReference Include="..\ComputerWorkShopDatabaseImplement\ComputerWorkShopDatabaseImplement.csproj" />
+    <ProjectReference Include="..\ComputerWorkShop\ComputerWorkShopBusinessLogic.csproj" />
+  </ItemGroup>
+
+</Project>

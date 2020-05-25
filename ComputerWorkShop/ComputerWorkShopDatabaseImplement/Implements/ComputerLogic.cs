@@ -125,8 +125,7 @@ namespace ComputerWorkShopDatabaseImplement.Implements
                    Id = rec.Id,
                    ComputerName = rec.ComputerName,
                    Price = rec.Price,
-                   ComputerComponents = context.ComputerComponents
-                .Include(recPC => recPC.Component)
+                   ComputerComponents = context.ComputerComponents.Include(recPC => recPC.Component)
                .Where(recPC => recPC.ComputerId == rec.Id)
                .ToDictionary(recPC => recPC.ComponentId, recPC =>
                 (recPC.Component?.ComponentName, recPC.Count))

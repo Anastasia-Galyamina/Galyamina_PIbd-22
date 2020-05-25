@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ComputerWorkShopDatabaseImplement.Models
 {
@@ -10,7 +11,11 @@ namespace ComputerWorkShopDatabaseImplement.Models
         public string ComputerName { get; set; }
         [Required]
         public decimal Price { get; set; }
+
+        [ForeignKey("ComputerId")]
         public virtual List<ComputerComponent> ComputerComponents { get; set; }
+
+        [ForeignKey("ComputerId")]
         public virtual List<Order> Orders { get; set; }
     }
 }

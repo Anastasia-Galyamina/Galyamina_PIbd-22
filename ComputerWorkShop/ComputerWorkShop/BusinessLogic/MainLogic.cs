@@ -18,6 +18,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
         {
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
+                ClientId = model.ClientId,
                 ComputerId = model.ComputerId,
                 Count = model.Count,
                 Sum = model.Sum,
@@ -44,6 +45,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             {
                 Id = order.Id,
                 ComputerId = order.ComputerId,
+                ClientId = order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -69,6 +71,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             {
                 Id = order.Id,
                 ComputerId = order.ComputerId,
+                ClientId = order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -95,6 +98,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             {
                 Id = order.Id,
                 ComputerId = order.ComputerId,
+                ClientId = order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,

@@ -15,26 +15,37 @@ namespace ComputerWorkShopView
         public new IUnityContainer Container { get; set; }
 
         private readonly IComputerLogic logicP;
+        private readonly IClientLogic logicC;
         private readonly MainLogic logicM;
 
-        public FormCreateOrder(IComputerLogic logicP, MainLogic logicM)
+        public FormCreateOrder(IComputerLogic logicP, MainLogic logicM, IClientLogic logicC)
         {
             InitializeComponent();
             this.logicP = logicP;
             this.logicM = logicM;
+            this.logicC = logicC;
         }
 
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
             try
             {                
-                List<ComputerViewModel> list = logicP.Read(null);
-                if (list != null)
+                List<ComputerViewModel> listP = logicP.Read(null);
+                if (listP != null)
                 {
                     comboBoxComputer.DisplayMember = "ComputerName";
                     comboBoxComputer.ValueMember = "Id";
-                    comboBoxComputer.DataSource = list;
+                    comboBoxComputer.DataSource = listP;
                     comboBoxComputer.SelectedItem = null;
+                }
+
+                List<ClientViewModel> listC = logicC.Read(null);
+                if (listC != null)
+                {
+                    comboBoxClient.DisplayMember = "ClientFIO";
+                    comboBoxClient.ValueMember = "Id";
+                    comboBoxClient.DataSource = listC;
+                    comboBoxClient.SelectedItem = null;
                 }
             }
             catch (Exception ex)
@@ -88,12 +99,17 @@ namespace ComputerWorkShopView
                 MessageBoxIcon.Error);
                 return;
             }
-
+            if (comboBoxClient.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 logicM.CreateOrder(new CreateOrderBindingModel
                 {
                     ComputerId = Convert.ToInt32(comboBoxComputer.SelectedValue),
+                    ClientId = Convert.ToInt32(comboBoxClient.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDecimal(textBoxSum.Text)
                 });
