@@ -36,7 +36,7 @@
             this.buttonLogin = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // labelEmail
+            // labelLogin
             // 
             this.labelLogin.AutoSize = true;
             this.labelLogin.Location = new System.Drawing.Point(20, 21);
@@ -45,7 +45,7 @@
             this.labelLogin.TabIndex = 0;
             this.labelLogin.Text = "Логин:";
             // 
-            // textBoxEmail
+            // textBoxLogin
             // 
             this.textBoxLogin.Location = new System.Drawing.Point(74, 18);
             this.textBoxLogin.Name = "textBoxLogin";

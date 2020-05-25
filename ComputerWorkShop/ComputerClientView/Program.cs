@@ -1,4 +1,3 @@
-
 using ComputerWorkShopBusinessLogic.ViewModels;
 using System;
 using System.Windows.Forms;
@@ -15,10 +14,10 @@ namespace ComputerClientView
         static void Main()
         {
             APIClient.Connect();
-
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            
             var form = new FormEnter();
             form.ShowDialog();
 

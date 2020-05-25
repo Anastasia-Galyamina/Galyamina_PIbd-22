@@ -23,7 +23,7 @@ namespace ComputerClientView
             {
                 comboBoxComputer.DisplayMember = "ComputerName";
                 comboBoxComputer.ValueMember = "Id";
-                comboBoxComputer.DataSource = APIClient.GetRequest<List<ComputerViewModel>>("api/main/getproductlist");
+                comboBoxComputer.DataSource = APIClient.GetRequest<List<ComputerViewModel>>("api/main/getcomputerlist");
                 comboBoxComputer.SelectedItem = null;
             }
             catch (Exception ex)
@@ -39,7 +39,7 @@ namespace ComputerClientView
                 try
                 {
                     int id = Convert.ToInt32(comboBoxComputer.SelectedValue);
-                    ComputerViewModel product = APIClient.GetRequest<ComputerViewModel>($"api/main/getproduct?productId={id}");
+                    ComputerViewModel product = APIClient.GetRequest<ComputerViewModel>($"api/main/getcomputer?computerId={id}");
                     int count = Convert.ToInt32(textBoxCount.Text);
                     textBoxSum.Text = (count * product.Price).ToString();
                 }
@@ -55,7 +55,7 @@ namespace ComputerClientView
             CalcSum();
         }
 
-        private void ComboBoxProduct_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxComputer_SelectedIndexChanged(object sender, EventArgs e)
         {
             CalcSum();
         }
@@ -70,7 +70,7 @@ namespace ComputerClientView
 
             if (comboBoxComputer.SelectedValue == null)
             {
-                MessageBox.Show("Выберите изделие", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Выберите компьютер", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

@@ -72,6 +72,7 @@ namespace ComputerWorkShopDatabaseImplement.Implements
                 Id = rec.Id,
                 ComputerId = rec.ComputerId,
                 ClientId = rec.ClientId,
+                ClientFIO = rec.Client.ClientFIO,
                 ComputerName = rec.Computer.ComputerName,
                 Count = rec.Count,
                 Sum = rec.Sum,

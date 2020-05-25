@@ -84,7 +84,7 @@
             this.comboBoxComputer.Name = "comboBoxComputer";
             this.comboBoxComputer.Size = new System.Drawing.Size(199, 21);
             this.comboBoxComputer.TabIndex = 4;
-            this.comboBoxComputer.SelectedIndexChanged += new System.EventHandler(this.ComboBoxProduct_SelectedIndexChanged);
+            this.comboBoxComputer.SelectedIndexChanged += new System.EventHandler(this.ComboBoxComputer_SelectedIndexChanged);
             // 
             // textBoxSum
             // 

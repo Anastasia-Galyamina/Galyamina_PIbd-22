@@ -42,7 +42,7 @@ namespace ComputerWorkShopView
                 List<ClientViewModel> listC = logicC.Read(null);
                 if (listC != null)
                 {
-                    comboBoxClient.DisplayMember = "ComputerName";
+                    comboBoxClient.DisplayMember = "ClientFIO";
                     comboBoxClient.ValueMember = "Id";
                     comboBoxClient.DataSource = listC;
                     comboBoxClient.SelectedItem = null;

@@ -23,9 +23,12 @@ namespace ComputerClientView
             {
                 try
                 {
-                    Program.Client =
-                   APIClient.GetRequest<ClientViewModel>($"api/client/login?login={textBoxLogin.Text}&password ={ textBoxPassword.Text}");
-                Close();
+                    Program.Client = APIClient.GetRequest<ClientViewModel>($"api/client/login?login={textBoxLogin.Text}&password={textBoxPassword.Text}");
+                    if (Program.Client == null)
+                    {
+                        throw new Exception("Неверный логин или пароль");
+                    }
+                    Close();
                 }
                 catch (Exception ex)
                 {

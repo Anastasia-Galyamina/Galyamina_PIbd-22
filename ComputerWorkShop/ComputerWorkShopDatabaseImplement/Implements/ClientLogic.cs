@@ -15,16 +15,13 @@ namespace ComputerWorkShopDatabaseImplement.Implements
             using (var context = new ComputerWorkShopDatabase())
             {
                 Client element = context.Clients.FirstOrDefault(rec => rec.Login == model.Login && rec.Id != model.Id);
-
                 if (element != null)
                 {
-                    throw new Exception("Уже есть компонент с таким названием");
+                    throw new Exception("Уже есть пользователь с таким логином");
                 }
-
                 if (model.Id.HasValue)
                 {
                     element = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
-
                     if (element == null)
                     {
                         throw new Exception("Элемент не найден");
@@ -35,9 +32,9 @@ namespace ComputerWorkShopDatabaseImplement.Implements
                     element = new Client();
                     context.Clients.Add(element);
                 }
-
+                element.ClientFIO = model.ClientFIO;
                 element.Login = model.Login;
-
+                element.Password = model.Password;
                 context.SaveChanges();
             }
         }
@@ -47,7 +44,6 @@ namespace ComputerWorkShopDatabaseImplement.Implements
             using (var context = new ComputerWorkShopDatabase())
             {
                 Client element = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
-
                 if (element != null)
                 {
                     context.Clients.Remove(element);
@@ -63,21 +59,21 @@ namespace ComputerWorkShopDatabaseImplement.Implements
         public List<ClientViewModel> Read(ClientBindingModel model)
         {
             using (var context = new ComputerWorkShopDatabase())
-            {
-                return context.Clients
-                .Where(
-                    rec => model == null
-                    || rec.Id == model.Id
-                    || rec.Login == model.Login && rec.Password == model.Password
-                )
-                .Select(rec => new ClientViewModel
-                {
-                    Id = rec.Id,
-                    ClientFIO = rec.ClientFIO,
-                    Login = rec.Login,
-                    Password = rec.Password
-                })
-                .ToList();
+            {                
+                    return context.Clients
+                    .Where(
+                        rec => model == null
+                        || rec.Id == model.Id
+                        || rec.Login == model.Login && rec.Password == model.Password
+                    )
+                    .Select(rec => new ClientViewModel
+                    {
+                        Id = rec.Id,
+                        ClientFIO = rec.ClientFIO,
+                        Login = rec.Login,
+                        Password = rec.Password
+                    })
+                    .ToList();
             }
         }
     }

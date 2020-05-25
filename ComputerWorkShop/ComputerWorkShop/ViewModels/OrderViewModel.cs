@@ -16,14 +16,14 @@ namespace ComputerWorkShopBusinessLogic.ViewModels
 
         [DataMember]
         public int ClientId { get; set; }
-
-        [DataMember]
-        [DisplayName("Компьютер")]
-        public string ComputerName { get; set; }
-
+        
         [DataMember]
         [DisplayName("Клиент")]
         public string ClientFIO { get; set; }
+
+        [DataMember]
+        [DisplayName("Компьютер")]
+        public string ComputerName { get; set; }        
 
         [DataMember]
         [DisplayName("Количество")]

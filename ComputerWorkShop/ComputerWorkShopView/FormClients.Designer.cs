@@ -60,6 +60,7 @@
             this.Controls.Add(this.dataGridView);
             this.Name = "FormClients";
             this.Text = "Клиенты";
+            this.Load += new System.EventHandler(this.FormClients_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 
