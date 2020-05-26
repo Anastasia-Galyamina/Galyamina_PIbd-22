@@ -98,6 +98,7 @@
     <Compile Include="BindingModels\ComputerBindingModel.cs" />
     <Compile Include="BindingModels\ComputerComponentBindingModel.cs" />
     <Compile Include="BindingModels\CreateOrderBindingModel.cs" />
+    <Compile Include="BindingModels\ImplementerBindingModel.cs" />
     <Compile Include="BindingModels\OrderBindingModel.cs" />
     <Compile Include="BindingModels\ReportBindingModel.cs" />
     <Compile Include="BusinessLogic\MainLogic.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="HelperModels\WordParagraphProperties.cs" />
     <Compile Include="Interfaces\IClientLogic.cs" />
     <Compile Include="Interfaces\IComponentLogic.cs" />
+    <Compile Include="Interfaces\IImplementerLogic.cs" />
     <Compile Include="Interfaces\IOrderLogic.cs" />
     <Compile Include="Interfaces\IComputerLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -124,9 +126,11 @@
     <Compile Include="ViewModels\ComponentViewModel.cs" />
     <Compile Include="ViewModels\ComputerComponentViewModel.cs" />
     <Compile Include="ViewModels\ComputerViewModel.cs" />
+    <Compile Include="ViewModels\ImplementerViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
     <Compile Include="ViewModels\ReportOrdersViewModel.cs" />
     <Compile Include="ViewModels\ReportComputerComponentViewModel.cs" />
+    <Compile Include="WorkModeling.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
