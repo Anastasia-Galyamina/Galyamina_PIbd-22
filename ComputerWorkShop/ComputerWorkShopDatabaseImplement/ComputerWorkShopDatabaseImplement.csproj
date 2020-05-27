@@ -174,6 +174,7 @@
     <Compile Include="Implements\ClientLogic.cs" />
     <Compile Include="Implements\ComponentLogic.cs" />
     <Compile Include="Implements\ImplementerLogic.cs" />
+    <Compile Include="Implements\MessageInfoLogic.cs" />
     <Compile Include="Implements\OrderLogic.cs" />
     <Compile Include="Implements\ComputerLogic.cs" />
     <Compile Include="Migrations\20200510103227_InitialCreate.cs" />
@@ -192,10 +193,15 @@
     <Compile Include="Migrations\20200525123150_lab6.designer.cs">
       <DependentUpon>20200525123150_lab6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200527060135_lab7.cs" />
+    <Compile Include="Migrations\20200527060135_lab7.designer.cs">
+      <DependentUpon>20200527060135_lab7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ComputerWorkShopDatabaseModelSnapshot.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Component.cs" />
     <Compile Include="Models\Implementer.cs" />
+    <Compile Include="Models\MessageInfo.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Computer.cs" />
     <Compile Include="Models\ComputerComponent.cs" />

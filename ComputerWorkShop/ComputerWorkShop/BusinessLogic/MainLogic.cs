@@ -2,6 +2,7 @@
 using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.Enums;
 using System;
+using ComputerWorkShopBusinessLogic.HelperModels;
 
 namespace ComputerWorkShopBusinessLogic.BusinessLogic
 {
@@ -9,10 +10,12 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
     {
         private readonly IOrderLogic orderLogic;
         private readonly object locker = new object();
+        private readonly IClientLogic clientLogic;
 
-        public MainLogic(IOrderLogic orderLogic)
+        public MainLogic(IOrderLogic orderLogic, IClientLogic clientLogic)
         {
             this.orderLogic = orderLogic;
+            this.clientLogic = clientLogic;
         }
 
         public void CreateOrder(CreateOrderBindingModel model)
@@ -25,6 +28,14 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
                 Status = OrderStatus.Принят
+            });
+            MailLogic.MailSendAsync(new MailSendInfo
+            {
+                MailAddress = clientLogic.Read(new ClientBindingModel
+                {
+                    Id = model.ClientId})?[0]?.Login,
+                Subject = $"Новый заказ",
+                Text = $"Заказ принят."
             });
         }
 
@@ -60,6 +71,14 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                     DateImplement = DateTime.Now,
                     Status = OrderStatus.Выполняется
                 });
+                MailLogic.MailSendAsync(new MailSendInfo
+                {
+                    MailAddress = clientLogic.Read(new ClientBindingModel
+                    {
+                        Id = order.ClientId})?[0]?.Login,
+                    Subject = $"Заказ №{order.Id}",
+                    Text = $"Заказ №{order.Id} передан в работу."
+                });
             }
         }
 
@@ -88,6 +107,14 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Готов
             });
+            MailLogic.MailSendAsync(new MailSendInfo
+            {
+                MailAddress = clientLogic.Read(new ClientBindingModel
+                {
+                    Id = order.ClientId})?[0]?.Login,
+                Subject = $"Заказ №{order.Id}",
+                Text = $"Заказ №{order.Id} готов."
+            });
         }
 
         public void PayOrder(ChangeStatusBindingModel model)
@@ -114,6 +141,14 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
+            });
+            MailLogic.MailSendAsync(new MailSendInfo
+            {
+                MailAddress = clientLogic.Read(new ClientBindingModel
+                {
+                    Id = order.ClientId})?[0]?.Login,
+                Subject = $"Заказ №{order.Id}",
+                Text = $"Заказ №{order.Id} оплачен."
             });
         }
     }
