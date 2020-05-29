@@ -1,8 +1,8 @@
 ﻿namespace ComputerWorkShopBusinessLogic.BindingModels
 {
-    public class ComponentBindingModel
+    public class WarehouseBindingModel
     {
         public int? Id { get; set; }
-        public string ComponentName { get; set; }
+        public string WarehouseName { get; set; } 
     }
 }

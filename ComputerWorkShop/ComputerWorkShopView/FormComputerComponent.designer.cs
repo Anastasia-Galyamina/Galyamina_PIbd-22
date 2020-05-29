@@ -106,8 +106,7 @@
             this.Controls.Add(this.label1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "FormComputerComponent";
-            this.Text = "Компонент компьютера";
-            this.Load += new System.EventHandler(this.FormProductComponent_Load);
+            this.Text = "Компонент компьютера";            
             this.ResumeLayout(false);
             this.PerformLayout();
 

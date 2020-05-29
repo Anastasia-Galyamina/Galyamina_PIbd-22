@@ -1,25 +1,23 @@
-﻿using ComputerWorkShopBusinessLogic.BindingModels;
-using ComputerWorkShopBusinessLogic.Interfaces;
+﻿using ComputerWorkShopBusinessLogic.Interfaces;
 using System;
 using System.Windows.Forms;
 using Unity;
 
 namespace ComputerWorkShopView
 {
-    public partial class FormComponents : Form
+    public partial class FormWarehouses : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
+        private readonly IWarehouseLogic logic;
 
-        private readonly IComponentLogic logic;
-
-        public FormComponents(IComponentLogic logic)
+        public FormWarehouses(IWarehouseLogic logic)
         {
             InitializeComponent();
-            this.logic = logic;
+            this.logic = logic; 
         }
 
-        private void FormComponents_Load(object sender, EventArgs e)
+        private void FormWarehouses_Load(object sender, EventArgs e)
         {
             LoadData();
         }
@@ -28,12 +26,15 @@ namespace ComputerWorkShopView
         {
             try
             {
-                var list = logic.Read(null);
+
+                var list = logic.GetList();
+
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[2].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -44,8 +45,7 @@ namespace ComputerWorkShopView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormComponent>();
-
+            var form = Container.Resolve<FormWarehouse>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -56,16 +56,14 @@ namespace ComputerWorkShopView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormComponent>();
+                var form = Container.Resolve<FormWarehouse>();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
                 }
             }
         }
-
         private void buttonDel_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
@@ -73,16 +71,14 @@ namespace ComputerWorkShopView
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-
                     try
                     {
-                        logic.Delete(new ComponentBindingModel { Id = id }); 
+                        logic.DelElement(id);
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-
                     LoadData();
                 }
             }
