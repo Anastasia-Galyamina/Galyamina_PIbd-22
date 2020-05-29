@@ -65,10 +65,8 @@
     <Compile Include="Interfaces\IWarehouseLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ComponentViewModel.cs" />
-    <Compile Include="ViewModels\ComputerComponentViewModel.cs" />
     <Compile Include="ViewModels\ComputerViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
-    <Compile Include="ViewModels\WarehouseComponentViewModel.cs" />
     <Compile Include="ViewModels\WarehouseViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
