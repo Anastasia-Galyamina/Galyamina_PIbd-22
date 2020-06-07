@@ -197,6 +197,10 @@
     <Compile Include="Migrations\20200527060135_lab7.designer.cs">
       <DependentUpon>20200527060135_lab7.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20200607125212_lab7_new.cs" />
+    <Compile Include="Migrations\20200607125212_lab7_new.designer.cs">
+      <DependentUpon>20200607125212_lab7_new.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ComputerWorkShopDatabaseModelSnapshot.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Component.cs" />

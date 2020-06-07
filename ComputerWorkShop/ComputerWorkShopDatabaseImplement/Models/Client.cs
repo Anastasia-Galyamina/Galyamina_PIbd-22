@@ -16,5 +16,6 @@ namespace ComputerWorkShopDatabaseImplement.Models
 
         [ForeignKey("ClientId")]
         public virtual List<Order> Orders { get; set; }
+        public List<MessageInfo> MessageInfoes { get; set; }
     }
 }
