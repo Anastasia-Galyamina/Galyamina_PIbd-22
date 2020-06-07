@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ComputerWorkShop.ViewModels;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -12,7 +10,6 @@ namespace ComputerWorkShopBusinessLogic.ViewModels
 
         [DisplayName("Название склада")]
         public string WarehouseName { get; set; }
-
-        public Dictionary<int, (string, int)> WarehouseComponents { get; set; }
+        public List<WarehouseComponentViewModel> WarehouseComponents { get; set; }
     }
 }

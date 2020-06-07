@@ -12,6 +12,8 @@ namespace ComputerWorkShopBusinessLogic.Interfaces
         void AddElement(WarehouseBindingModel model);
         void UpdElement(WarehouseBindingModel model);
         void DelElement(int id);
-        void FillWarehouse(WarehouseComponentBindingModel model);
+        void AddComponent(WarehouseComponentBindingModel model);
+        void DeleteFromWarehouse(int computerId, int count);
+        bool CheckAvailable(int computerId, int count);
     }
 }

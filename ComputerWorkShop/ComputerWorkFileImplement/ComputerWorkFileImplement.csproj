@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{020A9C92-7166-4139-8AB1-9CDA59A4BCEE}</ProjectGuid>
+    <ProjectGuid>{F6ADCBAA-C36B-483C-B74C-10D4C8D1CBD5}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ComputerWorkShop</RootNamespace>
-    <AssemblyName>ComputerWorkShop</AssemblyName>
+    <RootNamespace>ComputerWorkFileImplement</RootNamespace>
+    <AssemblyName>ComputerWorkFileImplement</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -49,25 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindingModels\ChangeStatusBindingModel.cs" />
-    <Compile Include="BindingModels\ComponentBindingModel.cs" />
-    <Compile Include="BindingModels\ComputerBindingModel.cs" />
-    <Compile Include="BindingModels\CreateOrderBindingModel.cs" />
-    <Compile Include="BindingModels\OrderBindingModel.cs" />
-    <Compile Include="BindingModels\WarehouseBindingModel.cs" />
-    <Compile Include="BindingModels\WarehouseComponentBindingModel.cs" />
-    <Compile Include="BusinessLogic\MainLogic.cs" />
-    <Compile Include="Enums\OrderStatus.cs" />
-    <Compile Include="Interfaces\IComponentLogic.cs" />
-    <Compile Include="Interfaces\IComputerLogic.cs" />
-    <Compile Include="Interfaces\IOrderLogic.cs" />
-    <Compile Include="Interfaces\IWarehouseLogic.cs" />
+    <Compile Include="FileDataListSingleton.cs" />
+    <Compile Include="Implements\ComponentLogic.cs" />
+    <Compile Include="Implements\ComputerLogic.cs" />
+    <Compile Include="Implements\OrderLogic.cs" />
+    <Compile Include="Implements\WarehouseLogic.cs" />
+    <Compile Include="Models\Component.cs" />
+    <Compile Include="Models\Computer.cs" />
+    <Compile Include="Models\ComputerComponent.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\Warehouse.cs" />
+    <Compile Include="Models\WarehouseComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\ComponentViewModel.cs" />
-    <Compile Include="ViewModels\ComputerViewModel.cs" />
-    <Compile Include="ViewModels\OrderViewModel.cs" />
-    <Compile Include="ViewModels\WarehouseComponentViewModel.cs" />
-    <Compile Include="ViewModels\WarehouseViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -90,5 +83,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComputerWorkShop\ComputerWorkShopBusinessLogic.csproj">
+      <Project>{020A9C92-7166-4139-8AB1-9CDA59A4BCEE}</Project>
+      <Name>ComputerWorkShopBusinessLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
