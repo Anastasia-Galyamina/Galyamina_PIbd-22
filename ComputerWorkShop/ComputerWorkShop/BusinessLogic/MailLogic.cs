@@ -81,7 +81,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             {
                 await Task.Run(() =>
                 {
-                    client.Connect(info.PopHost, info.PopPort, SecureSocketOptions.SslOnConnect);
+                    client.Connect(info.PopHost, info.PopPort, SecureSocketOptions.SslOnConnect );        
                     client.Authenticate(mailLogin, mailPassword);
                     for (int i = 0; i < client.Count; i++)
                     {
