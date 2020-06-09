@@ -14,7 +14,11 @@ namespace ComputerWorkShopDatabaseImplement.Implements
         {
             using (var context = new ComputerWorkShopDatabase())
             {
-                Implementer element;
+                Implementer element = context.Implementers.FirstOrDefault(rec => rec.ImplementerFIO == model.ImplementerFIO && rec.Id != model.Id);
+                if (element != null)
+                {
+                    throw new Exception("Уже есть исполнитель с таким ФИО");
+                }
                 if (model.Id.HasValue)
                 {
                     element = context.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
