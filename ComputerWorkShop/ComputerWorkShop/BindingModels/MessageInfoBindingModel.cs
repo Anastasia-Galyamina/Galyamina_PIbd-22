@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace ComputerWorkShop.BindingModels
+namespace ComputerWorkShopBusinessLogic.BindingModels
 {
     [DataContract]
     public class MessageInfoBindingModel

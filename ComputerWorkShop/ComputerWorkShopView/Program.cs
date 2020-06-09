@@ -1,8 +1,6 @@
-﻿using ComputerWorkShop.BusinessLogic;
-using ComputerWorkShop.HelperModels;
-using ComputerWorkShop.Interfaces;
-using ComputerWorkShopBusinessLogic;
+﻿using ComputerWorkShopBusinessLogic;
 using ComputerWorkShopBusinessLogic.BusinessLogic;
+using ComputerWorkShopBusinessLogic.HelperModels;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using ComputerWorkShopDatabaseImplement.Implements;
 using System;

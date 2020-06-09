@@ -1,4 +1,4 @@
-﻿using ComputerWorkShop.ViewModels;
+﻿using ComputerWorkShopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace ComputerWorkShop.ViewModels
+namespace ComputerWorkShopBusinessLogic.ViewModels
 {
     [DataContract]
     public class MessageInfoViewModel

@@ -1,5 +1,5 @@
-﻿using ComputerWorkShop.BindingModels;
-using ComputerWorkShop.HelperModels;
+﻿using ComputerWorkShopBusinessLogic.BindingModels;
+using ComputerWorkShopBusinessLogic.HelperModels;
 using MailKit.Net.Pop3;
 using MailKit.Security;
 using System;
@@ -8,7 +8,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComputerWorkShop.BusinessLogic
+namespace ComputerWorkShopBusinessLogic.BusinessLogic
 {
     public static class MailLogic
     {
@@ -56,8 +56,7 @@ namespace ComputerWorkShop.BusinessLogic
                         objSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                         objSmtpClient.Credentials = new NetworkCredential(mailLogin,
                         mailPassword);
-                        await Task.Run(() => objSmtpClient.SendAsync(objMailMessage,
-                       null));
+                        await Task.Run(() => objSmtpClient.SendMailAsync(objMailMessage));
                     }
                     catch (Exception)
                     {

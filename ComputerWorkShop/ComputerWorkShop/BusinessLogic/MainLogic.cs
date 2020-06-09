@@ -2,8 +2,7 @@
 using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.Enums;
 using System;
-using ComputerWorkShop.BusinessLogic;
-using ComputerWorkShop.HelperModels;
+using ComputerWorkShopBusinessLogic.HelperModels;
 
 namespace ComputerWorkShopBusinessLogic.BusinessLogic
 {

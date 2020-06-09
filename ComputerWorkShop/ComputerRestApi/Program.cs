@@ -1,5 +1,5 @@
-using ComputerWorkShop.BusinessLogic;
-using ComputerWorkShop.HelperModels;
+using ComputerWorkShopBusinessLogic.BusinessLogic;
+using ComputerWorkShopBusinessLogic.HelperModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System;

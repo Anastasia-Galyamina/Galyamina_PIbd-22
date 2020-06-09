@@ -1,6 +1,6 @@
-﻿using ComputerWorkShop.Interfaces;
+﻿using ComputerWorkShopBusinessLogic.Interfaces;
 
-namespace ComputerWorkShop.HelperModels
+namespace ComputerWorkShopBusinessLogic.HelperModels
 {
     public class MailCheckInfo
     {

@@ -1,4 +1,4 @@
-﻿using ComputerWorkShop.Interfaces;
+﻿using ComputerWorkShopBusinessLogic.Interfaces;
 using System;
 using System.Windows.Forms;
 using Unity;

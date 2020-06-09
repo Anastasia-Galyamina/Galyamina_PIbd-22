@@ -1,8 +1,8 @@
-﻿using ComputerWorkShop.BindingModels;
-using ComputerWorkShop.ViewModels;
+﻿using ComputerWorkShopBusinessLogic.BindingModels;
+using ComputerWorkShopBusinessLogic.ViewModels;
 using System.Collections.Generic;
 
-namespace ComputerWorkShop.Interfaces
+namespace ComputerWorkShopBusinessLogic.Interfaces
 {
     public interface IMessageInfoLogic
     {

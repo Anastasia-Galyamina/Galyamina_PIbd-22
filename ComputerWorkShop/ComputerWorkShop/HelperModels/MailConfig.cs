@@ -1,4 +1,4 @@
-﻿namespace ComputerWorkShop.HelperModels
+﻿namespace ComputerWorkShopBusinessLogic.HelperModels
 {
     public class MailConfig
     {

@@ -1,7 +1,4 @@
-﻿using ComputerWorkShop.BindingModels;
-using ComputerWorkShop.Interfaces;
-using ComputerWorkShop.ViewModels;
-using ComputerWorkShopBusinessLogic.BindingModels;
+﻿using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using ComputerWorkShopBusinessLogic.ViewModels;
 using Microsoft.AspNetCore.Mvc;
