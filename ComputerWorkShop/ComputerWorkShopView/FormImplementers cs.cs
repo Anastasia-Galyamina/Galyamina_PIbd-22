@@ -23,13 +23,7 @@ namespace ComputerWorkShopView
         {
             try
             {
-                var implementerList = implementerLogic.Read(null);
-                if (implementerList != null)
-                {
-                    dataGridView.DataSource = implementerList;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Program.ConfigGrid(implementerLogic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {
