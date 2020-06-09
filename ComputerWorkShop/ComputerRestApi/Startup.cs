@@ -1,3 +1,4 @@
+using ComputerWorkShop.Interfaces;
 using ComputerWorkShopBusinessLogic.BusinessLogic;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using ComputerWorkShopDatabaseImplement.Implements;
@@ -24,6 +25,7 @@ namespace ComputerRestApi
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IComputerLogic, ComputerLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
             services.AddTransient<MainLogic>();
             services.AddControllers();
         }

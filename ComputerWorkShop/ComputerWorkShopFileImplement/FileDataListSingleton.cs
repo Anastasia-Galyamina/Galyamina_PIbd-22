@@ -18,13 +18,14 @@ namespace ComputerWorkShopFileImplement
         private readonly string ComputerComponentFileName = "ComputerComponent.xml";
         private readonly string ClientFileName = "Client.xml";
         private readonly string ImplementerFileName = "Implementer.xml";
-
+        private readonly string MessageInfoFileName = "MessageInfo.xml";
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Computer> Computers { get; set; }
         public List<ComputerComponent> ComputerComponents { get; set; }
         public List<Client> Clients { get; set; }
         public List<Implementer> Implementers { get; set; }
+        public List<MessageInfo> MessageInfoes { get; set; }
 
         private FileDataListSingleton()
         {
@@ -34,6 +35,7 @@ namespace ComputerWorkShopFileImplement
             ComputerComponents = LoadComputerComponents();
             Clients = LoadClients();
             Implementers = LoadImplementers();
+            MessageInfoes = LoadMessageInfoes();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -54,6 +56,7 @@ namespace ComputerWorkShopFileImplement
             SaveComputerComponents();
             SaveClients();
             SaveImplementers();
+            SaveMessageInfoes();
         }
 
         private List<Component> LoadComponents()
@@ -198,6 +201,31 @@ namespace ComputerWorkShopFileImplement
             }
             return list;
         }
+        private List<MessageInfo> LoadMessageInfoes()
+        {
+            var list = new List<MessageInfo>();
+
+            if (File.Exists(MessageInfoFileName))
+            {
+                XDocument xDocument = XDocument.Load(MessageInfoFileName);
+                var xElements = xDocument.Root.Elements("MessageInfo").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new MessageInfo
+                    {
+                        MessageId = elem.Attribute("MessageId").Value,
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
+                        SenderName = elem.Element("SenderName").Value,
+                        DateDelivery = Convert.ToDateTime(elem.Element("DateDelivery").Value),
+                        Subject = elem.Element("Subject").Value,
+                        Body = elem.Element("Body").Value
+                    });
+                }
+            }
+
+            return list;
+        }
 
         private void SaveComponents()
         {
@@ -317,6 +345,29 @@ namespace ComputerWorkShopFileImplement
 
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(ImplementerFileName);
+            }
+        }
+        private void SaveMessageInfoes()
+        {
+            if (MessageInfoes != null)
+            {
+                var xElement = new XElement("MessageInfoes");
+
+                foreach (var messageInfo in MessageInfoes)
+                {
+                    xElement.Add(
+                        new XElement("MessageInfoe",
+                              new XAttribute("MessageId", messageInfo.MessageId),
+                              new XElement("Body", messageInfo.Body),
+                              new XElement("ClientId", messageInfo.ClientId),
+                              new XElement("DateDelivery", messageInfo.DateDelivery),
+                              new XElement("SenderName", messageInfo.SenderName),
+                              new XElement("Subject", messageInfo.Subject)
+                        ));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(MessageInfoFileName);
             }
         }
     }
