@@ -1,8 +1,10 @@
-﻿using System;using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using ComputerWorkShopListImplement.Models;
 using ComputerWorkShopBusinessLogic.ViewModels;
+using ComputerWorkShopBusinessLogic.Enums;
 
 namespace ComputerWorkShopListImplement.Implements
 {
@@ -19,17 +21,18 @@ namespace ComputerWorkShopListImplement.Implements
             {
                 Id = 1
             };
-            foreach (var Order in source.Orders)
+            foreach (var component in source.Orders)
             {
-                if (!model.Id.HasValue && Order.Id >= tempOrder.Id)
+                if (!model.Id.HasValue && component.Id >= tempOrder.Id)
                 {
-                    tempOrder.Id = Order.Id + 1;
+                    tempOrder.Id = component.Id + 1;
                 }
-                else if (model.Id.HasValue && Order.Id == model.Id)
+                else if (model.Id.HasValue && component.Id == model.Id)
                 {
-                    tempOrder = Order;
+                    tempOrder = component;
                 }
             }
+
             if (model.Id.HasValue)
             {
                 if (tempOrder == null)
@@ -43,71 +46,122 @@ namespace ComputerWorkShopListImplement.Implements
                 source.Orders.Add(CreateModel(model, tempOrder));
             }
         }
+
         public void Delete(OrderBindingModel model)
         {
             for (int i = 0; i < source.Orders.Count; ++i)
             {
-                if (source.Orders[i].Id == model.Id.Value)
+                if (source.Orders[i].Id == model.Id)
                 {
-                    source.Orders.RemoveAt(i);
+                    source.Orders.RemoveAt(i--);
                     return;
                 }
             }
             throw new Exception("Элемент не найден");
         }
+
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             List<OrderViewModel> result = new List<OrderViewModel>();
-            foreach (var Order in source.Orders)
+            foreach (var order in source.Orders)
             {
                 if (model != null)
                 {
-                    if (Order.Id == model.Id 
-                        || (model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo)
-                        || Order.ClientId == model.ClientId)
+                    if (order.Id == model.Id)
                     {
-                        result.Add(CreateViewModel(Order));
+                        if (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
+                        if (model.ClientId == order.ClientId)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
+                        if (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && order.Status == OrderStatus.Выполняется)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
+                        if (model.FreeOrders.HasValue && model.FreeOrders.Value && !order.ImplementerId.HasValue)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
+                        result.Add(CreateViewModel(order));
                         break;
                     }
                     continue;
                 }
-                result.Add(CreateViewModel(Order));
+                result.Add(CreateViewModel(order));
             }
             return result;
         }
-        private Order CreateModel(OrderBindingModel model, Order Order)
+
+        private Order CreateModel(OrderBindingModel model, Order order)
         {
-            Order.ComputerId = model.ComputerId == 0 ? Order.ComputerId : model.ComputerId;
-            Order.ClientId = model.ClientId;
-            Order.Count = model.Count;
-            Order.Sum = model.Sum;
-            Order.Status = model.Status;
-            Order.DateCreate = model.DateCreate;
-            Order.DateImplement = model.DateImplement;
-            return Order;
+            order.ComputerId = model.ComputerId;
+            order.ImplementerId = model.ImplementerId;
+            order.ClientId = model.ClientId;
+            order.Count = model.Count;
+            order.DateCreate = model.DateCreate;
+            order.DateImplement = model.DateImplement;
+            order.Status = model.Status;
+            order.Sum = model.Sum;
+            return order;
         }
-        private OrderViewModel CreateViewModel(Order Order)
+
+        private OrderViewModel CreateViewModel(Order order)
         {
-            string MebelName = "";
-            for (int j = 0; j < source.Computers.Count; ++j)
+            string computerName = "";
+            for (int i = 0; i < source.Computers.Count; i++)
             {
-                if (source.Computers[j].Id == Order.ComputerId)
+                if (source.Computers[i].Id == order.ComputerId)
                 {
-                    MebelName = source.Computers[j].ComputerName;
+                    computerName = source.Computers[i].ComputerName;
                     break;
                 }
             }
+
+            string clientFio = "";
+
+            for (int i = 0; i < source.Clients.Count; i++)
+            {
+                if (source.Clients[i].Id == order.ClientId)
+                {
+                    clientFio = source.Clients[i].ClientFIO;
+                    break;
+                }
+            }
+
+            string implementerFio = "";
+            if (order.ImplementerId.HasValue)
+            {
+                for (int i = 0; i < source.Implementers.Count; i++)
+                {
+                    if (source.Implementers[i].Id == order.ImplementerId)
+                    {
+                        clientFio = source.Implementers[i].ImplementerFIO;
+                        break;
+                    }
+                }
+            }
+
             return new OrderViewModel
             {
-                Id = Order.Id,
-                ComputerId = Order.ComputerId,
-                ClientId = Order.ClientId,
-                ComputerName = MebelName,
-                Count = Order.Count,
-                Sum = Order.Sum,
-                Status = Order.Status,
-                DateCreate = Order.DateCreate,
-                DateImplement = Order.DateImplement
+                Id = order.Id,
+                ComputerId = order.ComputerId,
+                ClientId = order.ClientId,
+                ClientFIO = clientFio,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = implementerFio,
+                ComputerName = computerName,
+                Count = order.Count,
+                DateCreate = order.DateCreate,
+                DateImplement = order.DateImplement,
+                Status = order.Status,
+                Sum = order.Sum
             };
         }
     }

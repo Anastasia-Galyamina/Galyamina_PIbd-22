@@ -11,6 +11,7 @@ namespace ComputerWorkShopListImplement
         public List<Computer> Computers { get; set; }
         public List<ComputerComponent> ComputerComponents { get; set; }
         public List<Client> Clients { get; set; }
+        public List<Implementer> Implementers { get; set; }
 
         private DataListSingleton()
         {
@@ -19,6 +20,7 @@ namespace ComputerWorkShopListImplement
             Computers = new List<Computer>();
             ComputerComponents = new List<ComputerComponent>();
             Clients = new List<Client>();
+            Implementers = new List<Implementer>();
         }
 
         public static DataListSingleton GetInstance()
