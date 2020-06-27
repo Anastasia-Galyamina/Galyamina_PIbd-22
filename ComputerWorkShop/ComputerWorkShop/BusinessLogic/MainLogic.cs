@@ -42,7 +42,10 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
-
+            if (!warehouseLogic.CheckAvailable(order.ComputerId, order.Count))
+            {
+                throw new Exception("На складах не хватает компонентов");
+            }
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 Id = order.Id,
@@ -50,8 +53,10 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
+                DateImplement = DateTime.Now,
                 Status = OrderStatus.Выполняется
             });
+            warehouseLogic.DeleteFromWarehouse(order.ComputerId, order.Count);
         }
 
         public void FinishOrder(ChangeStatusBindingModel model)
@@ -107,7 +112,7 @@ namespace ComputerWorkShopBusinessLogic.BusinessLogic
         }
         public void FillWarehouse(WarehouseComponentBindingModel model)
         {
-            warehouseLogic.FillWarehouse(model);
+            warehouseLogic.AddComponent(model);
         }
     }
 }

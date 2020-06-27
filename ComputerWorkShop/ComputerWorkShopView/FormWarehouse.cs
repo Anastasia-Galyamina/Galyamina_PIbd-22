@@ -1,6 +1,8 @@
-﻿using ComputerWorkShopBusinessLogic.BindingModels;
+﻿using ComputerWorkShop.ViewModels;
+using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
 
@@ -12,16 +14,32 @@ namespace ComputerWorkShopView
         public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
         private readonly IWarehouseLogic logic;
-        private int? id;        
+        private int? id;
+        private List<WarehouseComponentViewModel> warehouseComponents;
         public FormWarehouse(IWarehouseLogic logic)
         {
             InitializeComponent();
-            this.logic = logic;
-            dataGridView.Columns.Add("Id", "Id");
-            dataGridView.Columns.Add("ComponentName", "Компонент");
-            dataGridView.Columns.Add("Count", "Количество");
-            dataGridView.Columns[0].Visible = false;
-            dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            this.logic = logic;            
+        }
+
+        private void LoadData()
+        {
+            try
+            {
+                if (warehouseComponents != null)
+                {
+                    dataGridView.DataSource = null;
+                    dataGridView.DataSource = warehouseComponents;
+                    dataGridView.Columns[0].Visible = false;
+                    dataGridView.Columns[1].Visible = false;
+                    dataGridView.Columns[2].Visible = false;
+                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void FormWarehouse_Load(object sender, EventArgs e)
@@ -34,24 +52,9 @@ namespace ComputerWorkShopView
                     if (view != null)
                     {
                         textBoxName.Text = view.WarehouseName;
-                    }
-                    var warehouseList = logic.GetList();
-                    var warehouseComponents = warehouseList[0].WarehouseComponents;
-                    for (int i = 0; i < warehouseList.Count; ++i)
-                    {
-                        if (warehouseList[i].Id == id)
-                        {
-                            warehouseComponents = warehouseList[i].WarehouseComponents;
-                        }
-                    }
-                    if (warehouseComponents != null)
-                    {
-                        dataGridView.Rows.Clear();
-                        foreach (var pc in warehouseComponents)
-                        {
-                            dataGridView.Rows.Add(new object[] { pc.Key, pc.Value.Item1, pc.Value.Item2 });
-                        }   
-                    }                   
+                        warehouseComponents = view.WarehouseComponents;
+                        LoadData();
+                    }                      
                 }
                 catch (Exception ex)
                 {
@@ -68,6 +71,7 @@ namespace ComputerWorkShopView
                 MessageBox.Show("Заполните название", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             try
             {
                 if (id.HasValue)

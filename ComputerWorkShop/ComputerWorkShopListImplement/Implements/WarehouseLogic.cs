@@ -1,9 +1,11 @@
-﻿using ComputerWorkShopBusinessLogic.BindingModels;
+﻿using ComputerWorkShop.ViewModels;
+using ComputerWorkShopBusinessLogic.BindingModels;
 using ComputerWorkShopBusinessLogic.Interfaces;
 using ComputerWorkShopBusinessLogic.ViewModels;
 using ComputerWorkShopListImplement.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ComputerWorkShopListImplement.Implements
 {
@@ -21,8 +23,8 @@ namespace ComputerWorkShopListImplement.Implements
             List<WarehouseViewModel> result = new List<WarehouseViewModel>();
 
             for (int i = 0; i < source.Warehouses.Count; ++i)
-            {     
-                Dictionary<int, (string, int)> warehouseComponents = new Dictionary<int, (string, int)>();
+            {
+                List<WarehouseComponentViewModel> warehouseComponents = new List<WarehouseComponentViewModel>();
 
                 for (int j = 0; j < source.WarehouseComponents.Count; ++j)
                 {
@@ -38,8 +40,14 @@ namespace ComputerWorkShopListImplement.Implements
                                 break;
                             }
                         }
-
-                        warehouseComponents.Add(source.WarehouseComponents[j].Id, (componentName, source.WarehouseComponents[j].Count));                        
+                        warehouseComponents.Add(new WarehouseComponentViewModel
+                        {
+                            Id = source.WarehouseComponents[j].Id,
+                            WarehouseId = source.WarehouseComponents[j].WarehouseId,
+                            ComponentId = source.WarehouseComponents[j].ComponentId,
+                            ComponentName = componentName,
+                            Count = source.WarehouseComponents[j].Count
+                        });
                     }
                 }
 
@@ -50,15 +58,14 @@ namespace ComputerWorkShopListImplement.Implements
                     WarehouseComponents = warehouseComponents
                 });
             }
-
             return result;
         }
 
         public WarehouseViewModel GetElement(int id)
         {
             for (int i = 0; i < source.Warehouses.Count; ++i)
-            {                
-                Dictionary<int, (string, int)> warehouseComponents = new Dictionary<int, (string, int)>();
+            {
+                List<WarehouseComponentViewModel> warehouseComponents = new List<WarehouseComponentViewModel>();
 
                 for (int j = 0; j < source.WarehouseComponents.Count; ++j)
                 {
@@ -74,7 +81,15 @@ namespace ComputerWorkShopListImplement.Implements
                                 break;
                             }
                         }
-                        warehouseComponents.Add(source.WarehouseComponents[j].Id, (componentName, source.WarehouseComponents[j].Count));                      
+
+                        warehouseComponents.Add(new WarehouseComponentViewModel
+                        {
+                            Id = source.WarehouseComponents[j].Id,
+                            WarehouseId = source.WarehouseComponents[j].WarehouseId,
+                            ComponentId = source.WarehouseComponents[j].ComponentId,
+                            ComponentName = componentName,
+                            Count = source.WarehouseComponents[j].Count
+                        });
                     }
                 }
 
@@ -105,10 +120,9 @@ namespace ComputerWorkShopListImplement.Implements
 
                 if (source.Warehouses[i].WarehouseName == model.WarehouseName)
                 {
-                    throw new Exception("Уже есть склад с таким названием");
+                    throw new Exception("Склад с таким названием уже существует");
                 }
             }
-
             source.Warehouses.Add(new Warehouse
             {
                 Id = maxId + 1,
@@ -129,7 +143,7 @@ namespace ComputerWorkShopListImplement.Implements
 
                 if (source.Warehouses[i].WarehouseName == model.WarehouseName && source.Warehouses[i].Id != model.Id)
                 {
-                    throw new Exception("Уже есть склад с таким названием");
+                    throw new Exception("Склад с таким названием уже существует");
                 }
             }
 
@@ -162,41 +176,75 @@ namespace ComputerWorkShopListImplement.Implements
 
             throw new Exception("Элемент не найден");
         }
-                
-        public void FillWarehouse(WarehouseComponentBindingModel model)
+
+        public void AddComponent(WarehouseComponentBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.WarehouseComponents.Count; i++)
+            for (int i = 0; i < source.WarehouseComponents.Count; ++i)
             {
-                if (source.WarehouseComponents[i].ComponentId == model.ComponentId &&
-                    source.WarehouseComponents[i].WarehouseId == model.WarehouseId)
+                if (source.WarehouseComponents[i].WarehouseId == model.WarehouseId &&
+                    source.WarehouseComponents[i].ComponentId == model.ComponentId)
                 {
-                    index = i;
-                    break;
+                    source.WarehouseComponents[i].Count += model.Count;
+                    model.Id = source.WarehouseComponents[i].Id;
+                    return;
                 }
             }
-            if (index != -1)
+
+            int maxWCId = 0;
+
+            for (int i = 0; i < source.WarehouseComponents.Count; ++i)
             {
-                source.WarehouseComponents[index].Count += model.Count;
-            }
-            else
-            {
-                int maxId = 0;
-                for (int i = 0; i < source.WarehouseComponents.Count; i++)
+                if (source.WarehouseComponents[i].Id > maxWCId)
                 {
-                    if (source.WarehouseComponents[i].Id > maxId)
-                    {
-                        maxId = source.WarehouseComponents[i].Id;
-                    }
+                    maxWCId = source.WarehouseComponents[i].Id;
                 }
+            }
+
+            if (model.Id == 0)
+            {
                 source.WarehouseComponents.Add(new WarehouseComponent
                 {
-                    Id = maxId + 1,
+                    Id = ++maxWCId,
                     WarehouseId = model.WarehouseId,
                     ComponentId = model.ComponentId,
                     Count = model.Count
                 });
             }
+        }
+        public bool CheckAvailable(int ComputerId, int Count)
+        {
+            var ComputerComponents = source.ComputerComponents
+              .Where(x => x.ComputerId == ComputerId);
+            if (ComputerComponents.Count() == 0)
+                return false;
+            foreach (var elem in ComputerComponents)
+            {
+                int count = 0;
+                var warehouseComponents = source.WarehouseComponents.FindAll(x => x.ComponentId == elem.ComponentId);
+                count = warehouseComponents.Sum(x => x.Count);
+                if (count < elem.Count * Count)
+                    return false;
+            }
+            return true;
+        }
+
+        public void DeleteFromWarehouse(int ComputerId, int Count)
+        {
+            var ComputerComponents = source.ComputerComponents.Where(x => x.ComputerId == ComputerId);
+            if (ComputerComponents.Count() == 0) return;
+            foreach (var elem in ComputerComponents)
+            {
+                int left = elem.Count * Count;
+                var warehouseComponents = source.ComputerComponents.FindAll(x => x.ComponentId == elem.ComponentId);
+                foreach (var rec in warehouseComponents)
+                {
+                    int toRemove = left > rec.Count ? rec.Count : left;
+                    rec.Count -= toRemove;
+                    left -= toRemove;
+                    if (left == 0) break;
+                }
+            }
+            return;
         }
     }
 }
