@@ -120,7 +120,7 @@
             this.Controls.Add(this.workingTimeTextBox);
             this.Controls.Add(this.fioTextBox);
             this.Name = "FormImplementer";
-            this.Text = "FormImplementer";
+            this.Text = "Исполнитель";
             this.Load += new System.EventHandler(this.FormImplementer_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
