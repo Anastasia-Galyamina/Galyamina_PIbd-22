@@ -172,7 +172,9 @@
     <Reference Include="Pop3Client, Version=3.0.6474.16527, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Pop3Client.3.0.6474.16527\lib\net40\Pop3Client.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
