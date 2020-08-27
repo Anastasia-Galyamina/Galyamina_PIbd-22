@@ -50,13 +50,13 @@ namespace ComputerWorkShopView
             }
         }
 
-        private void компонентыToolStripMenuItem_Click(object sender, EventArgs e)
+        private void componentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormComponents>();
             form.ShowDialog();
         }
 
-        private void компьютерыToolStripMenuItem_Click(object sender, EventArgs e)
+        private void computersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormComputers>();
             form.ShowDialog();
@@ -94,7 +94,7 @@ namespace ComputerWorkShopView
             LoadData();
         }
 
-        private void списокКомпьютеровToolStripMenuItem_Click(object sender, EventArgs e)
+        private void computersListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
             {
@@ -111,40 +111,40 @@ namespace ComputerWorkShopView
             }
         }
 
-        private void компонентыПоКомпьютерамToolStripMenuItem_Click(object sender, EventArgs e)
+        private void computerComponentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportComputerComponents>();
             form.ShowDialog();
         }
 
-        private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ordersListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportOrders>();
             form.ShowDialog();
         }
 
-        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        private void clientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormClients>();
             form.ShowDialog();
         }
-        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        private void startWorksToolStripMenuItem_Click(object sender, EventArgs e)
         {
             workModeling.DoWork();
         }
 
-        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        private void implementersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormImplementers>();
             form.ShowDialog();
         }
 
-        private void сообщенияToolStripMenuItem_Click(object sender, EventArgs e)
+        private void messagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormMessages>();
             form.ShowDialog();
         }
-        private void СоздатьБекапToolStripMenuItem_Click(object sender, EventArgs e)
+        private void createBackupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
