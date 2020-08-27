@@ -53,5 +53,10 @@ namespace ComputerClientView
         {
             LoadList();
         }
+        private void сообщенияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormMessages();
+            form.ShowDialog();
+        }
     }
 }

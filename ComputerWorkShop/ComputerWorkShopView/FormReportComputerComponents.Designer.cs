@@ -46,8 +46,7 @@
             // 
             this.reportViewer.LocalReport.ReportEmbeddedResource = "ComputerWorkShopView.ReportComputerComponent.rdlc";
             this.reportViewer.Location = new System.Drawing.Point(3, 54);
-            this.reportViewer.Name = "reportViewer";
-            this.reportViewer.ServerReport.BearerToken = null;
+            this.reportViewer.Name = "reportViewer";           
             this.reportViewer.Size = new System.Drawing.Size(753, 508);
             this.reportViewer.TabIndex = 2;
             this.reportViewer.Load += new System.EventHandler(this.reportViewer_Load);

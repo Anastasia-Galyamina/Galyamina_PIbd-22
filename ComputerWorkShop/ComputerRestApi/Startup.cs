@@ -1,5 +1,5 @@
-using ComputerWorkShopBusinessLogic.BusinessLogic;
 using ComputerWorkShopBusinessLogic.Interfaces;
+using ComputerWorkShopBusinessLogic.BusinessLogic;
 using ComputerWorkShopDatabaseImplement.Implements;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +24,7 @@ namespace ComputerRestApi
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IComputerLogic, ComputerLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
             services.AddTransient<MainLogic>();
             services.AddControllers();
         }
