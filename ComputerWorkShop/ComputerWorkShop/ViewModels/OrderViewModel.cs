@@ -1,16 +1,14 @@
-﻿using ComputerWorkShopBusinessLogic.Enums;
+﻿using ComputerWorkShopBusinessLogic.Attributes;
+using ComputerWorkShopBusinessLogic.Enums;
 using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace ComputerWorkShopBusinessLogic.ViewModels
 {
     [DataContract]
-    public class OrderViewModel
-    {
-        [DataMember]
-        public int Id { get; set; }
-
+    public class OrderViewModel : BaseViewModel
+    {      
         [DataMember]
         public int ComputerId { get; set; }
 
@@ -20,36 +18,40 @@ namespace ComputerWorkShopBusinessLogic.ViewModels
         [DataMember]
         public int? ImplementerId { get; set; }
 
-        [DataMember]
-        [DisplayName("Клиент")]
+        [Column(title: "Клиент", width: 150)]
+        [DataMember]       
         public string ClientFIO { get; set; }
 
-        [DataMember]
-        [DisplayName("Исполнитель")]
+        [Column(title: "Исполнитель", width: 150)]
+        [DataMember]       
         public string ImplementerFIO { get; set; }
 
-        [DataMember]
-        [DisplayName("Компьютер")]
-        public string ComputerName { get; set; }        
+        [Column(title: "Компьютер", gridViewAutoSize: GridViewAutoSize.Fill)]
+        [DataMember]        
+        public string ComputerName { get; set; }
 
-        [DataMember]
-        [DisplayName("Количество")]
+        [Column(title: "Количество", width: 100)]
+        [DataMember]        
         public int Count { get; set; }
 
-        [DataMember]
-        [DisplayName("Сумма")]
+        [Column(title: "Сумма", width: 50)]
+        [DataMember]       
         public decimal Sum { get; set; }
-
-        [DataMember]
-        [DisplayName("Статус")]
+        
+        [Column(title: "Статус", width: 100)]
+        [DataMember]      
         public OrderStatus Status { get; set; }
 
-        [DataMember]
-        [DisplayName("Дата создания")]
+        [Column(title: "Дата создания", width: 100)]
+        [DataMember]       
         public DateTime DateCreate { get; set; }
 
-        [DataMember]
-        [DisplayName("Дата выполнения")]
+        [Column(title: "Дата выполнения", width: 100)]
+        [DataMember]     
         public DateTime? DateImplement { get; set; }
+
+        public override List<string> Properties() => new List<string> { "Id",
+        "ClientFIO", "ImplementerFIO", "ComputerName", "Count", "Sum", "Status", "DateCreate",
+        "DateImplement" };
     }
 }

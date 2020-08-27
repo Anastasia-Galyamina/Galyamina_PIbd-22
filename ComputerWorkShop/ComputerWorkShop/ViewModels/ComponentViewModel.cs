@@ -1,12 +1,14 @@
-﻿using System.ComponentModel;
+﻿using ComputerWorkShopBusinessLogic.Attributes;
+using System.Collections.Generic;
 
 namespace ComputerWorkShopBusinessLogic.ViewModels
 {
-    public class ComponentViewModel
-    {
-        public int Id { get; set; }
+    public class ComponentViewModel : BaseViewModel
+    {    
 
-        [DisplayName("Название компонента")]
+        [Column(title: "Название компонента", width: 150)]
         public string ComponentName { get; set; }
+
+        public override List<string> Properties() => new List<string> { "Id", "ComponentName" };
     }
 }
